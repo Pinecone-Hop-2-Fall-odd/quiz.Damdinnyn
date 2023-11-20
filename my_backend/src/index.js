@@ -11,6 +11,11 @@ app.use(express.json())
 const port = 8080;
 // userModel.create({ username: "dorj", email: "dorj@gmail.com" });
 
+//quiz
+const quiz = require("./quiz")
+app.use(quiz)
+
+
 
 app.post('/users', async (req, res) => {
     const body = req.body

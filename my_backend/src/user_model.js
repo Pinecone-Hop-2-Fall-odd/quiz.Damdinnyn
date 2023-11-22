@@ -4,7 +4,8 @@ const UserSchema = new Schema({
     username: String,
     age: Number,
     phoneNumber: Number,
-    password: String
+    password: String,
+    userId: String
 })
 
 const UserModel = model('user', UserSchema);

@@ -11,6 +11,9 @@ export default function Home() {
     const [d_answer, setD_answer] = useState("")
     const router = useRouter()
     const [restartdone, setrestartdone] = useState(false)
+    const [bordercolor, setBordercolor] = useState("")
+    const [correctAnswer, setCorrectAnswer] = useState()
+    console.log(bordercolor)
     const currentRef = useRef(null)
     const finished = async () => {
         await axios.post("http://localhost:8080/quiz", {
@@ -18,7 +21,8 @@ export default function Home() {
             a_answer: a_answer,
             b_answer: b_answer,
             c_answer: c_answer,
-            d_answer: d_answer
+            d_answer: d_answer,
+            correctAnswer: correctAnswer
         })
         setQuestionvalue("")
         setA_answer("")
@@ -41,12 +45,17 @@ export default function Home() {
         }
 
     }
-
+    const clickme = (index) => {
+        setBordercolor(bordercolor === index ? null : index)
+        console.log("sss", index)
+        setCorrectAnswer(index)
+        index == 7
+    }
     useEffect(() => {
         //fetchalldata()
     }, [])
     return (
-        <div onClick={() => back(currentRef)} className="bg-gradient-to-r from-cyan-500 to-blue-500 w-screen h-screen">
+        <div onClick={() => back(currentRef)} className="bg-gradient-to-r from-green-500 to-blue-500 w-screen h-screen">
             <div className="text-[90px] flex justify-center h-1/6"> Quiz +</div>
             {restartdone ? (<div ref={currentRef} onClickœ className="absolute bg-gradient-to-r from-green-500 text-2xl rounded-xl px-5 py-5 mt-[-170px] ml-3">
                 <h1 onClick={() => backtohome()}> -Буцах</h1>
@@ -64,19 +73,19 @@ export default function Home() {
             {/* <div className="absolute w-full   bg-gradient-to-r from-green-500 to-yellow-500"></div> */}
             <div className="h-2/6 w-full">
                 <div className="h-2/6 flex justify-around text-2xl">
-                    <div className="w-2/5 h-2/6 px-4 flex items-center ">A.
-                        <input onChange={(e) => setA_answer(e.target.value)} value={a_answer} className="rounded-xl border-black border-2 w-full px-2" />
+                    <div className="w-2/5 h-2/6 px-4 flex items-center "> <h1 onClick={() => clickme(0)}>A.</h1>
+                        <input onChange={(e) => setA_answer(e.target.value)} value={a_answer} className={`${bordercolor === 0 ? 'border-[blue]' : 'border-black'} rounded-xl border-[4px] w-full px-2`} />
                     </div>
-                    <div className="w-2/5 h-2/6 px-4 flex items-center">B.
-                        <input onChange={(e) => setB_answer(e.target.value)} value={b_answer} className="rounded-xl border-black border-2 w-full px-2" />
+                    <div className="w-2/5 h-2/6 px-4 flex items-center"><h1 onClick={() => clickme(1)}>B.</h1>
+                        <input onChange={(e) => setB_answer(e.target.value)} value={b_answer} className={` ${bordercolor === 1 ? 'border-[blue]' : 'border-black'} rounded-xl  border-[4px] w-full px-2`} />
                     </div>
                 </div>
                 <div className="h-2/6 flex justify-around text-2xl">
-                    <div className=" w-2/5 h-2/6  px-4 flex items-center">C.
-                        <input onChange={(e) => setC_answer(e.target.value)} value={c_answer} className="rounded-xl border-black border-2 w-full px-2" />
+                    <div className=" w-2/5 h-2/6  px-4 flex items-center"><h1 onClick={() => clickme(2)}>C.</h1>
+                        <input onChange={(e) => setC_answer(e.target.value)} value={c_answer} className={` ${bordercolor === 2 ? 'border-[blue]' : 'border-black'} rounded-xl border-[4px] w-full px-2`} />
                     </div>
-                    <div className="w-2/5  h-2/6  px-4 flex items-center">D.
-                        <input onChange={(e) => setD_answer(e.target.value)} value={d_answer} className="rounded-xl border-black border-2 w-full px-2" />
+                    <div className="w-2/5  h-2/6  px-4 flex items-center"><h1 onClick={() => clickme(3)}>D.</h1>
+                        <input onChange={(e) => setD_answer(e.target.value)} value={d_answer} className={`${bordercolor === 3 ? 'border-[blue]' : 'border-black'} rounded-xl  border-[4px] w-full px-2`} />
                     </div>
                 </div>
 

@@ -5,7 +5,8 @@ const QuizSchema = new Schema({
     a_answer: String,
     b_answer: String,
     c_answer: String,
-    d_answer: String
+    d_answer: String,
+    correctAnswer: Number,
 })
 
 const QuizModel = model('quiz', QuizSchema);

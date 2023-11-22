@@ -9,7 +9,11 @@ export default function Knonledge() {
     const [restartdone, setrestartdone] = useState(false)
     const [quizData, setQuizdata] = useState([])
     const [bordercolor, setBordercolor] = useState(null)
-
+    const [knowledgeId, setKnowledgeId] = useState(0)
+    const [correctAnswer, setCorrectAnswer] = useState()
+    const [allpoint, setAllpoint] = useState(0)
+    const [yourpoint, setYourpoint] = useState(0)
+    const [index, setIndex] = useState()
     const fetchalldata = async () => {
         const url = "http://localhost:8080/quiz"
         const fetchdata = await fetch(url).then((data) => data.json());
@@ -26,10 +30,24 @@ export default function Knonledge() {
         if (ref.current && !ref.current.contains(event.target)) {
             setrestartdone(false)
         }
-
     }
     const clickme = (index) => {
         setBordercolor(bordercolor === index ? null : index)
+        setCorrectAnswer(index)
+    }
+    const nextproblem = () => {
+        if (quizData[knowledgeId]?.correctAnswer == correctAnswer) {
+            alert("yeahh it.s correct")
+            setYourpoint(yourpoint + 1)
+            setKnowledgeId(knowledgeId + 1)
+
+        } else {
+            alert("mistake")
+            setKnowledgeId(knowledgeId + 1)
+        }
+        setAllpoint(allpoint + 1)
+        index == 1
+
     }
     useEffect(() => {
         fetchalldata();
@@ -44,13 +62,16 @@ export default function Knonledge() {
                     <Image src="bars.svg" height={16} width={16} onClick={() => restart()} />
                 </button>)}
             </div>
+            <div className="w-full flex justify-center">
+                <h1 className="text-3xl">Оноо:{yourpoint}/{allpoint}</h1>
+            </div>
             <div className="h-4/6 w-full flex justify-center items-center" >
                 <div className="h-5/6 w-4/6 bg-white rounded-3xl bg-gradient-to-r from-green-500 to-yellow-500">
                     <div className="text-[40px] w-full flex justify-center">Асуулт?</div>
                     {
                         // quizData.map((e) => (
                         <div className="text-3xl flex justify-center px-3">
-                            {quizData[3]?.question}
+                            {quizData[knowledgeId]?.question}
                         </div>
                         // ))
                     }
@@ -58,15 +79,15 @@ export default function Knonledge() {
             </div>
             <div className="h-2/6 w-full">
                 <div className="h-2/6 flex justify-around text-2xl">
-                    <div onClick={() => clickme(0)} className={`w-2/5 h-2/6 ${bordercolor === 0 ? 'border-[blue]' : 'border-black'}  border-[3px] bg-white rounded-3xl px-4 flex items-center`}>A.{quizData[3]?.a_answer}</div>
-                    <div onClick={() => clickme(1)} className={`w-2/5 h-2/6 ${bordercolor === 1 ? 'border-[blue]' : 'border-black'}  border-[3px] bg-white rounded-3xl px-4 flex items-center`}>B.{quizData[3]?.b_answer}</div>
+                    <div onClick={() => clickme(0)} className={`w-2/5 h-2/6 ${bordercolor === 0 ? 'border-[blue]' : 'border-black'}  border-[3px] bg-white rounded-3xl px-4 flex items-center`}>A.{quizData[knowledgeId]?.a_answer}</div>
+                    <div onClick={() => clickme(1)} className={`w-2/5 h-2/6 ${bordercolor === 1 ? 'border-[blue]' : 'border-black'}  border-[3px] bg-white rounded-3xl px-4 flex items-center`}>B.{quizData[knowledgeId]?.b_answer}</div>
                 </div>
                 <div className="h-2/6 flex justify-around text-2xl">
-                    <div onClick={() => clickme(2)} className={`w-2/5 h-2/6 ${bordercolor === 2 ? 'border-[blue]' : 'border-black'}  border-[3px] bg-white rounded-3xl px-4 flex items-center`}>C.{quizData[3]?.c_answer}</div>
-                    <div onClick={() => clickme(3)} className={`w-2/5 h-2/6 ${bordercolor === 3 ? 'border-[blue]' : 'border-black'}  border-[3px] bg-white rounded-3xl px-4 flex items-center`}>D.{quizData[3]?.d_answer}</div>
+                    <div onClick={() => clickme(2)} className={`w-2/5 h-2/6 ${bordercolor === 2 ? 'border-[blue]' : 'border-black'}  border-[3px] bg-white rounded-3xl px-4 flex items-center`}>C.{quizData[knowledgeId]?.c_answer}</div>
+                    <div onClick={() => clickme(3)} className={`w-2/5 h-2/6 ${bordercolor === 3 ? 'border-[blue]' : 'border-black'}  border-[3px] bg-white rounded-3xl px-4 flex items-center`}>D.{quizData[knowledgeId]?.d_answer}</div>
                 </div>
                 <div className="h-2/6 flex justify-center ">
-                    <button className="flex items-center  bg-gradient-to-r from-green-500 to-yellow-500 px-5 text-2xl rounded-3xl h-2/6">Дараах
+                    <button onClick={() => nextproblem()} className="flex items-center  bg-gradient-to-r from-green-500 to-yellow-500 px-5 text-2xl rounded-3xl h-2/6">Дараах
                         <Image className="mt-1 ml-2" src="arrow.svg" height={16} width={16} /></button>
                 </div>
             </div>

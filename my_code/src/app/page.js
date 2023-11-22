@@ -1,6 +1,7 @@
 "use client"
 import { useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
+import axios from "axios"
 
 export default function Home() {
   const [namevalue, setNamevalue] = useState("")
@@ -17,8 +18,11 @@ export default function Home() {
     setUsers(fetchdata.data)
     console.log("users", users)
   }
-  const login = () => {
-
+  const login = async () => {
+    await axios.post("http://localhost:8080/password", {
+      username: namevalue,
+      password: passwordvalue
+    })
     router.push("/home")
   }
 

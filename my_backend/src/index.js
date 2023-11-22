@@ -20,17 +20,29 @@ app.use(quiz)
 app.post('/users', async (req, res) => {
     const body = req.body
     console.log(req.body)
-    const newdata = userModel.create({ username: body.username, age: body.age, phoneNumber: body.phoneNumber, password: body.password });
+    const newdata = userModel.create({ username: body.username, age: body.age, phoneNumber: body.phoneNumber, password: body.password, userId: Date.now().toString() });
 
     // const userData = await userModel.find();
 
     res.status(200).json({ newdata })
 })
+//
+app.post('/password', async (req, res) => {
+    const body = req.body
+    const userData = await userModel.findOne({ username: body.username })
+
+    console.log(userData)
+    if (userData?.password == body.password)
+        res.status(200).json({ userData });
+    else
+        //throw new Error('');
+        res.status(400).json({ errorMessage: "oldsongue" });
+})
 
 //get
 app.get('/users', async (req, res) => {
     const userData = await userModel.find();
-
+    const correctdata = userData.map((cur) => ({ userId: cur.userId, username: cur.username, phoneNumber: cur.phoneNumber }))
     res.status(200).json({ userData })
 })
 

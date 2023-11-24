@@ -1,9 +1,12 @@
 "use client"
 import Image from "next/image"
 import { useRef, useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
+
 import axios from "axios"
 export default function Knonledge() {
+    const params = useSearchParams();
+    const userId = params.get("id")
     const currentRef = useRef(null)
     const router = useRouter()
     const [restartdone, setrestartdone] = useState(false)
@@ -17,6 +20,14 @@ export default function Knonledge() {
     const fetchalldata = async () => {
         const url = "http://localhost:8080/quiz"
         const fetchdata = await fetch(url).then((data) => data.json());
+        //shuffle
+        let currentIndex = fetchdata.quizData.length, randomIndex;
+        while (currentIndex > 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [fetchdata.quizData[currentIndex], fetchdata.quizData[randomIndex]] = [
+                fetchdata.quizData[randomIndex], fetchdata.quizData[currentIndex]];
+        }
         setQuizdata(fetchdata.quizData)
         console.log("users", fetchdata)
     }
@@ -24,7 +35,7 @@ export default function Knonledge() {
         setrestartdone(!restartdone)
     }
     const backtohome = () => {
-        router.push("/home")
+        router.push(`/home?id=${userId}`)
     }
     function back(ref) {
         if (ref.current && !ref.current.contains(event.target)) {
@@ -40,20 +51,19 @@ export default function Knonledge() {
             alert("yeahh it.s correct")
             setYourpoint(yourpoint + 1)
             setKnowledgeId(knowledgeId + 1)
-
         } else {
             alert("mistake")
             setKnowledgeId(knowledgeId + 1)
         }
         setAllpoint(allpoint + 1)
         index == 1
-
+        setBordercolor(11)
     }
     useEffect(() => {
         fetchalldata();
     }, [])
     return (
-        <div onClick={() => back(currentRef)} className="h-screen w-screen bg-gradient-to-r from-violet-500 to-fuchsia-500">
+        <div onClick={() => back(currentRef)} className="h-screen w-screen bg-gradient-to-r from-blue-600 to-blue-600">
             <div className="flex flex-row-reverse  px-5">
                 {restartdone ? (<div ref={currentRef} onClickœ className="absolute bg-gradient-to-r from-green-500 text-2xl rounded-xl px-5 py-5">
                     <h1 onClick={() => backtohome()}> -Буцах</h1>
@@ -66,8 +76,8 @@ export default function Knonledge() {
                 <h1 className="text-3xl">Оноо:{yourpoint}/{allpoint}</h1>
             </div>
             <div className="h-4/6 w-full flex justify-center items-center" >
-                <div className="h-5/6 w-4/6 bg-white rounded-3xl bg-gradient-to-r from-green-500 to-yellow-500">
-                    <div className="text-[40px] w-full flex justify-center">Асуулт?</div>
+                <div className="h-5/6 w-4/6 bg-white rounded-3xl bg-gradient-to-r from-blue-500 to-blue-400">
+                    <div className="text-[40px] w-full flex justify-center">Бодлого?</div>
                     {
                         // quizData.map((e) => (
                         <div className="text-3xl flex justify-center px-3">
@@ -79,12 +89,12 @@ export default function Knonledge() {
             </div>
             <div className="h-2/6 w-full">
                 <div className="h-2/6 flex justify-around text-2xl">
-                    <div onClick={() => clickme(0)} className={`w-2/5 h-2/6 ${bordercolor === 0 ? 'border-[blue]' : 'border-black'}  border-[3px] bg-white rounded-3xl px-4 flex items-center`}>A.{quizData[knowledgeId]?.a_answer}</div>
-                    <div onClick={() => clickme(1)} className={`w-2/5 h-2/6 ${bordercolor === 1 ? 'border-[blue]' : 'border-black'}  border-[3px] bg-white rounded-3xl px-4 flex items-center`}>B.{quizData[knowledgeId]?.b_answer}</div>
+                    <div onClick={() => clickme(0)} className={`w-2/5 h-2/6 ${bordercolor === 0 ? 'border-[red]' : 'border-black'}  border-[3px] bg-white rounded-3xl px-4 flex items-center`}>A.{quizData[knowledgeId]?.a_answer}</div>
+                    <div onClick={() => clickme(1)} className={`w-2/5 h-2/6 ${bordercolor === 1 ? 'border-[red]' : 'border-black'}  border-[3px] bg-white rounded-3xl px-4 flex items-center`}>B.{quizData[knowledgeId]?.b_answer}</div>
                 </div>
                 <div className="h-2/6 flex justify-around text-2xl">
-                    <div onClick={() => clickme(2)} className={`w-2/5 h-2/6 ${bordercolor === 2 ? 'border-[blue]' : 'border-black'}  border-[3px] bg-white rounded-3xl px-4 flex items-center`}>C.{quizData[knowledgeId]?.c_answer}</div>
-                    <div onClick={() => clickme(3)} className={`w-2/5 h-2/6 ${bordercolor === 3 ? 'border-[blue]' : 'border-black'}  border-[3px] bg-white rounded-3xl px-4 flex items-center`}>D.{quizData[knowledgeId]?.d_answer}</div>
+                    <div onClick={() => clickme(2)} className={`w-2/5 h-2/6 ${bordercolor === 2 ? 'border-[red]' : 'border-black'}  border-[3px] bg-white rounded-3xl px-4 flex items-center`}>C.{quizData[knowledgeId]?.c_answer}</div>
+                    <div onClick={() => clickme(3)} className={`w-2/5 h-2/6 ${bordercolor === 3 ? 'border-[red]' : 'border-black'}  border-[3px] bg-white rounded-3xl px-4 flex items-center`}>D.{quizData[knowledgeId]?.d_answer}</div>
                 </div>
                 <div className="h-2/6 flex justify-center ">
                     <button onClick={() => nextproblem()} className="flex items-center  bg-gradient-to-r from-green-500 to-yellow-500 px-5 text-2xl rounded-3xl h-2/6">Дараах

@@ -38,6 +38,13 @@ app.post('/password', async (req, res) => {
         //throw new Error('');
         res.status(400).json({ errorMessage: "oldsongue" });
 })
+//
+app.post('/userdata', async (req, res) => {
+    const body = req.body
+    const userData = await userModel.findOne({ _id: body.userId })
+    res.status(200).json({ userData });
+    console.log(userData)
+})
 
 //get
 app.get('/users', async (req, res) => {
@@ -45,8 +52,16 @@ app.get('/users', async (req, res) => {
     const correctdata = userData.map((cur) => ({ userId: cur.userId, username: cur.username, phoneNumber: cur.phoneNumber }))
     res.status(200).json({ userData })
 })
+//put 
+app.put("/users", async (req, res) => {
+    const body = req.body
+    const userData = await userModel.find({ _id: body._id })
+    const createdata = { profile: body.profile }
+    console.log(body.profile)
+    userData.push(createdata)
+    res.status(200).json({ userData })
+})
 
-// userModel.findBy({username: "dorj"});
 
 
 

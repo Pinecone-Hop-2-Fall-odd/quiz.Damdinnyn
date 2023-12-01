@@ -14,7 +14,8 @@ const port = 8080;
 //quiz
 const quiz = require("./quiz")
 app.use(quiz)
-
+const rank = require("./rank")
+app.use(rank)
 
 
 app.post('/users', async (req, res) => {
@@ -52,17 +53,31 @@ app.get('/users', async (req, res) => {
     const correctdata = userData.map((cur) => ({ userId: cur.userId, username: cur.username, phoneNumber: cur.phoneNumber }))
     res.status(200).json({ userData })
 })
-//put 
-app.put("/users", async (req, res) => {
+//profile
+app.post("/profile", async (req, res) => {
     const body = req.body
-    const userData = await userModel.find({ _id: body._id })
-    const createdata = { profile: body.profile }
-    console.log(body.profile)
-    userData.push(createdata)
+    const userData = await userModel.findByIdAndUpdate(body._id, { profile: body.profile })
+    // const userData = await userModel.find({ _id: body._id })
+    // const createdata = {  }
+    // console.log(body.profile)
+    // userData.push(createdata)
     res.status(200).json({ userData })
 })
+//passedlevels
+app.post("/passedlevels", async (req, res) => {
+    const body = req.body
 
+    await userModel.findByIdAndUpdate(body._id, { $push: { passedlevels: body.levelId } })
 
+    const userData = await userModel.findById(body._id)
+    // userData.childs.updateOne(userData.passedlevels, {
+    //     $push: body.levelId
+    // })
+    //const userData = await userModel.findByIdAndUpdate(body._id, { passedlevels: body.levelId })
+    console.log(userData)
+    // const newdata = userData.passedlevels.push(body.levelId)
+    res.status(200).json({ userData })
+})
 
 
 app.listen(port, () => {

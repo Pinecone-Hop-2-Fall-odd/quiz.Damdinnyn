@@ -35,7 +35,6 @@ export default function Home() {
       className="w-screen h-screen bg-gradient-to-r from-blue-600 to-blue-600 
       flex justify-center items-center
       ">
-
       <div className="bg-white w-2/6 py-4 rounded-[30px] flex flex-col items-center justify-center gap-6 px-4  ">
         <input placeholder="Name" onChange={(e) => setNamevalue(e.target.value)} value={namevalue} className="bg-white text-black border-black border-[3px] rounded-3xl w-full  h-10 px-3 text-2xl" />
         <input placeholder="Password" type="password" onChange={(e) => setPasswordvalue(e.target.value)} value={passwordvalue} className=" bg-white text-black border-black border-[3px] px-3 text-2xl  rounded-3xl w-full h-10 " />

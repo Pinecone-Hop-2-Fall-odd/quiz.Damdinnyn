@@ -13,28 +13,36 @@ export default function Home() {
         await axios.post("http://localhost:8080/userdata", {
             userId: userId
         }).then((res) => setUseralldata(res?.data?.userData))
+
     }
-    console.log("image", image)
+    //console.log("image", image)
     const name = useralldata?.username
+    const profilePhoto = useralldata?.profile
     const filechosen = async (file) => {
+        //alert("ahdsfj")
         const FR = new FileReader();
-        FR.addEventListener("load", function (evt) {
+        FR.addEventListener("load", async function (evt) {
             setImage(evt.target.result)
+            await axios.post("http://localhost:8080/profile", {
+                _id: userId,
+                profile: evt.target.result
+            })
         });
         FR.readAsDataURL(file);
-        await axios.put("http://localhost:8080/users", {
-            _id: userId,
-            profile: image
-        })
+
+        console.log(image)
     }
     useEffect(() => {
         fetchUserdata();
     }, [])
+    useEffect(() => {
+        fetchUserdata();
+    }, imageInput)
     return (
         <div className="w-screen h-screen">
             <div className="flex w-full h-2/5">
                 <div className="w-2/5 flex flex-col items-center py-5 ">
-                    <div style={{ backgroundImage: `url(${image})` }} className="rounded-full w-80 h-80 border-[8px] border-black bg-no-repeat  bg-cover">
+                    <div style={{ backgroundImage: `url(${profilePhoto})` }} className="rounded-full w-80 h-80 border-[8px] border-black bg-no-repeat  bg-cover">
                         <input ref={imageInput} style={{ visibility: 'hidden' }} type="file" onChange={(e) => {
                             filechosen(e.target.files[0])
                         }} />
@@ -51,9 +59,19 @@ export default function Home() {
                 </div>
             </div>
             <div className="w-full h-12 bg-[#DAD9D9]"></div>
-            <div className="w-full">
-                <div className="w-3/6 flex flex-col items-center py-4">
+            <div className="w-full h-3/5">
+                <div className="w-3/6 h-full flex gap-5 flex-col items-center py-4">
                     <div className="text-3xl">Таны цуглуулга</div>
+                    <div className="w-5/6 h-3/6 border-4 border-[#DAD9D9] rounded-xl">
+                        <div className="flex w-full flex-row-reverse px-2 py-1">
+                            <Image src="bars.svg" width={12} height={12} />
+                        </div>
+                    </div>
+                    <div className="w-5/6 h-3/6 border-4 border-[#DAD9D9] rounded-xl">
+                        <div className="flex w-full flex-row-reverse px-2 py-1">
+                            <Image src="bars.svg" width={12} height={12} />
+                        </div>
+                    </div>
                 </div>
                 <div className="w-3/6"></div>
             </div>

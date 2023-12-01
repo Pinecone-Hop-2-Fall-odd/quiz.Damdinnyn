@@ -5,7 +5,9 @@ const UserSchema = new Schema({
     age: Number,
     phoneNumber: Number,
     password: String,
-    userId: String
+    userId: String,
+    profile: String,
+    passedlevels: Array
 })
 
 const UserModel = model('user', UserSchema);

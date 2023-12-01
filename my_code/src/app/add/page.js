@@ -15,24 +15,28 @@ export default function Home() {
     const router = useRouter()
     const [restartdone, setrestartdone] = useState(false)
     const [bordercolor, setBordercolor] = useState("")
-    const [correctAnswer, setCorrectAnswer] = useState()
-    console.log(bordercolor)
+    const [correctAnswer, setCorrectAnswer] = useState(null)
+    //console.log(bordercolor)
     const currentRef = useRef(null)
     const finished = async () => {
-        await axios.post("http://localhost:8080/quiz", {
-            question: questionvalue,
-            a_answer: a_answer,
-            b_answer: b_answer,
-            c_answer: c_answer,
-            d_answer: d_answer,
-            correctAnswer: correctAnswer,
-            whoIsDone: userId,
-        })
-        setQuestionvalue("")
-        setA_answer("")
-        setB_answer("")
-        setC_answer("")
-        setD_answer("")
+        if (questionvalue !== "" && correctAnswer !== null && a_answer !== "" && b_answer !== "" && c_answer !== "" && d_answer !== "") {
+            await axios.post("http://localhost:8080/quiz", {
+                question: questionvalue,
+                a_answer: a_answer,
+                b_answer: b_answer,
+                c_answer: c_answer,
+                d_answer: d_answer,
+                correctAnswer: correctAnswer,
+                whoIsDone: userId,
+            })
+            setQuestionvalue("")
+            setA_answer("")
+            setB_answer("")
+            setC_answer("")
+            setD_answer("")
+        } else {
+            alert("es")
+        }
     }
     const restart = () => {
         setrestartdone(!restartdone)
@@ -61,7 +65,7 @@ export default function Home() {
     return (
         <div onClick={() => back(currentRef)} className="bg-gradient-to-r from-blue-500 to-green-500 w-screen h-screen">
             <div className="text-[90px] flex justify-center h-1/6"> Quiz +</div>
-            {restartdone ? (<div ref={currentRef} onClickœ className="absolute bg-gradient-to-r from-green-500 text-2xl rounded-xl px-5 py-5 mt-[-170px] ml-3">
+            {restartdone ? (<div ref={currentRef} className="absolute bg-gradient-to-r from-green-500 text-2xl rounded-xl px-5 py-5 mt-[-170px] ml-3">
                 <h1 onClick={() => backtohome()}> -Буцах</h1>
                 <h1 onClick={() => startAgain()}>-Дахин эхлэх</h1>
             </div>) : (<button className="absolute px-3 py-1 rounded-2xl bg-gradient-to-r from-green-500 to-yellow-500 mt-[-170px] ml-3" >

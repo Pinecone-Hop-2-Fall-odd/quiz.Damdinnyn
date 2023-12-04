@@ -3,6 +3,8 @@ import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { useSearchParams } from "next/navigation"
 import { useState, useRef } from "react"
+import axios from "axios"
+import { SearchPart } from "../components/SearchPart"
 export default function Home() {
     const currentRef = useRef(null)
     const params = useSearchParams();
@@ -10,6 +12,10 @@ export default function Home() {
     const router = useRouter();
     const [playstatus, setPlaystatus] = useState(false)
     const [friendsstatus, setFriendsstatus] = useState(false)
+    const [search, setSearch] = useState("")
+    const [searchUserData, setSearchUserData] = useState([])
+    const [searchData, setSearchData] = useState([])
+
     const easyProblem = () => {
         router.push(`/easyproblem?id=${userId}`)
     }
@@ -37,6 +43,28 @@ export default function Home() {
         }
 
     }
+    const searchUser = async () => {
+        // console.log(search)
+        const url = `http://localhost:8080/searchUser/${search}`
+        await axios.get(url).then((data) => setSearchUserData(data?.data?.data))
+        setSearch("")
+        console.log(searchUserData)
+        // const searchedUser = searchUserData?.data?.[0].username
+        // setSearchData(searchedUser)
+        //setSearchUserData(searchUser)
+        //console.log(searchUserData)
+
+    }
+
+    //console.log(searchUserData)
+
+    // if (!searchUserData?.data) {
+    //     return <>Loading...</>
+    // }
+    // const searchedUser = searchUserData?.data?.[0].username
+    // setSearchUserData()
+
+    //console.log(searchedUser)
     return (
         <div onClick={() => back(currentRef)}>
             <div className="absolute flex w-full flex-row-reverse px-5 py-4">
@@ -44,25 +72,20 @@ export default function Home() {
                     <Image onClick={() => jumptoPersonAccound()} src="user.svg" height={32} width={32} />
                 </div>
             </div>
-            <div className={`absolute w-3/6 ${friendsstatus ? `h-full` : "h-2/5"}  px-4 py-6`}>
-                {
-                    friendsstatus ? (<div ref={currentRef} className=" w-full h-full bg-white rounded-xl" >
-                        <div className="w-full h-[10%] bg-[#DAD9D9] rounded-t-xl flex px-1  items-center">
-                            <Image src="friends.svg" height={40} width={40} />
-                            <input className="w-4/6 " />
-                        </div>
-                        <div></div>
-                    </div>) : (<div onClick={() => friendsstatusdone()}
-                        className="h-2/5 w-4/6 bg-white rounded-xl">
-
-                    </div>)
-                }
-            </div>
-
+            <SearchPart friendsstatus={friendsstatus}
+                friendsstatusdone={friendsstatusdone}
+                currentRef={currentRef}
+                search={search}
+                setSearch={setSearch}
+                searchUser={searchUser}
+                // searchedUser={searchUser}
+                searchUserData={searchUserData}
+                setSearchUserData={setSearchUserData}
+            />
             <div className={`flex gap-20 ${friendsstatus ? 'flex-row-reverse' : 'justify-center'} px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen`}>
                 <div className="rounded-3xl bg-gradient-to-r from-cyan-500 to-blue-500 h-3/6 w-2/5">
                     <div className="absolute flex flex-row-reverse ">
-                        <button onClick={() => addFile()} className="py-1 px-3 rounded-xl bg-gradient-to-r from-green-500 toblue-500 text-2xl">+ Quiz нэмэх</button>
+                        <button onClick={() => addFile()} className="py-1 px-3 rounded-xl bg-gradient-to-r from-green-500 toblue-500 text-2xl">+ Add Problem</button>
                     </div>
                     <div className="h-5/6 flex items-center justify-center">
                         <div className="text-white text-[56px] origin-bottom rotate-45 ">Бодлого</div>

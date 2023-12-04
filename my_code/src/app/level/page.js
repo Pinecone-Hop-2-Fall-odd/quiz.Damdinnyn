@@ -49,7 +49,12 @@ export default function Home() {
             </div>
             <div className="w-4/6 h-5/6 flex gap-20 justify-center items-center flex-wrap bg-black rounded-xl">
                 {levelArray.map((e) => (
-                    <div onClick={() => playRank(e.id)} className="border-8 border-[#0953F7] bg-white h-[10%] w-1/5 flex justify-center items-center text-[60px] rounded-2xl" >{e.level}</div>))}
+                    <div onClick={() => playRank(e.id)} className="border-8 border-[#0953F7] bg-white h-[10%] w-1/5 flex justify-center items-center text-[60px] rounded-2xl text-[#D9a9a4]" >
+                        <div className="absolute">
+                            <Image src="lock.svg" height={64} width={16} />
+
+                        </div>
+                        {e.level}</div>))}
             </div>
         </div>
     )

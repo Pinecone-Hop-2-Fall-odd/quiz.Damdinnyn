@@ -30,14 +30,20 @@ app.post('/users', async (req, res) => {
 //
 app.post('/password', async (req, res) => {
     const body = req.body
-    const userData = await userModel.findOne({ username: body.username })
-
+    const userData = await userModel.find({ username: body.username })
     console.log(userData)
-    if (userData?.password == body.password)
-        res.status(200).json({ userData });
-    else
-        //throw new Error('');
-        res.status(400).json({ errorMessage: "oldsongue" });
+    const rightAccound = userData.filter((e) => (
+        e.password == body.password
+    ))
+    res.status(200).json({ rightAccound });
+
+
+
+    // if (userData?.password == body.password)
+    //res.status(200).json({ userData });
+    // else
+    //     //throw new Error('');
+    //     res.status(400).json({ errorMessage: "oldsongue" });
 })
 //
 app.post('/userdata', async (req, res) => {
@@ -57,28 +63,36 @@ app.get('/users', async (req, res) => {
 app.post("/profile", async (req, res) => {
     const body = req.body
     const userData = await userModel.findByIdAndUpdate(body._id, { profile: body.profile })
-    // const userData = await userModel.find({ _id: body._id })
-    // const createdata = {  }
-    // console.log(body.profile)
-    // userData.push(createdata)
     res.status(200).json({ userData })
 })
+//collection
+app.post("collection", async (req, res) => {
+    const body = req.body
+    await userModel.findByIdAndUpdate(body._id, { $push: { mycollection: body.collection } })
+    const userData = await userModel.findById(body._id)
+    console.log(userData)
+    res.status(200).json({ userData })
+
+
+})
+
 //passedlevels
 app.post("/passedlevels", async (req, res) => {
     const body = req.body
-
     await userModel.findByIdAndUpdate(body._id, { $push: { passedlevels: body.levelId } })
-
     const userData = await userModel.findById(body._id)
-    // userData.childs.updateOne(userData.passedlevels, {
-    //     $push: body.levelId
-    // })
-    //const userData = await userModel.findByIdAndUpdate(body._id, { passedlevels: body.levelId })
     console.log(userData)
-    // const newdata = userData.passedlevels.push(body.levelId)
     res.status(200).json({ userData })
 })
-
+//searchUser
+app.get("/searchUser/:name", async (req, res) => {
+    const { name } = req.params
+    //console.log("nmae", name)
+    const findedUser = await userModel.find({ username: name })
+    const data = findedUser.map((cur) => ({ username: cur.username, profile: cur.profile }))
+    ///console.log(findedUser)
+    res.status(200).json({ data })
+})
 
 app.listen(port, () => {
     console.log("power on" + port)

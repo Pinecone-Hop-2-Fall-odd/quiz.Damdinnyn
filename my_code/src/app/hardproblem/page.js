@@ -43,20 +43,21 @@ export default function Knonledge() {
         setBordercolor(bordercolor === index ? null : index)
         setCorrectAnswer(index)
     }
-    const nextproblem = async () => {
+    const overProblem = async () => {
         if (quizData?.correctAnswer == correctAnswer) {
-            alert("yeahh it.s correct")
             await axios.post("http://localhost:8080/passedlevels", {
                 _id: userId,
                 levelId: id
             })
+            router.push(`./levelFinish?id=${userId}&quizId=${quizId}`)
+            index == 1
+            setBordercolor(11)
         } else {
-            alert("mistake")
-
+            router.push(`./loseThenlevelFinished?id=${userId}&quizId=${quizId}`)
+            index == 1
+            setBordercolor(11)
         }
-        router.push(`./levelFinish?id=${userId}&quizId=${quizId}`)
-        index == 1
-        setBordercolor(11)
+
     }
     ///setInterval
 
@@ -100,7 +101,7 @@ export default function Knonledge() {
                     <div onClick={() => clickme(3)} className={`w-2/5 h-2/6 ${bordercolor === 3 ? 'border-[red]' : 'border-black'}  border-[3px] bg-white rounded-3xl px-4 flex items-center`}>D.{quizData?.d_answer}</div>
                 </div>
                 <div className="h-2/6 flex justify-center ">
-                    <button onClick={() => nextproblem()} className="flex items-center  bg-gradient-to-r from-green-500 to-yellow-500 px-5 text-2xl rounded-3xl h-2/6">Дууссан
+                    <button onClick={() => overProblem()} className="flex items-center  bg-gradient-to-r from-green-500 to-yellow-500 px-5 text-2xl rounded-3xl h-2/6">Дууссан
                         <Image className="mt-1 ml-2" src="arrow.svg" height={16} width={16} /></button>
                 </div>
             </div>

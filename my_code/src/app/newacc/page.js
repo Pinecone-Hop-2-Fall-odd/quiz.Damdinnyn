@@ -8,13 +8,13 @@ export default function Home() {
     const [passwordvalue, setPasswordvalue] = useState("")
     const [users, setUsers] = useState([])
     async function fetchalldata() {
-        const url = "http://localhost:8080/users"
+        const url = "http://localhost:3002/users"
         const fetchdata = await fetch(url).then((fetch) => fetch.json());
         setUsers(fetchdata.data)
         console.log("users", users)
     }
     const login = async () => {
-        await axios.post("http://localhost:8080/users", {
+        await axios.post("http://localhost:3002/users", {
             username: namevalue,
             age: agevalue,
             phoneNumber: phonenumbervalue,

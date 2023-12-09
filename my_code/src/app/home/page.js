@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { useSearchParams } from "next/navigation"
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import axios from "axios"
 import { SearchPart } from "../components/SearchPart"
 export default function Home() {
@@ -15,6 +15,8 @@ export default function Home() {
     const [search, setSearch] = useState("")
     const [searchUserData, setSearchUserData] = useState([])
     const [searchData, setSearchData] = useState([])
+    const mytoken = localStorage.getItem("token")
+    console.log(mytoken)
 
     const easyProblem = () => {
         router.push(`/easyproblem?id=${userId}`)
@@ -45,28 +47,28 @@ export default function Home() {
     }
     const searchUser = async () => {
         // console.log(search)
-        const url = `http://localhost:8080/searchUser/${search}`
+        const url = `http://localhost:3002/searchUser/${search}`
         await axios.get(url).then((data) => setSearchUserData(data?.data?.data))
         setSearch("")
         console.log(searchUserData)
-        // const searchedUser = searchUserData?.data?.[0].username
-        // setSearchData(searchedUser)
-        //setSearchUserData(searchUser)
-        //console.log(searchUserData)
-
     }
-
-    //console.log(searchUserData)
-
-    // if (!searchUserData?.data) {
-    //     return <>Loading...</>
+    const reqFriend = async () => {
+        console.log(searchUserData)
+        const url = `http://localhost:3002/reqfriend`
+        // await axios.post(url, {
+        //     toId: searchD,
+        //     _id: userId
+        // })
+    }
+    // const Mytoken = () => {
+    //     axios.get("", { headers: { "token": mytoken } })
     // }
-    // const searchedUser = searchUserData?.data?.[0].username
-    // setSearchUserData()
-
-    //console.log(searchedUser)
+    //axios.get("", { headers: { "token": "jdfjk" } })
+    useEffect(() => {
+        //Mytoken();
+    }, [])
     return (
-        <div onClick={() => back(currentRef)}>
+        <div onClick={() => back(currentRef)} className="min-w-[800px]">
             <div className="absolute flex w-full flex-row-reverse px-5 py-4">
                 <div>
                     <Image onClick={() => jumptoPersonAccound()} src="user.svg" height={32} width={32} />
@@ -81,8 +83,9 @@ export default function Home() {
                 // searchedUser={searchUser}
                 searchUserData={searchUserData}
                 setSearchUserData={setSearchUserData}
+                reqFriend={reqFriend}
             />
-            <div className={`flex gap-20 ${friendsstatus ? 'flex-row-reverse' : 'justify-center'} px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen`}>
+            <div className={`flex gap-20 ${friendsstatus ? 'flex-row-reverse' : 'justify-center'} px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}>
                 <div className="rounded-3xl bg-gradient-to-r from-cyan-500 to-blue-500 h-3/6 w-2/5">
                     <div className="absolute flex flex-row-reverse ">
                         <button onClick={() => addFile()} className="py-1 px-3 rounded-xl bg-gradient-to-r from-green-500 toblue-500 text-2xl">+ Add Problem</button>

@@ -1,15 +1,18 @@
-const { model, Schema } = require("mongoose");
+import { model, Schema } from "mongoose"
 
 const UserSchema = new Schema({
     username: String,
     age: Number,
-    phoneNumber: Number,
-    password: String,
+    phoneNumber: { type: String, require: true, unique: true },
+    password: { type: String, require: true },
     userId: String,
     profile: String,
-    passedlevels: Array
+    passedlevels: Array,
+    requestFriend: Array,
+    mycollection1: String,
+    mycollection2: String
+    // mycollection1
 })
 
-const UserModel = model('user', UserSchema);
-
-module.exports = UserModel;
+export const UserModel = model('user', UserSchema);
+// module.exports = UserModel 

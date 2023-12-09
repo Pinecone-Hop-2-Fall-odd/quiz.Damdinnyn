@@ -22,7 +22,7 @@ export default function Knonledge() {
 
     const [index, setIndex] = useState()
     const fetchalldata = async () => {
-        const url = `http://localhost:8080/rankquiz/${id}`
+        const url = `http://localhost:3002/rankquiz/${id}`
         await axios.get(url).then((res) => {
             setQuizdata(res?.data?.quizData)
         })
@@ -44,10 +44,11 @@ export default function Knonledge() {
         setCorrectAnswer(index)
     }
     const overProblem = async () => {
+        const passedlevel = Number(id) + 1
         if (quizData?.correctAnswer == correctAnswer) {
-            await axios.post("http://localhost:8080/passedlevels", {
+            await axios.post("http://localhost:3002/passedlevels", {
                 _id: userId,
-                levelId: id
+                levelId: String(passedlevel)
             })
             router.push(`./levelFinish?id=${userId}&quizId=${quizId}`)
             index == 1

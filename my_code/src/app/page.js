@@ -15,18 +15,19 @@ export default function Home() {
     router.push("/newacc")
   }
   const fetchalldata = async () => {
-    const url = "http://localhost:8080/users"
+    const url = "http://localhost:3002/users"
     const fetchdata = await fetch(url).then((fetch) => fetch.json());
     setUsers(fetchdata.userData)
     console.log("users", users)
   }
   const login = async () => {
-    await axios.post("http://localhost:8080/password", {
-      username: namevalue,
+    await axios.post("http://localhost:3002/password", {
+      phoneNumber: namevalue,
       password: passwordvalue
-    }).then((res) => { router.push(`/home?id=${res?.data?.rightAccound[0]?._id}`), console.log(res) })
+    }).then((res) => { router.push(`/home?id=${res?.data?.userData?._id}`), console.log(res?.data?.token) })
       .catch((error) => setPasswordstatus(true))
-
+    //?id=${res?.data?.userData?._id// localStorage.setItem("token", "" + res + "")
+    //, localStorage.setItem(`token`, `${res?.data?.token}`)
   }
   useEffect(() => {
     fetchalldata();
@@ -40,7 +41,7 @@ export default function Home() {
         <img src="math.png" />
       </div>
       <div className="bg-white w-2/6 py-4 rounded-[30px] flex flex-col items-center justify-center gap-6 px-4 ">
-        <input placeholder="Name" onChange={(e) => setNamevalue(e.target.value)} value={namevalue} className={`bg-white text-black ${passwordstatus ? "border-[#F7095E]" : "border-black"}   border-[3px] rounded-3xl w-full  h-10 px-3 text-2xl`} />
+        <input placeholder="PhoneNumber" onChange={(e) => setNamevalue(e.target.value)} value={namevalue} className={`bg-white text-black ${passwordstatus ? "border-[#F7095E]" : "border-black"}   border-[3px] rounded-3xl w-full  h-10 px-3 text-2xl`} />
         <input placeholder="Password" type="password" onChange={(e) => setPasswordvalue(e.target.value)} value={passwordvalue} className={` bg-white text-black ${passwordstatus ? "border-[#F7095E]" : "border-black"} border-[3px] px-3 text-2xl  rounded-3xl w-full h-10 `} />
         <button onClick={() => login()} className="bg-gradient-to-r from-blue-500 to-green-500 rounded-3xl px-5 text-xl ">Нэвтрэх</button>
         <button onClick={() => createNewAccound()} className="bg-gradient-to-r from-green-500 to-blue-500 rounded-3xl px-5 text-xl ">Шинэ акк үүсгэх </button>

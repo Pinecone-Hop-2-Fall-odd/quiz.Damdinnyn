@@ -7,40 +7,56 @@ export default function Home() {
     const params = useSearchParams();
     const imageInput = useRef(null);
     const myCollection = useRef(null)
+    const myCollection2 = useRef(null)
     const userId = params.get("id")
     const [useralldata, setUseralldata] = useState()
     const [image, setImage] = useState("")
     const [collectionFile, setCollectionFile] = useState("")
     const fetchUserdata = async () => {
-        await axios.post("http://localhost:8080/userdata", {
+        await axios.post("http://localhost:3002/userdata", {
             userId: userId
         }).then((res) => setUseralldata(res?.data?.userData))
 
     }
     const name = useralldata?.username
     const profilePhoto = useralldata?.profile
-    const mycollection = useralldata?.myCollection
+    const mycollection1 = useralldata?.mycollection1
+    const mycollection2 = useralldata?.mycollection2
+
     const filechosen = async (file) => {
         //alert("ahdsfj")
         const FR = new FileReader();
         FR.addEventListener("load", async function (evt) {
             // setImage(evt.target.result)
-            await axios.post("http://localhost:8080/profile", {
+            await axios.post("http://localhost:3002/profile", {
                 _id: userId,
                 profile: evt.target.result
             })
         });
         FR.readAsDataURL(file);
-
         console.log(image)
     }
     const Collectionchosen = (file) => {
         const FR = new FileReader();
         FR.addEventListener("load", async function (evt) {
             setCollectionFile(evt.target.result)
-            await axios.post("http://localhost:8080/collection", {
+            await axios.post("http://localhost:3002/collection1", {
                 _id: userId,
-                collection: evt.target.result
+                mycollection1: evt.target.result
+            })
+        });
+        FR.readAsDataURL(file);
+
+        console.log(collectionFile)
+
+    }
+    const Collectionchosen2 = (file) => {
+        const FR = new FileReader();
+        FR.addEventListener("load", async function (evt) {
+            setCollectionFile(evt.target.result)
+            await axios.post("http://localhost:3002/collection2", {
+                _id: userId,
+                mycollection2: evt.target.result
             })
         });
         FR.readAsDataURL(file);
@@ -76,9 +92,9 @@ export default function Home() {
             </div>
             <div className="w-full h-12 bg-[#DAD9D9]"></div>
             <div className="w-full h-3/5">
-                <div className="w-3/6 h-full flex gap-5 flex-col items-center py-4 b">
+                <div className="w-3/6 h-full flex gap-2 flex-col items-center py-4 b">
                     <div className="text-3xl">Таны цуглуулга</div>
-                    <div style={{ backgroundImage: `url(${profilePhoto})` }} className="g-no-repeat bg-center bg-cover w-5/6 h-3/6 border-4 border-[#DAD9D9] rounded-xl">
+                    <div style={{ backgroundImage: `url(${mycollection1})` }} className="g-no-repeat bg-center bg-cover w-5/6 h-3/6 border-4 border-[#DAD9D9] rounded-xl max-w-[400px]">
                         <div className="flex w-full flex-row-reverse px-2 py-1 ">
                             <Image onClick={() => {
                                 if (myCollection.current) {
@@ -88,9 +104,16 @@ export default function Home() {
                             <input ref={myCollection} style={{ visibility: 'hidden' }} type="file" onChange={(e) => { Collectionchosen(e.target.files[0]) }} />
                         </div>
                     </div>
-                    <div className="w-5/6 h-3/6 border-4 border-[#DAD9D9] rounded-xl">
+                    <div style={{ backgroundImage: `url(${mycollection2})` }} className="g-no-repeat bg-center bg-cover w-5/6 h-3/6 border-4 border-[#DAD9D9] rounded-xl max-w-[400px]">
                         <div className="flex w-full flex-row-reverse px-2 py-1">
-                            <Image src="bars.svg" width={12} height={12} />
+                            <Image
+                                onClick={() => {
+                                    if (myCollection2.current) {
+                                        myCollection2.current.click()
+                                    }
+                                }}
+                                src="bars.svg" width={12} height={12} />
+                            <input ref={myCollection2} style={{ visibility: 'hidden' }} type="file" onChange={(e) => { Collectionchosen2(e.target.files[0]) }} />
                         </div>
                     </div>
                 </div>

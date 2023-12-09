@@ -18,7 +18,7 @@ export default function Knonledge() {
     const [yourpoint, setYourpoint] = useState(0)
     const [index, setIndex] = useState()
     const fetchalldata = async () => {
-        const url = "http://localhost:8080/quiz"
+        const url = "http://localhost:3002/quiz"
         const fetchdata = await fetch(url).then((data) => data.json());
         //shuffle
         let currentIndex = fetchdata.quizData.length, randomIndex;
@@ -48,11 +48,11 @@ export default function Knonledge() {
     }
     const nextproblem = () => {
         if (quizData[knowledgeId]?.correctAnswer == correctAnswer) {
-            alert("yeahh it.s correct")
+
             setYourpoint(yourpoint + 1)
             setKnowledgeId(knowledgeId + 1)
         } else {
-            alert("mistake")
+
             setKnowledgeId(knowledgeId + 1)
         }
         setAllpoint(allpoint + 1)

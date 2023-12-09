@@ -1,4 +1,5 @@
-const { model, Schema } = require("mongoose");
+// const { model, Schema } = require("mongoose");
+import { model, Schema } from "mongoose"
 
 const QuizSchema = new Schema({
     question: String,
@@ -9,6 +10,6 @@ const QuizSchema = new Schema({
     correctAnswer: Number,
 })
 
-const QuizModel = model('quiz', QuizSchema);
+export const QuizModel = model('quiz', QuizSchema);
 
-module.exports = QuizModel;
+//module.exports = QuizModel;

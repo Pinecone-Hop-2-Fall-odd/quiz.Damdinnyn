@@ -20,7 +20,7 @@ export default function Home() {
     const currentRef = useRef(null)
     const finished = async () => {
         if (questionvalue !== "" && correctAnswer !== null && a_answer !== "" && b_answer !== "" && c_answer !== "" && d_answer !== "") {
-            await axios.post("http://localhost:8080/quiz", {
+            await axios.post("http://localhost:3002/quiz", {
                 question: questionvalue,
                 a_answer: a_answer,
                 b_answer: b_answer,
@@ -42,7 +42,7 @@ export default function Home() {
         setrestartdone(!restartdone)
     }
     const backtohome = () => {
-        router.push("/home")
+        router.push(`/home?id=${userId}`)
     }
     const startAgain = () => {
         router.push("/add")
@@ -64,7 +64,7 @@ export default function Home() {
     }, [])
     return (
         <div onClick={() => back(currentRef)} className="bg-gradient-to-r from-blue-500 to-green-500 w-screen h-screen">
-            <div className="text-[90px] flex justify-center h-1/6"> Quiz +</div>
+            <div className="text-[90px] flex justify-center h-1/6"> Problem +</div>
             {restartdone ? (<div ref={currentRef} className="absolute bg-gradient-to-r from-green-500 text-2xl rounded-xl px-5 py-5 mt-[-170px] ml-3">
                 <h1 onClick={() => backtohome()}> -Буцах</h1>
                 <h1 onClick={() => startAgain()}>-Дахин эхлэх</h1>

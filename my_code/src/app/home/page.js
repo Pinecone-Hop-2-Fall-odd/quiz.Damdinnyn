@@ -8,64 +8,95 @@ import { SearchPart } from "../components/SearchPart"
 export default function Home() {
     const currentRef = useRef(null)
     const params = useSearchParams();
-    const userId = params.get("id")
+    //const userId = params.get("id")
     const router = useRouter();
     const [playstatus, setPlaystatus] = useState(false)
     const [friendsstatus, setFriendsstatus] = useState(false)
     const [search, setSearch] = useState("")
     const [searchUserData, setSearchUserData] = useState([])
-    const [searchData, setSearchData] = useState([])
-    const mytoken = localStorage.getItem("token")
-    console.log(mytoken)
+    const [myReqdata, setmyReqdata] = useState([])
+    const [reqAllow, setReqAllow] = useState(true)
+    const [searchPerson, setSearchPerson] = useState(false)
+    const [myallreq, setmyAllData] = useState([])
+    const [userId, setUserId] = useState([])
+    const mytoken = localStorage.getItem("token");
+    // const MyUserId = async () => {
+    //     const url = "http://localhost:3002/token"
+    //     await axios.get(url, { headers: { "token": mytoken } }).then((res) => console.log("sss", res?.data))
+    // }
+    // console.log(userId.id)
+    const fetchAllData = async () => {
+        await axios.post("http://localhost:3002/userdata", {
+            token: mytoken
+        }).then((res) => setmyAllData(res?.data?.userData?.requestFriend))
+    }
+    console.log(myallreq)
+    //const reqId = myalldata?.requestFriend
+    //console.log(reqId)
+    // const fetchreqFriendsData = async () => {
+    //     await axios.post("http://localhost:3002/reqFriendId", {
+    //         token: mytoken
+    //     }).then((res) => setmyReqdata(res?.data?.userData))
+    // }
+    const fetchMyFriends = async () => {
 
+    }
+    console.log(myReqdata)
     const easyProblem = () => {
-        router.push(`/easyproblem?id=${userId}`)
+        router.push(`/easyproblem`)
     }
     const hardProblem = () => {
-        router.push(`level?id=${userId}`)
-    }
-    const jumpLogo = () => {
-        router.push("/logo")
+        router.push(`level`)
     }
     const addFile = () => {
-        router.push(`/add?id=${userId}`)
+        router.push(`/add`)
     }
     const jumptoPersonAccound = () => {
-        router.push(`/user?id=${userId}`)
+        router.push(`/user`)
     }
     const playStatus = () => {
         setPlaystatus(true)
     }
     const friendsstatusdone = () => {
         setFriendsstatus(!friendsstatus)
+        if (myallreq.length > 0) {
+            setReqAllow(false)
+        }
     }
     function back(ref) {
         if (ref.current && !ref.current.contains(event.target)) {
             setFriendsstatus(false)
         }
-
     }
     const searchUser = async () => {
-        // console.log(search)
         const url = `http://localhost:3002/searchUser/${search}`
         await axios.get(url).then((data) => setSearchUserData(data?.data?.data))
-        setSearch("")
+        setSearch(searchUserData?._id)
         console.log(searchUserData)
     }
-    const reqFriend = async () => {
-        console.log(searchUserData)
+    const reqFriend = async (id) => {
+        console.log(id)
         const url = `http://localhost:3002/reqfriend`
-        // await axios.post(url, {
-        //     toId: searchD,
-        //     _id: userId
-        // })
+        await axios.post(url, {
+            token: mytoken,
+            toId: id
+        })
     }
-    // const Mytoken = () => {
-    //     axios.get("", { headers: { "token": mytoken } })
-    // }
-    //axios.get("", { headers: { "token": "jdfjk" } })
+    const seeFriendsReq = async () => {
+        setSearchPerson(!searchPerson)
+        await axios.post("http://localhost:3002/reqFriendInfo", {
+            token: mytoken,
+            id: myallreq
+        }).then((res) => setmyReqdata(res?.data?.userData))
+        // for (let i; i < myallreq.length; i++) {
+        //     console.log("hiiiii", i)
+        // }
+        console.log(myallreq)
+    }
     useEffect(() => {
-        //Mytoken();
+        fetchAllData();
+        // fetchreqFriendsData
+        fetchMyFriends();
     }, [])
     return (
         <div onClick={() => back(currentRef)} className="min-w-[800px]">
@@ -81,12 +112,16 @@ export default function Home() {
                 setSearch={setSearch}
                 searchUser={searchUser}
                 // searchedUser={searchUser}
+                searchPerson={searchPerson}
+                setSearchPerson={setSearchPerson}
                 searchUserData={searchUserData}
                 setSearchUserData={setSearchUserData}
                 reqFriend={reqFriend}
+                reqAllow={reqAllow}
+                seeFriendsReq={seeFriendsReq}
             />
             <div className={`flex gap-20 ${friendsstatus ? 'flex-row-reverse' : 'justify-center'} px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}>
-                <div className="rounded-3xl bg-gradient-to-r from-cyan-500 to-blue-500 h-3/6 w-2/5">
+                <div className="rounded-3xl bg-gradient-to-r from-cyan-500 to-blue-500 h-3/6 w-2/5 min-w-[250px]">
                     <div className="absolute flex flex-row-reverse ">
                         <button onClick={() => addFile()} className="py-1 px-3 rounded-xl bg-gradient-to-r from-green-500 toblue-500 text-2xl">+ Add Problem</button>
                     </div>
@@ -105,7 +140,6 @@ export default function Home() {
                         <div></div>
                     )
                 }
-
             </div>
         </div>)
 }

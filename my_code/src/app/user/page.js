@@ -12,12 +12,14 @@ export default function Home() {
     const [useralldata, setUseralldata] = useState()
     const [image, setImage] = useState("")
     const [collectionFile, setCollectionFile] = useState("")
+    const myToken = localStorage.getItem("token")
+    console.log(myToken)
     const fetchUserdata = async () => {
         await axios.post("http://localhost:3002/userdata", {
-            userId: userId
+            token: myToken
         }).then((res) => setUseralldata(res?.data?.userData))
-
     }
+    console.log(useralldata?.profile)
     const name = useralldata?.username
     const profilePhoto = useralldata?.profile
     const mycollection1 = useralldata?.mycollection1
@@ -29,7 +31,7 @@ export default function Home() {
         FR.addEventListener("load", async function (evt) {
             // setImage(evt.target.result)
             await axios.post("http://localhost:3002/profile", {
-                _id: userId,
+                token: myToken,
                 profile: evt.target.result
             })
         });
@@ -41,7 +43,7 @@ export default function Home() {
         FR.addEventListener("load", async function (evt) {
             setCollectionFile(evt.target.result)
             await axios.post("http://localhost:3002/collection1", {
-                _id: userId,
+                token: myToken,
                 mycollection1: evt.target.result
             })
         });
@@ -55,7 +57,7 @@ export default function Home() {
         FR.addEventListener("load", async function (evt) {
             setCollectionFile(evt.target.result)
             await axios.post("http://localhost:3002/collection2", {
-                _id: userId,
+                token: myToken,
                 mycollection2: evt.target.result
             })
         });

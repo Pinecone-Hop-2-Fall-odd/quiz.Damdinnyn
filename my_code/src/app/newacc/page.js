@@ -7,14 +7,14 @@ export default function Home() {
     const [phonenumbervalue, setPhonenumbervalue] = useState("")
     const [passwordvalue, setPasswordvalue] = useState("")
     const [users, setUsers] = useState([])
-    async function fetchalldata() {
-        const url = "http://localhost:3002/users"
-        const fetchdata = await fetch(url).then((fetch) => fetch.json());
-        setUsers(fetchdata.data)
-        console.log("users", users)
-    }
+    // async function fetchalldata() {
+    //     const url = "http://localhost:3002/users"
+    //     const fetchdata = await fetch(url).then((fetch) => fetch.json());
+    //     setUsers(fetchdata.data)
+    //     console.log("users", users)
+    // }
     const login = async () => {
-        await axios.post("http://localhost:3002/users", {
+        await axios.post("http://localhost:3002/addUser", {
             username: namevalue,
             age: agevalue,
             phoneNumber: phonenumbervalue,
@@ -30,7 +30,7 @@ export default function Home() {
         setPhonenumbervalue("")
     }
     useEffect(() => {
-        fetchalldata();
+        //fetchalldata();
     }, [])
     return (
         <div className="bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen flex justify-center items-center">

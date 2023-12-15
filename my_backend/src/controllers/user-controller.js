@@ -77,7 +77,6 @@ export async function reqFriend(req, res) {
 export async function userReqInfo(req, res) {
     const body = req.body
     const users = await Promise.all(body.id.map(async (id) => await UserModel.findById(id)))
-
     res.status(200).json({ users })
 }
 export async function reqFriendsData(req, res) {

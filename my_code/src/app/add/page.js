@@ -17,6 +17,7 @@ export default function Home() {
     const [bordercolor, setBordercolor] = useState("")
     const [correctAnswer, setCorrectAnswer] = useState(null)
     //console.log(bordercolor)
+    const myToken = localStorage.getItem("token")
     const currentRef = useRef(null)
     const finished = async () => {
         if (questionvalue !== "" && correctAnswer !== null && a_answer !== "" && b_answer !== "" && c_answer !== "" && d_answer !== "") {
@@ -27,7 +28,7 @@ export default function Home() {
                 c_answer: c_answer,
                 d_answer: d_answer,
                 correctAnswer: correctAnswer,
-                whoIsDone: userId,
+                token: myToken,
             })
             setQuestionvalue("")
             setA_answer("")
@@ -42,7 +43,7 @@ export default function Home() {
         setrestartdone(!restartdone)
     }
     const backtohome = () => {
-        router.push(`/home?id=${userId}`)
+        router.push(`/home`)
     }
     const startAgain = () => {
         router.push("/add")

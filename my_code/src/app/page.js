@@ -14,23 +14,24 @@ export default function Home() {
   const createNewAccound = () => {
     router.push("/newacc")
   }
-  const fetchalldata = async () => {
-    const url = "http://localhost:3002/users"
-    const fetchdata = await fetch(url).then((fetch) => fetch.json());
-    setUsers(fetchdata.userData)
-    console.log("users", users)
-  }
+  // const fetchalldata = async () => {
+  //   const url = "http://localhost:3002/users"
+  //   const fetchdata = await fetch(url).then((fetch) => fetch.json());
+  //   setUsers(fetchdata.userData)
+  //   console.log("users", users)
+  // }
   const login = async () => {
-    await axios.post("http://localhost:3002/password", {
+    await axios.post("http://localhost:3002/login", {
       phoneNumber: namevalue,
       password: passwordvalue
-    }).then((res) => { router.push(`/home?id=${res?.data?.userData?._id}`), console.log(res?.data?.token) })
+    }).then((res) => { router.push(`/home`), localStorage.setItem(`token`, `${res?.data?.token}`) })
       .catch((error) => setPasswordstatus(true))
     //?id=${res?.data?.userData?._id// localStorage.setItem("token", "" + res + "")
     //, localStorage.setItem(`token`, `${res?.data?.token}`)
+    //console.log(res?.data?.token)
   }
   useEffect(() => {
-    fetchalldata();
+    // fetchalldata();
   }, [])
   useEffect(() => {
     setPasswordstatus(false)

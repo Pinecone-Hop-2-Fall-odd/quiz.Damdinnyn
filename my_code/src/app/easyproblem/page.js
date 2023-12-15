@@ -6,7 +6,6 @@ import { useRouter, useSearchParams } from "next/navigation"
 import axios from "axios"
 export default function Knonledge() {
     const params = useSearchParams();
-    const userId = params.get("id")
     const currentRef = useRef(null)
     const router = useRouter()
     const [restartdone, setrestartdone] = useState(false)

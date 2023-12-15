@@ -18,11 +18,11 @@ export default function Home() {
     const [restartdone, setrestartdone] = useState(false)
     const [passedLevels, setPassedLevels] = useState([])
     const userId = params.get("id");
-
+    const mytoken = localStorage.getItem("token");
     const fetchUserData = async () => {
-        const res = await axios.get(`http://localhost:3002/userdata/${userId}`)
+        const res = await axios.get(`http://localhost:3002/userdata`, { headers: { "token": mytoken } }).then((res) => setPassedLevels(res.data.data))
 
-        setPassedLevels(res.data.data)
+
     }
     console.log(passedLevels)
 

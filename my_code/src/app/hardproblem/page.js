@@ -17,8 +17,8 @@ export default function Knonledge() {
     const [knowledgeId, setKnowledgeId] = useState(0)
     const [correctAnswer, setCorrectAnswer] = useState()
     const [sekcount, setSekcount] = useState(30)
-    //const [finish,setFinish]=useState()
 
+    const mytoken = localStorage.getItem("token");
 
     const [index, setIndex] = useState()
     const fetchalldata = async () => {
@@ -45,9 +45,10 @@ export default function Knonledge() {
     }
     const overProblem = async () => {
         const passedlevel = Number(id) + 1
+        //alert(passedlevel)
         if (quizData?.correctAnswer == correctAnswer) {
             await axios.post("http://localhost:3002/passedlevels", {
-                _id: userId,
+                token: mytoken,
                 levelId: String(passedlevel)
             })
             router.push(`./levelFinish?id=${userId}&quizId=${quizId}`)
@@ -61,7 +62,6 @@ export default function Knonledge() {
 
     }
     ///setInterval
-
     const interval = setInterval(() => {
         setSekcount(sekcount - 1);
     }, 1000);

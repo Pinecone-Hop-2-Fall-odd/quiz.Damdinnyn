@@ -20,6 +20,7 @@ export default function Home() {
     const [myallreq, setmyAllData] = useState([])
     const [userId, setUserId] = useState([])
     const mytoken = localStorage.getItem("token");
+    const [usersInfo, setUsersInfo] = useState([])
     // const MyUserId = async () => {
     //     const url = "http://localhost:3002/token"
     //     await axios.get(url, { headers: { "token": mytoken } }).then((res) => console.log("sss", res?.data))
@@ -57,11 +58,15 @@ export default function Home() {
     const playStatus = () => {
         setPlaystatus(true)
     }
-    const friendsstatusdone = () => {
+    const friendsstatusdone = async () => {
         setFriendsstatus(!friendsstatus)
         if (myallreq.length > 0) {
             setReqAllow(false)
         }
+        await axios.post("http://localhost:3002/reqFriendInfo", {
+            token: mytoken,
+            id: myallreq
+        }).then((res) => setUsersInfo(res?.data?.users))
     }
     function back(ref) {
         if (ref.current && !ref.current.contains(event.target)) {
@@ -84,15 +89,12 @@ export default function Home() {
     }
     const seeFriendsReq = async () => {
         setSearchPerson(!searchPerson)
-        await axios.post("http://localhost:3002/reqFriendInfo", {
-            token: mytoken,
-            id: myallreq
-        }).then((res) => setmyReqdata(res?.data?.userData))
+
         // for (let i; i < myallreq.length; i++) {
         //     console.log("hiiiii", i)
         // }
-        console.log(myallreq)
     }
+    console.log(usersInfo)
     useEffect(() => {
         fetchAllData();
         // fetchreqFriendsData
@@ -119,6 +121,7 @@ export default function Home() {
                 reqFriend={reqFriend}
                 reqAllow={reqAllow}
                 seeFriendsReq={seeFriendsReq}
+                usersInfo={usersInfo}
             />
             <div className={`flex gap-20 ${friendsstatus ? 'flex-row-reverse' : 'justify-center'} px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}>
                 <div className="rounded-3xl bg-gradient-to-r from-cyan-500 to-blue-500 h-3/6 w-2/5 min-w-[250px]">

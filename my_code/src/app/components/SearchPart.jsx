@@ -13,6 +13,7 @@ export function SearchPart(props) {
     reqAllow,
     seeFriendsReq,
     searchPerson,
+    usersInfo,
   } = props;
 
   if (!friendsstatus)
@@ -67,16 +68,31 @@ export function SearchPart(props) {
           searchPerson={searchPerson}
           searchUserData={searchUserData}
           reqFriend={reqFriend}
+          usersInfo={usersInfo}
         />
       </div>
     </div>
   );
 }
 
-const FriendsList = ({ searchUserData, reqFriend, searchPerson }) => {
+const FriendsList = ({
+  searchUserData,
+  reqFriend,
+  searchPerson,
+  usersInfo,
+}) => {
   console.log(searchPerson);
   if (searchPerson) {
-    return <div className="w-full h-full ">search</div>;
+    console.log(usersInfo);
+    return (
+      <div className="w-full h-full text-black">
+        {usersInfo?.map((e) => (
+          <div className="text-black">{e.username}</div>
+        ))}
+        {/* {JSON.stringify(usersInfo)} */}
+        HHH
+      </div>
+    );
   }
 
   return (

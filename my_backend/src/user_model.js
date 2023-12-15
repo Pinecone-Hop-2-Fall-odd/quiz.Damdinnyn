@@ -8,7 +8,7 @@ const UserSchema = new Schema({
     userId: String,
     profile: String,
     passedlevels: Array,
-    requestFriend: Array,
+    requestFriend: [{ type: Schema.Types.ObjectId, ref: 'user' }],
     mycollection1: String,
     mycollection2: String
     // mycollection1

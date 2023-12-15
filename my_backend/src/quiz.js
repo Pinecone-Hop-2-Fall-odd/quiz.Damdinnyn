@@ -10,7 +10,6 @@ export const quizRouter = express.Router()
 
 quizRouter.get('/quiz', async (req, res) => {
     const quizData = await QuizModel.find();
-
     res.status(200).json({ quizData })
 })
 

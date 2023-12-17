@@ -76,7 +76,7 @@ export default function Home() {
         <div className="w-screen h-screen">
             <div className="flex w-full h-2/5">
                 <div className="w-2/5 flex flex-col items-center py-5 ">
-                    <div style={{ backgroundImage: `url(${profilePhoto})` }} className="rounded-full w-80 h-80 border-[8px] border-black bg-no-repeat bg-center  bg-cover">
+                    <div style={{ backgroundImage: `url(${profilePhoto})` }} className="rounded-full w-40 h-40 border-[8px] border-black bg-no-repeat bg-center  bg-cover">
                         <input ref={imageInput} style={{ visibility: 'hidden' }} type="file" onChange={(e) => {
                             filechosen(e.target.files[0])
                         }} />

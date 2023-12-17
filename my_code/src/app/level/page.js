@@ -30,7 +30,7 @@ export default function Home() {
     const playRank = (id) => {
         if (passedLevels.includes(id)) {
             console.log(id)
-            router.push(`hardproblem?id=${userId}&quizId=${id}`)
+            router.push(`hardproblem?quizId=${id}`)
             console.log("sss")
         }
     }

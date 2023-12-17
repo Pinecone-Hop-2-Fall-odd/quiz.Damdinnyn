@@ -33,8 +33,8 @@ export default function Home() {
         //fetchalldata();
     }, [])
     return (
-        <div className="bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen flex justify-center items-center">
-            <div className="bg-white w-2/5 h-2/5 border-black border-[3px] rounded-2xl text-2xl flex flex-col justify-center items-center gap-6">
+        <div className="bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen flex justify-center items-center ">
+            <div className="bg-white w-2/5 h-2/5 border-black border-[3px] rounded-2xl text-2xl flex flex-col max-w-[300px] justify-center items-center py-4 gap-6">
                 <input onChange={(e) => setNamevalue(e.target.value)} value={namevalue} className="border-black border-2 w-4/6 h-10 rounded-3xl  px-3" placeholder="Name" />
                 <input onChange={(e) => setAgevalue(e.target.value)} value={agevalue} className="border-black border-2 w-4/6 h-10 rounded-3xl px-3" placeholder="Age" />
                 <input onChange={(e) => setPhonenumbervalue(e.target.value)} value={phonenumbervalue} className="border-black border-2 w-4/6 h-10 rounded-3xl px-3" placeholder="PhoneNumber" />

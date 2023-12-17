@@ -14,15 +14,17 @@ export function SearchPart(props) {
     seeFriendsReq,
     searchPerson,
     usersInfo,
+    refuseReq,
+    allowReq,
+    friensData,
   } = props;
-
   if (!friendsstatus)
     return (
       <div
         className={`absolute ${
           friendsstatus
             ? `h-full w-[100vw] fixed top-0 left-0 bg-[rgba(0,0,0,0.5)] z-10`
-            : "h-2/5 w-3/6"
+            : "h-96 w-3/6"
         }  px-4 py-6 `}
       >
         <div
@@ -31,12 +33,11 @@ export function SearchPart(props) {
         ></div>
       </div>
     );
-
   return (
     <div
       className={`absolute ${
         friendsstatus
-          ? `h-full w-[100vw] fixed top-0 left-0 bg-[rgba(0,0,0,0.5)] z-10`
+          ? `h-full w-[100vw] fixed top-0 left-0 bg-[rgba(0,0,0,0.5)] z-10  snap-y`
           : "h-2/5 w-3/6"
       }  px-4 py-6 `}
     >
@@ -63,38 +64,62 @@ export function SearchPart(props) {
             <Image src="bell.svg" height={24} width={24} />
           </button>
         </div>
-
-        <FriendsList
-          searchPerson={searchPerson}
-          searchUserData={searchUserData}
-          reqFriend={reqFriend}
-          usersInfo={usersInfo}
-        />
+        <div className="">
+          <FriendsList
+            searchPerson={searchPerson}
+            searchUserData={searchUserData}
+            reqFriend={reqFriend}
+            usersInfo={usersInfo}
+            allowReq={allowReq}
+            refuseReq={refuseReq}
+          />
+          <div className="text-black">hhhhh</div>
+        </div>
       </div>
     </div>
   );
 }
-
 const FriendsList = ({
   searchUserData,
   reqFriend,
   searchPerson,
   usersInfo,
+  allowReq,
 }) => {
   console.log(searchPerson);
   if (searchPerson) {
     console.log(usersInfo);
     return (
-      <div className="w-full h-full text-black">
+      <div className="w-full  text-black px-4 py-4 flex flex-col snap-x gap-4">
         {usersInfo?.map((e) => (
-          <div className="text-black">{e.username}</div>
+          <div className="text-black w-full flex gap-4  ">
+            <div
+              style={{ backgroundImage: `url(${e.profile})` }}
+              className="bg-center bg-cover h-32 w-40 border-black border-8"
+            ></div>
+            <div className="flex gap-6">
+              <h1 className="text-2xl">{e.username}</h1>
+              <h1 className="flex gap-4 mt-1">
+                <Image
+                  src="x.svg"
+                  height={16}
+                  width={12}
+                  className="border-black border-2 rounded-[5px] w-8 h-6 bg-[red]"
+                />
+                <Image
+                  onClick={() => allowReq(e._id)}
+                  src="check.svg"
+                  height={16}
+                  width={16}
+                  className="border-black border-2 rounded-[5px] w-8 h-6 bg-[green] "
+                />
+              </h1>
+            </div>
+          </div>
         ))}
-        {/* {JSON.stringify(usersInfo)} */}
-        HHH
       </div>
     );
   }
-
   return (
     <div className="w-full h-full ">
       {searchUserData.map((e) => (

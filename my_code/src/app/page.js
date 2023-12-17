@@ -41,7 +41,7 @@ export default function Home() {
       <div>
         <img src="math.png" />
       </div>
-      <div className="bg-white w-2/6 py-4 rounded-[30px] flex flex-col items-center justify-center gap-6 px-4 ">
+      <div className="bg-white w-2/6 py-4 rounded-[30px] flex flex-col items-center justify-center gap-6 px-4 max-w-[300px]">
         <input placeholder="PhoneNumber" onChange={(e) => setNamevalue(e.target.value)} value={namevalue} className={`bg-white text-black ${passwordstatus ? "border-[#F7095E]" : "border-black"}   border-[3px] rounded-3xl w-full  h-10 px-3 text-2xl`} />
         <input placeholder="Password" type="password" onChange={(e) => setPasswordvalue(e.target.value)} value={passwordvalue} className={` bg-white text-black ${passwordstatus ? "border-[#F7095E]" : "border-black"} border-[3px] px-3 text-2xl  rounded-3xl w-full h-10 `} />
         <button onClick={() => login()} className="bg-gradient-to-r from-blue-500 to-green-500 rounded-3xl px-5 text-xl ">Нэвтрэх</button>

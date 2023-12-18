@@ -11,7 +11,9 @@ export async function getUser(req, res) {
 
 export async function getOneUser(req, res) {
   const user = req.user;
-  const userData = await UserModel.findOne({ _id: user.id });
+  const userData = await UserModel.findOne({ _id: user.id }).populate(
+    "myFriends"
+  );
   // console.log(userData);
   //const reqFriend = userData.requestFriend
   res.status(200).json({ userData });

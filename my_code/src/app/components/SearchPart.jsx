@@ -20,6 +20,7 @@ export function SearchPart(props) {
     myClosefrienddone,
     friensData,
   } = props;
+  console.log("hiii", friensData);
 
   if (!friendsstatus)
     return (
@@ -78,6 +79,7 @@ export function SearchPart(props) {
             allowReq={allowReq}
             refuseReq={refuseReq}
             myClosefrienddone={myClosefrienddone}
+            friensData={friensData}
           />
         </div>
       </div>
@@ -91,8 +93,9 @@ const FriendsList = ({
   usersInfo,
   allowReq,
   myClosefrienddone,
+  friensData,
 }) => {
-  console.log(searchPerson);
+  console.log("hi", friensData);
   if (searchPerson) {
     console.log(usersInfo);
     return (
@@ -126,10 +129,15 @@ const FriendsList = ({
       </div>
     );
   }
+
   return (
     <div className="w-full h-full text-black ">
       {myClosefrienddone ? (
-        <div>hahaahah</div>
+        <div>
+          {/* {friensData.map((e) => (
+            <div>{e.username}</div>
+          ))} */}
+        </div>
       ) : (
         <div>
           {searchUserData.map((e) => (

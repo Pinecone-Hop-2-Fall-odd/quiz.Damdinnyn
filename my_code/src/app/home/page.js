@@ -7,24 +7,22 @@ import axios from "axios";
 import { SearchPart } from "../components/SearchPart";
 export default function Home() {
   const currentRef = useRef(null);
-  const params = useSearchParams();
   //const userId = params.get("id")
   const router = useRouter();
   const [playstatus, setPlaystatus] = useState(false);
   const [friendsstatus, setFriendsstatus] = useState(false);
   const [search, setSearch] = useState("");
   const [searchUserData, setSearchUserData] = useState([]);
-  const [myReqdata, setmyReqdata] = useState([]);
+  //const [myReqdata, setmyReqdata] = useState([]);
   const [reqAllow, setReqAllow] = useState(true);
   const [searchPerson, setSearchPerson] = useState(false);
   const [myalldata, setmyAllData] = useState([]);
-  const [userId, setUserId] = useState([]);
+  //const [userId, setUserId] = useState([]);
   const mytoken = localStorage.getItem("token");
   const [usersInfo, setUsersInfo] = useState([]);
   const [friendsData, setFriendsData] = useState([]);
   const [myClosefrienddone, setMyclosefrienddone] = useState(true);
   //const [myFriends, setMyFriends] = useState([]);
-
   // const MyUserId = async () => {
   //     const url = "http://localhost:3002/token"
   //     await axios.get(url, { headers: { "token": mytoken } }).then((res) => console.log("sss", res?.data))
@@ -35,7 +33,10 @@ export default function Home() {
       .post("http://localhost:3002/userdata", {
         token: mytoken,
       })
-      .then((res) => setmyAllData(res?.data?.userData));
+      .then(
+        (res) => setmyAllData(res?.data?.userData)
+        // await axios.post("http://localhost:3002/userdata", {})
+      );
   };
   console.log(myalldata);
   const myallreq = myalldata?.requestFriend;
@@ -43,7 +44,6 @@ export default function Home() {
   console.log(myFriendsId);
   console.log(myallreq);
   // fetchMyFriends = async () => {};
-  console.log(myReqdata);
   const easyProblem = () => {
     router.push(`/easyproblem`);
   };
@@ -62,16 +62,20 @@ export default function Home() {
   const friendsstatusdone = async () => {
     console.log(myallreq);
     console.log(myFriendsId);
+    // post friends data
     await axios
       .post("http://localhost:3002/myFriendsdata", {
         token: mytoken,
         id: myFriendsId,
       })
       .then((res) => setFriendsData(res?.data?.friendsdata));
+    //
     setFriendsstatus(!friendsstatus);
+    //
     if (myallreq.length > 0) {
       setReqAllow(false);
     }
+    //request data
     await axios
       .post("http://localhost:3002/reqFriendInfo", {
         token: mytoken,
@@ -79,7 +83,7 @@ export default function Home() {
       })
       .then((res) => setUsersInfo(res?.data?.users));
   };
-  console.log(friendsData);
+  console.log("friends data", friendsData);
   function back(ref) {
     if (ref.current && !ref.current.contains(event.target)) {
       setFriendsstatus(false);

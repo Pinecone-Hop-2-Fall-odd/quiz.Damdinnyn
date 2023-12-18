@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useState } from "react";
 export function SearchPart(props) {
   const {
     friendsstatus,
@@ -16,8 +17,10 @@ export function SearchPart(props) {
     usersInfo,
     refuseReq,
     allowReq,
+    myClosefrienddone,
     friensData,
   } = props;
+
   if (!friendsstatus)
     return (
       <div
@@ -65,6 +68,8 @@ export function SearchPart(props) {
           </button>
         </div>
         <div className="">
+          {/* <div className="text-black">hhhhh</div> */}
+
           <FriendsList
             searchPerson={searchPerson}
             searchUserData={searchUserData}
@@ -72,8 +77,8 @@ export function SearchPart(props) {
             usersInfo={usersInfo}
             allowReq={allowReq}
             refuseReq={refuseReq}
+            myClosefrienddone={myClosefrienddone}
           />
-          <div className="text-black">hhhhh</div>
         </div>
       </div>
     </div>
@@ -85,6 +90,7 @@ const FriendsList = ({
   searchPerson,
   usersInfo,
   allowReq,
+  myClosefrienddone,
 }) => {
   console.log(searchPerson);
   if (searchPerson) {
@@ -121,26 +127,32 @@ const FriendsList = ({
     );
   }
   return (
-    <div className="w-full h-full ">
-      {searchUserData.map((e) => (
-        <div className="h-48 w-full flex px-3 py-3">
-          <div
-            style={{ backgroundImage: `url(${e.profile})` }}
-            className=" w-3/6 h-full border-[8px] min-w-[200px] border-black bg-no-repeat bg-center  bg-cover "
-          ></div>
-          <div className="text-2xl px-3 flex items-center h-3/6 gap-4 text-black">
-            {e.username}
-            <button className="border-black border-2 px-1 py-1">
-              <Image
-                onClick={() => reqFriend(e._id)}
-                src="user-plus.svg"
-                height={24}
-                width={24}
-              />
-            </button>
-          </div>
+    <div className="w-full h-full text-black ">
+      {myClosefrienddone ? (
+        <div>hahaahah</div>
+      ) : (
+        <div>
+          {searchUserData.map((e) => (
+            <div className="h-48 w-full flex px-3 py-3">
+              <div
+                style={{ backgroundImage: `url(${e.profile})` }}
+                className=" w-3/6 h-full border-[8px] min-w-[200px] border-black bg-no-repeat bg-center  bg-cover "
+              ></div>
+              <div className="text-2xl px-3 flex items-center h-3/6 gap-4 text-black">
+                {e.username}
+                <button className="border-black border-2 px-1 py-1">
+                  <Image
+                    onClick={() => reqFriend(e._id)}
+                    src="user-plus.svg"
+                    height={24}
+                    width={24}
+                  />
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
+      )}
     </div>
   );
 };

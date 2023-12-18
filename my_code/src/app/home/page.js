@@ -22,6 +22,7 @@ export default function Home() {
   const mytoken = localStorage.getItem("token");
   const [usersInfo, setUsersInfo] = useState([]);
   const [friendsData, setFriendsData] = useState([]);
+  const [myClosefrienddone, setMyclosefrienddone] = useState(true);
   //const [myFriends, setMyFriends] = useState([]);
 
   // const MyUserId = async () => {
@@ -85,11 +86,13 @@ export default function Home() {
     }
   }
   const searchUser = async () => {
+    ///alert(search);
     const url = `http://localhost:3002/searchUser/${search}`;
     await axios.get(url).then((data) => setSearchUserData(data?.data?.data));
     setSearch(searchUserData?._id);
-    console.log(searchUserData);
+    setMyclosefrienddone(!myClosefrienddone);
   };
+  console.log("aaaa", searchUserData);
   const reqFriend = async (id) => {
     console.log(id);
     const url = `http://localhost:3002/reqfriend`;
@@ -100,6 +103,7 @@ export default function Home() {
   };
   const seeFriendsReq = async () => {
     setSearchPerson(!searchPerson);
+    /// setMyclosefrienddone(!myClosefrienddone);
   };
   //console.log(usersInfo)
   const allowReq = async (id) => {
@@ -146,6 +150,7 @@ export default function Home() {
         usersInfo={usersInfo}
         allowReq={allowReq}
         friendsData={friendsData}
+        myClosefrienddone={myClosefrienddone}
       />
       <div
         className={`flex gap-20 ${

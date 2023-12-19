@@ -112,6 +112,7 @@ export async function allowReq(req, res) {
     $push: { myFriends: body.reqId },
   });
   console.log("bobo");
+  ///baba
   //   const reqId = reqData.requestFriend.includes(body.reqId);
   //   console.log(reqId);
   res.status(200).json({ reqData: "connected" });
@@ -126,3 +127,4 @@ export async function myFriendsdata(req, res) {
   console.log(friendsdata);
   res.status(200).json({ friendsdata });
 }
+///hahha

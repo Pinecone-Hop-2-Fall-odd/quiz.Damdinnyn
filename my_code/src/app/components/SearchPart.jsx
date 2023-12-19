@@ -18,10 +18,10 @@ export function SearchPart(props) {
     refuseReq,
     allowReq,
     myClosefrienddone,
-    friensData,
+    myFriendsData,
+    visitToFriendProfile,
   } = props;
-  console.log("hiii", friensData);
-
+  console.log(myFriendsData);
   if (!friendsstatus)
     return (
       <div
@@ -33,8 +33,19 @@ export function SearchPart(props) {
       >
         <div
           onClick={() => friendsstatusdone()}
-          className="h-2/5 w-4/6 bg-white rounded-xl"
-        ></div>
+          className="h-2/5 w-4/6 bg-white rounded-xl text-black py-2 px-4 flex gap-2 flex-col overflow-y-scroll "
+        >
+          {myFriendsData?.map((e) => (
+            <div className="flex gap-6 ">
+              <div
+                onClick={() => visitToFriendProfile()}
+                style={{ backgroundImage: `url(${e.profile})` }}
+                className="h-16 w-16 bg-cover bg-center border-4 border-black "
+              ></div>
+              <div className="text-[20px]">{e.username}</div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   return (
@@ -79,7 +90,7 @@ export function SearchPart(props) {
             allowReq={allowReq}
             refuseReq={refuseReq}
             myClosefrienddone={myClosefrienddone}
-            friensData={friensData}
+            myFriensData={myFriendsData}
           />
         </div>
       </div>
@@ -93,9 +104,8 @@ const FriendsList = ({
   usersInfo,
   allowReq,
   myClosefrienddone,
-  friensData,
+  myFriensData,
 }) => {
-  console.log("hi", friensData);
   if (searchPerson) {
     console.log(usersInfo);
     return (

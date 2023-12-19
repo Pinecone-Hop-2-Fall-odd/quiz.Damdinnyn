@@ -40,8 +40,8 @@ export default function Home() {
   };
   console.log(myalldata);
   const myallreq = myalldata?.requestFriend;
-  const myFriendsId = myalldata?.myFriends;
-  console.log(myFriendsId);
+  const myFriendsData = myalldata?.myFriends;
+  console.log("i am friends data", myFriendsData);
   console.log(myallreq);
   // fetchMyFriends = async () => {};
   const easyProblem = () => {
@@ -61,15 +61,6 @@ export default function Home() {
   };
   const friendsstatusdone = async () => {
     console.log(myallreq);
-    console.log(myFriendsId);
-    // post friends data
-    await axios
-      .post("http://localhost:3002/myFriendsdata", {
-        token: mytoken,
-        id: myFriendsId,
-      })
-      .then((res) => setFriendsData(res?.data?.friendsdata));
-    //
     setFriendsstatus(!friendsstatus);
     //
     if (myallreq.length > 0) {
@@ -83,7 +74,6 @@ export default function Home() {
       })
       .then((res) => setUsersInfo(res?.data?.users));
   };
-  console.log("friends data", friendsData);
   function back(ref) {
     if (ref.current && !ref.current.contains(event.target)) {
       setFriendsstatus(false);
@@ -118,13 +108,11 @@ export default function Home() {
       reqId: id,
     });
   };
+  const visitToFriendProfile = () => {};
   useEffect(() => {
     fetchAllData();
-    //fetchMyFriends();
   }, []);
-  // useEffect(() => {
-  //   fetchMyFriendsdata();
-  // }, [myFriends]);
+
   return (
     <div onClick={() => back(currentRef)} className="min-w-[800px]">
       <div className="absolute flex w-full flex-row-reverse px-5 py-4">
@@ -153,8 +141,9 @@ export default function Home() {
         seeFriendsReq={seeFriendsReq}
         usersInfo={usersInfo}
         allowReq={allowReq}
-        friendsData={friendsData}
+        myFriendsData={myFriendsData}
         myClosefrienddone={myClosefrienddone}
+        visitToFriendProfile={visitToFriendProfile}
       />
       <div
         className={`flex gap-20 ${

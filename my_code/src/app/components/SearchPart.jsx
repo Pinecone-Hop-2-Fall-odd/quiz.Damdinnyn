@@ -19,9 +19,10 @@ export function SearchPart(props) {
     allowReq,
     myClosefrienddone,
     myFriendsData,
-    visitToFriendProfile,
+    liststatus,
+    refuse,
   } = props;
-  console.log(myFriendsData);
+  //console.log("hiii", friensData);
   if (!friendsstatus)
     return (
       <div
@@ -33,7 +34,7 @@ export function SearchPart(props) {
       >
         <div
           onClick={() => friendsstatusdone()}
-          className="h-2/5 w-4/6 bg-white rounded-xl text-black py-2 px-4 flex gap-2 flex-col overflow-y-scroll "
+          className="h-2/5 w-4/6 bg-white rounded-xl text-black py-2 px-4 flex gap-2 flex-col overflow-y-scroll"
         >
           {myFriendsData?.map((e) => (
             <div className="flex gap-6 ">
@@ -52,7 +53,7 @@ export function SearchPart(props) {
     <div
       className={`absolute ${
         friendsstatus
-          ? `h-full w-[100vw] fixed top-0 left-0 bg-[rgba(0,0,0,0.5)] z-10  snap-y`
+          ? `h-full w-[100vw] fixed top-0 left-0 bg-[rgba(0,0,0,0.5)] z-10`
           : "h-2/5 w-3/6"
       }  px-4 py-6 `}
     >
@@ -79,19 +80,34 @@ export function SearchPart(props) {
             <Image src="bell.svg" height={24} width={24} />
           </button>
         </div>
-        <div className="">
+        <div className="flex flex-col h-full">
           {/* <div className="text-black">hhhhh</div> */}
-
-          <FriendsList
-            searchPerson={searchPerson}
-            searchUserData={searchUserData}
-            reqFriend={reqFriend}
-            usersInfo={usersInfo}
-            allowReq={allowReq}
-            refuseReq={refuseReq}
-            myClosefrienddone={myClosefrienddone}
-            myFriensData={myFriendsData}
-          />
+          {liststatus ? (
+            <div className="text-black px-4 py-4 flex flex-col gap-5 overflow-y-scroll h-[85%]">
+              {myFriendsData?.map((e) => (
+                <div className="flex gap-8">
+                  <div
+                    style={{ backgroundImage: `url(${e.profile})` }}
+                    className="h-36 w-2/5 bg-cover bg-center border-8 border-black"
+                  ></div>
+                  <div>
+                    <h1 className="text-2xl">{e.username}</h1>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <FriendsList
+              searchPerson={searchPerson}
+              searchUserData={searchUserData}
+              reqFriend={reqFriend}
+              usersInfo={usersInfo}
+              allowReq={allowReq}
+              refuseReq={refuseReq}
+              myClosefrienddone={myClosefrienddone}
+              refuse={refuse}
+            />
+          )}
         </div>
       </div>
     </div>
@@ -103,11 +119,10 @@ const FriendsList = ({
   searchPerson,
   usersInfo,
   allowReq,
-  myClosefrienddone,
-  myFriensData,
+  refuse,
 }) => {
   if (searchPerson) {
-    console.log(usersInfo);
+    //console.log(usersInfo);
     return (
       <div className="w-full  text-black px-4 py-4 flex flex-col snap-x gap-4">
         {usersInfo?.map((e) => (
@@ -117,9 +132,10 @@ const FriendsList = ({
               className="bg-center bg-cover h-32 w-40 border-black border-8"
             ></div>
             <div className="flex gap-6">
-              <h1 className="text-2xl">{e.username}</h1>
+              <h1 className="text-2xl text-black">{e.username}</h1>
               <h1 className="flex gap-4 mt-1">
                 <Image
+                  onClick={() => refuse(e._id)}
                   src="x.svg"
                   height={16}
                   width={12}
@@ -142,35 +158,27 @@ const FriendsList = ({
 
   return (
     <div className="w-full h-full text-black ">
-      {myClosefrienddone ? (
-        <div>
-          {/* {friensData.map((e) => (
-            <div>{e.username}</div>
-          ))} */}
-        </div>
-      ) : (
-        <div>
-          {searchUserData.map((e) => (
-            <div className="h-48 w-full flex px-3 py-3">
-              <div
-                style={{ backgroundImage: `url(${e.profile})` }}
-                className=" w-3/6 h-full border-[8px] min-w-[200px] border-black bg-no-repeat bg-center  bg-cover "
-              ></div>
-              <div className="text-2xl px-3 flex items-center h-3/6 gap-4 text-black">
-                {e.username}
-                <button className="border-black border-2 px-1 py-1">
-                  <Image
-                    onClick={() => reqFriend(e._id)}
-                    src="user-plus.svg"
-                    height={24}
-                    width={24}
-                  />
-                </button>
-              </div>
+      <div>
+        {searchUserData.map((e) => (
+          <div className="h-48 w-full flex px-3 py-3">
+            <div
+              style={{ backgroundImage: `url(${e.profile})` }}
+              className=" w-3/6 h-full border-[8px] min-w-[200px] border-black bg-no-repeat bg-center  bg-cover "
+            ></div>
+            <div className="text-2xl px-3 flex items-center h-3/6 gap-4 text-black">
+              {e.username}
+              <button className="border-black border-2 px-1 py-1">
+                <Image
+                  onClick={() => reqFriend(e._id)}
+                  src="user-plus.svg"
+                  height={24}
+                  width={24}
+                />
+              </button>
             </div>
-          ))}
-        </div>
-      )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

@@ -1,27 +1,24 @@
 "use client";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { SearchPart } from "../components/SearchPart";
 export default function Home() {
   const currentRef = useRef(null);
-  //const userId = params.get("id")
   const router = useRouter();
   const [playstatus, setPlaystatus] = useState(false);
   const [friendsstatus, setFriendsstatus] = useState(false);
   const [search, setSearch] = useState("");
   const [searchUserData, setSearchUserData] = useState([]);
-  //const [myReqdata, setmyReqdata] = useState([]);
   const [reqAllow, setReqAllow] = useState(true);
   const [searchPerson, setSearchPerson] = useState(false);
   const [myalldata, setmyAllData] = useState([]);
-  //const [userId, setUserId] = useState([]);
   const mytoken = localStorage.getItem("token");
   const [usersInfo, setUsersInfo] = useState([]);
   const [friendsData, setFriendsData] = useState([]);
   const [myClosefrienddone, setMyclosefrienddone] = useState(true);
+  const [liststatus, setListStatus] = useState(true);
   //const [myFriends, setMyFriends] = useState([]);
   // const MyUserId = async () => {
   //     const url = "http://localhost:3002/token"
@@ -38,12 +35,11 @@ export default function Home() {
         // await axios.post("http://localhost:3002/userdata", {})
       );
   };
-  console.log(myalldata);
+  console.log("gggg", myalldata);
   const myallreq = myalldata?.requestFriend;
   const myFriendsData = myalldata?.myFriends;
   console.log("i am friends data", myFriendsData);
   console.log(myallreq);
-  // fetchMyFriends = async () => {};
   const easyProblem = () => {
     router.push(`/easyproblem`);
   };
@@ -60,7 +56,6 @@ export default function Home() {
     setPlaystatus(true);
   };
   const friendsstatusdone = async () => {
-    console.log(myallreq);
     setFriendsstatus(!friendsstatus);
     //
     if (myallreq.length > 0) {
@@ -77,14 +72,19 @@ export default function Home() {
   function back(ref) {
     if (ref.current && !ref.current.contains(event.target)) {
       setFriendsstatus(false);
+      setSearchPerson(false);
+      setListStatus(true)
     }
+
   }
   const searchUser = async () => {
-    ///alert(search);
+    setListStatus(false)
+    setSearchPerson(false)
     const url = `http://localhost:3002/searchUser/${search}`;
     await axios.get(url).then((data) => setSearchUserData(data?.data?.data));
     setSearch(searchUserData?._id);
-    setMyclosefrienddone(!myClosefrienddone);
+    setMyclosefrienddone(!myClosefrienddone)
+    setSearch("")
   };
   console.log("aaaa", searchUserData);
   const reqFriend = async (id) => {
@@ -96,23 +96,32 @@ export default function Home() {
     });
   };
   const seeFriendsReq = async () => {
-    setSearchPerson(!searchPerson);
-    /// setMyclosefrienddone(!myClosefrienddone);
+
+    if (searchPerson == false) {
+      setSearchPerson(true)
+    }
+    if (liststatus == true) {
+      setListStatus(false)
+    } else {
+      setListStatus(true)
+    }
   };
-  //console.log(usersInfo)
+  console.log(liststatus)
   const allowReq = async (id) => {
-    //alert(id);
+    alert(id)
     const url = `http://localhost:3002/allowReq`;
     await axios.post(url, {
       token: mytoken,
       reqId: id,
     });
   };
-  const visitToFriendProfile = () => {};
+  const refuse = (id) => {
+    alert(id)
+  }
+  const visitToFriendProfile = () => { };
   useEffect(() => {
     fetchAllData();
   }, []);
-
   return (
     <div onClick={() => back(currentRef)} className="min-w-[800px]">
       <div className="absolute flex w-full flex-row-reverse px-5 py-4">
@@ -144,11 +153,12 @@ export default function Home() {
         myFriendsData={myFriendsData}
         myClosefrienddone={myClosefrienddone}
         visitToFriendProfile={visitToFriendProfile}
+        liststatus={liststatus}
+        refuse={refuse}
       />
       <div
-        className={`flex gap-20 ${
-          friendsstatus ? "flex-row-reverse" : "justify-center"
-        } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
+        className={`flex gap-20 ${friendsstatus ? "flex-row-reverse" : "justify-center"
+          } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
       >
         <div className="rounded-3xl bg-gradient-to-r from-cyan-500 to-blue-500 h-3/6 w-2/5 min-w-[250px]">
           <div className="absolute flex flex-row-reverse ">

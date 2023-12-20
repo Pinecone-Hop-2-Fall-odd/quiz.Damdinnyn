@@ -1,5 +1,6 @@
 import { UserModel } from "../user_model.js";
 import bcrypt from "bcrypt";
+import { ObjectId } from 'mongodb'
 
 export async function getUser(req, res) {
   const user = req.user;
@@ -32,13 +33,11 @@ export async function reqFriendId(req, res) {
 export async function Passedlevels(req, res) {
   const user = req.user;
   const body = req.body;
-  //console.log(user)
   console.log(body.levelId);
   await UserModel.findByIdAndUpdate(user.id, {
     $push: { passedlevels: body.levelId },
   });
   const userData = await UserModel.findById(user._id);
-  //console.log(userData)
   res.status(200).json({ userData });
 }
 export async function changeProfile(req, res) {
@@ -83,7 +82,7 @@ export async function reqFriend(req, res) {
   try {
     const body = req.body;
     const reqData = await UserModel.findById(body.toId);
-    if (reqData.requestFriend.includes(user.id)) {
+    if (reqData.myFriends.includes(user.id)) {
     } else {
       await UserModel.findByIdAndUpdate(body.toId, {
         $push: { requestFriend: user.id },
@@ -108,16 +107,30 @@ export async function reqFriendsData(req, res) {
 export async function allowReq(req, res) {
   const user = req.user;
   const body = req.body;
-  await UserModel.findByIdAndUpdate(user.id, {
+  const userData = await UserModel.findByIdAndUpdate(user.id, {
     $push: { myFriends: body.reqId },
   });
-  console.log("bobo");
-  ///baba
-  //   const reqId = reqData.requestFriend.includes(body.reqId);
+  console.log("hhha", typeof userData.requestFriend[0])
+  console.log("body.id", body.reqId)
+  const removeId = userData.requestFriend.filter((e) => body.reqId != e);
+  // 1 == '1' => true
+  // 1 === '1' => false
+  //console.log("bobo", removeId);
+  await UserModel.findByIdAndUpdate(user.id, {
+    requestFriend: removeId
+  });
   //   console.log(reqId);
   res.status(200).json({ reqData: "connected" });
 }
-export async function refuseReq(req, res) {}
+export async function refuseReq(req, res) {
+  const body = req.body
+  const user = req.user
+  const userData = await UserModel.findById(user.id)
+  const removeId = userData.requestFriend.filter((e) => body.reqId != e);
+  await UserModel.findByIdAndUpdate(user.id, {
+    requestFriend: removeId
+  });
+}
 export async function myFriendsdata(req, res) {
   const body = req.body;
   console.log(body.id);

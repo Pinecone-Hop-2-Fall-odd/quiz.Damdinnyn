@@ -11,16 +11,14 @@ export default function Knonledge() {
     const currentRef = useRef(null)
     const router = useRouter()
     const [restartdone, setrestartdone] = useState(false)
-    //
     const [quizData, setQuizdata] = useState([])
     const [bordercolor, setBordercolor] = useState(null)
     const [knowledgeId, setKnowledgeId] = useState(0)
     const [correctAnswer, setCorrectAnswer] = useState()
-    const [sekcount, setSekcount] = useState(30)
-
+    const [count, setCount] = useState(30)
     const mytoken = localStorage.getItem("token");
-
     const [index, setIndex] = useState()
+    const [timeborder, setTimeborder] = useState(false)
     const fetchalldata = async () => {
         const url = `http://localhost:3002/rankquiz/${id}`
         await axios.get(url).then((res) => {
@@ -62,12 +60,23 @@ export default function Knonledge() {
 
     }
     ///setInterval
-    const interval = setInterval(() => {
-        setSekcount(sekcount - 1);
-    }, 1000);
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCount(count - 1)
+        }, 1000);
+        if (count == 0) {
+            router.push(`./loseThenlevelFinished?id=${userId}&quizId=${quizId}`)
+
+        } else if (count < 10) {
+            setTimeborder(true)
+        }
+        return () => clearInterval(interval);
+
+    }, [count]);
     useEffect(() => {
         fetchalldata();
     }, [])
+
     return (
         <div onClick={() => back(currentRef)} className="h-screen w-screen bg-gradient-to-r from-blue-600 to-blue-600">
             <div className="flex flex-row-reverse  px-5">
@@ -79,8 +88,8 @@ export default function Knonledge() {
                 </button>)}
             </div>
             <div className="w-full flex justify-center py-5 absolute">
-                <div className="bg-white px-10 flex justify-center text-3xl border-4 border-black rounded-xl">
-                    {/* {sekcount} */}
+                <div className={`bg-white px-10 ${timeborder ? "border-[red]" : "border-black"} flex justify-center text-3xl border-4  rounded-xl`}>
+                    {count}
                 </div>
             </div>
             <div className="h-4/6 w-full flex justify-center items-center" >

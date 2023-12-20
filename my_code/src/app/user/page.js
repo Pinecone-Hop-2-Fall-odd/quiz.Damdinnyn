@@ -24,9 +24,7 @@ export default function Home() {
     const profilePhoto = useralldata?.profile
     const mycollection1 = useralldata?.mycollection1
     const mycollection2 = useralldata?.mycollection2
-
     const filechosen = async (file) => {
-        //alert("ahdsfj")
         const FR = new FileReader();
         FR.addEventListener("load", async function (evt) {
             // setImage(evt.target.result)
@@ -48,9 +46,7 @@ export default function Home() {
             })
         });
         FR.readAsDataURL(file);
-
         console.log(collectionFile)
-
     }
     const Collectionchosen2 = (file) => {
         const FR = new FileReader();
@@ -64,7 +60,6 @@ export default function Home() {
         FR.readAsDataURL(file);
 
         console.log(collectionFile)
-
     }
     useEffect(() => {
         fetchUserdata();
@@ -93,7 +88,7 @@ export default function Home() {
                 </div>
             </div>
             <div className="w-full h-12 bg-[#DAD9D9]"></div>
-            <div className="w-full h-3/5">
+            <div className="w-full h-3/5 flex">
                 <div className="w-3/6 h-full flex gap-2 flex-col items-center py-4 b">
                     <div className="text-3xl">Таны цуглуулга</div>
                     <div style={{ backgroundImage: `url(${mycollection1})` }} className="g-no-repeat bg-center bg-cover w-5/6 h-3/6 border-4 border-[#DAD9D9] rounded-xl max-w-[400px]">
@@ -119,7 +114,11 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-                <div className="w-3/6"></div>
+                <div className="h-full w-12 bg-[#DAD9D9]">
+                </div>
+                <div className="w-3/6 flex flex-col items-center py-4">
+                    <h1 className="text-black text-3xl">Таны оруулсан бодлогууд</h1>
+                </div>
             </div>
         </div>
     )

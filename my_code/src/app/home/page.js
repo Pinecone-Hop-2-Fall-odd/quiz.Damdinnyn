@@ -73,18 +73,17 @@ export default function Home() {
     if (ref.current && !ref.current.contains(event.target)) {
       setFriendsstatus(false);
       setSearchPerson(false);
-      setListStatus(true)
+      setListStatus(true);
     }
-
   }
   const searchUser = async () => {
-    setListStatus(false)
-    setSearchPerson(false)
+    setListStatus(false);
+    setSearchPerson(false);
     const url = `http://localhost:3002/searchUser/${search}`;
     await axios.get(url).then((data) => setSearchUserData(data?.data?.data));
     setSearch(searchUserData?._id);
-    setMyclosefrienddone(!myClosefrienddone)
-    setSearch("")
+    setMyclosefrienddone(!myClosefrienddone);
+    setSearch("");
   };
   console.log("aaaa", searchUserData);
   const reqFriend = async (id) => {
@@ -96,32 +95,37 @@ export default function Home() {
     });
   };
   const seeFriendsReq = async () => {
-
     if (searchPerson == false) {
-      setSearchPerson(true)
+      setSearchPerson(true);
     }
     if (liststatus == true) {
-      setListStatus(false)
+      setListStatus(false);
     } else {
-      setListStatus(true)
+      setListStatus(true);
     }
   };
-  console.log(liststatus)
+  console.log(liststatus);
   const allowReq = async (id) => {
-    alert(id)
+    alert(id);
     const url = `http://localhost:3002/allowReq`;
     await axios.post(url, {
       token: mytoken,
       reqId: id,
     });
   };
-  const refuse = (id) => {
-    alert(id)
-  }
-  const visitToFriendProfile = () => { };
+  const refuse = async (id) => {
+    const url = `http://localhost:3002/refuseReq`;
+    await axios.post(url, {
+      token: mytoken,
+      reqId: id,
+    });
+  };
   useEffect(() => {
     fetchAllData();
   }, []);
+  const jumpIntoAnotherUsersAccound = (id) => {
+    router.push(`./anotherUsers?id=${id}`);
+  };
   return (
     <div onClick={() => back(currentRef)} className="min-w-[800px]">
       <div className="absolute flex w-full flex-row-reverse px-5 py-4">
@@ -152,13 +156,14 @@ export default function Home() {
         allowReq={allowReq}
         myFriendsData={myFriendsData}
         myClosefrienddone={myClosefrienddone}
-        visitToFriendProfile={visitToFriendProfile}
         liststatus={liststatus}
         refuse={refuse}
+        jumpIntoAnotherUsersAccound={jumpIntoAnotherUsersAccound}
       />
       <div
-        className={`flex gap-20 ${friendsstatus ? "flex-row-reverse" : "justify-center"
-          } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
+        className={`flex gap-20 ${
+          friendsstatus ? "flex-row-reverse" : "justify-center"
+        } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
       >
         <div className="rounded-3xl bg-gradient-to-r from-cyan-500 to-blue-500 h-3/6 w-2/5 min-w-[250px]">
           <div className="absolute flex flex-row-reverse ">

@@ -14,6 +14,7 @@ import {
   allowReq,
   refuseReq,
   myFriendsdata,
+  anotherUserData,
 } from "../controllers/user-controller.js";
 import { verifyToken } from "../middleware/auth.js";
 export const userRouter = express.Router();
@@ -33,4 +34,5 @@ userRouter.post("reqFriendsData", reqFriendsData);
 userRouter.post("/allowReq", verifyToken, allowReq);
 userRouter.post("/refuseReq", verifyToken, refuseReq);
 userRouter.post("/myFriendsdata", verifyToken, myFriendsdata);
+userRouter.get("/anotherUserData", verifyToken, anotherUserData);
 //fetchmyFriendsdata

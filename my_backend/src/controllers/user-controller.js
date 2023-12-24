@@ -1,6 +1,6 @@
 import { UserModel } from "../user_model.js";
 import bcrypt from "bcrypt";
-import { ObjectId } from 'mongodb'
+import { ObjectId } from "mongodb";
 
 export async function getUser(req, res) {
   const user = req.user;
@@ -110,25 +110,19 @@ export async function allowReq(req, res) {
   const userData = await UserModel.findByIdAndUpdate(user.id, {
     $push: { myFriends: body.reqId },
   });
-  console.log("hhha", typeof userData.requestFriend[0])
-  console.log("body.id", body.reqId)
   const removeId = userData.requestFriend.filter((e) => body.reqId != e);
-  // 1 == '1' => true
-  // 1 === '1' => false
-  //console.log("bobo", removeId);
   await UserModel.findByIdAndUpdate(user.id, {
-    requestFriend: removeId
+    requestFriend: removeId,
   });
-  //   console.log(reqId);
   res.status(200).json({ reqData: "connected" });
 }
 export async function refuseReq(req, res) {
-  const body = req.body
-  const user = req.user
-  const userData = await UserModel.findById(user.id)
+  const body = req.body;
+  const user = req.user;
+  const userData = await UserModel.findById(user.id);
   const removeId = userData.requestFriend.filter((e) => body.reqId != e);
   await UserModel.findByIdAndUpdate(user.id, {
-    requestFriend: removeId
+    requestFriend: removeId,
   });
 }
 export async function myFriendsdata(req, res) {
@@ -140,4 +134,11 @@ export async function myFriendsdata(req, res) {
   console.log(friendsdata);
   res.status(200).json({ friendsdata });
 }
-///hahha
+export async function anotherUserData(req, res) {
+  const body = req.body;
+  console.log(body.id);
+  const userData = await UserModel.findOne({ _id: body.id });
+  console.log(userData);
+  res.status(200).json({ userData });
+}
+///

@@ -21,6 +21,8 @@ export function SearchPart(props) {
     myFriendsData,
     liststatus,
     refuse,
+    visitToFriendProfile,
+    jumpIntoAnotherUsersAccound,
   } = props;
   //console.log("hiii", friensData);
   if (!friendsstatus)
@@ -39,7 +41,6 @@ export function SearchPart(props) {
           {myFriendsData?.map((e) => (
             <div className="flex gap-6 ">
               <div
-                onClick={() => visitToFriendProfile()}
                 style={{ backgroundImage: `url(${e.profile})` }}
                 className="h-16 w-16 bg-cover bg-center border-4 border-black "
               ></div>
@@ -87,6 +88,7 @@ export function SearchPart(props) {
               {myFriendsData?.map((e) => (
                 <div className="flex gap-8">
                   <div
+                    onClick={() => jumpIntoAnotherUsersAccound(e._id)}
                     style={{ backgroundImage: `url(${e.profile})` }}
                     className="h-36 w-2/5 bg-cover bg-center border-8 border-black"
                   ></div>

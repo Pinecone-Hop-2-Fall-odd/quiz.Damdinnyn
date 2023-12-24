@@ -19,4 +19,10 @@ export async function quizplay(req, res) {
   const quizData = await QuizModel.find();
   res.status(200).json({ quizData });
 }
-export async function MyquizIntoData(req, res) {}
+export async function MyquizIntoData(req, res) {
+  const user = req.user;
+  console.log("hi", user.id);
+  const quizdata = await QuizModel.find({ whoIsDone: user.id });
+  console.log("hello", quizdata);
+  res.status(200).json({ quizdata });
+}

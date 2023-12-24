@@ -135,9 +135,9 @@ export async function myFriendsdata(req, res) {
   res.status(200).json({ friendsdata });
 }
 export async function anotherUserData(req, res) {
-  const body = req.body;
-  console.log(body.id);
-  const userData = await UserModel.findOne({ _id: body.id });
+  const { id } = req.params;
+  console.log("id", id);
+  const userData = await UserModel.findOne({ _id: id });
   console.log(userData);
   res.status(200).json({ userData });
 }

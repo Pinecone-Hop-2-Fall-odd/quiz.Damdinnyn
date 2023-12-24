@@ -14,6 +14,7 @@ export default function Home() {
   const [image, setImage] = useState("");
   const [collectionFile, setCollectionFile] = useState("");
   const myToken = localStorage.getItem("token");
+  const [myquizData, setMyquizData] = useState([]);
   console.log(myToken);
   const fetchUserdata = async () => {
     await axios
@@ -23,8 +24,11 @@ export default function Home() {
       .then((res) => setUseralldata(res?.data?.userData));
   };
   const fetchMyquizIntoData = async () => {
-    const url = "http://localhost:3002/MyquizIntoData";
-    await axios.get(url, {});
+    await axios
+      .get(`http://localhost:3002/MyquizIntoData`, {
+        headers: { token: myToken },
+      })
+      .then((res) => setMyquizData(res?.data?.quizdata));
   };
   console.log(useralldata?.profile);
   const name = useralldata?.username;

@@ -8,4 +8,4 @@ import {
 export const quizRouter = express.Router();
 quizRouter.post("/quiz", verifyToken, quizadd);
 quizRouter.get("/quiz", quizplay);
-quizRouter.get("MyquizIntoData", verifyToken, MyquizIntoData);
+quizRouter.get("/MyquizIntoData", verifyToken, MyquizIntoData);

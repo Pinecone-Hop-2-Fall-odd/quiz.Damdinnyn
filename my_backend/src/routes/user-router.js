@@ -34,5 +34,5 @@ userRouter.post("reqFriendsData", reqFriendsData);
 userRouter.post("/allowReq", verifyToken, allowReq);
 userRouter.post("/refuseReq", verifyToken, refuseReq);
 userRouter.post("/myFriendsdata", verifyToken, myFriendsdata);
-userRouter.get("/anotherUserData", verifyToken, anotherUserData);
+userRouter.get("/anotherUserData/:id", anotherUserData);
 //fetchmyFriendsdata

@@ -1,15 +1,16 @@
 // const { model, Schema } = require("mongoose");
-import { model, Schema } from "mongoose"
+import { model, Schema } from "mongoose";
 
 const QuizSchema = new Schema({
-    question: String,
-    a_answer: String,
-    b_answer: String,
-    c_answer: String,
-    d_answer: String,
-    correctAnswer: Number,
-})
+  question: String,
+  a_answer: String,
+  b_answer: String,
+  c_answer: String,
+  d_answer: String,
+  correctAnswer: Number,
+  whoIsDone: String,
+});
 
-export const QuizModel = model('quiz', QuizSchema);
+export const QuizModel = model("quiz", QuizSchema);
 
 //module.exports = QuizModel;

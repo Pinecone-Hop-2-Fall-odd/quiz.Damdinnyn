@@ -15,7 +15,7 @@ export default function Home() {
   const [collectionFile, setCollectionFile] = useState("");
   const myToken = localStorage.getItem("token");
   const [myquizData, setMyquizData] = useState([]);
-  console.log(myToken);
+  const [quizNumber, setQuizNumber] = useState(1);
   const fetchUserdata = async () => {
     await axios
       .post("http://localhost:3002/userdata", {
@@ -30,7 +30,7 @@ export default function Home() {
       })
       .then((res) => setMyquizData(res?.data?.quizdata));
   };
-  console.log(useralldata?.profile);
+  console.log("quiz", myquizData);
   const name = useralldata?.username;
   const profilePhoto = useralldata?.profile;
   const mycollection1 = useralldata?.mycollection1;
@@ -165,10 +165,16 @@ export default function Home() {
           </div>
         </div>
         <div className="h-full w-12 bg-[#DAD9D9]"></div>
-        <div className="w-3/6 flex flex-col items-center py-4">
-          <h1 className="text-black text-3xl">Таны оруулсан бодлогууд</h1>
-
-          {/* <Myquiz /> */}
+        <div className="w-3/6 flex flex-col items-center py-4 px-4">
+          <h1 className="text-black text-3xl flex justify-center">
+            Таны оруулсан бодлогууд
+          </h1>
+          {myquizData?.map((e) => (
+            <div className="w-full">
+              <h1>{quizNumber}</h1>
+              <Myquiz question={e.question} />
+            </div>
+          ))}
         </div>
       </div>
     </div>

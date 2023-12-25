@@ -11,6 +11,7 @@ export default function Home() {
   const router = useRouter();
   const [userId, setUserId] = useState();
   const [passwordstatus, setPasswordstatus] = useState(false);
+  const [showPasswordStatus, setShowPasswordStatus] = useState(false);
 
   const createNewAccound = () => {
     router.push("/newacc");
@@ -27,6 +28,10 @@ export default function Home() {
       })
       .catch((error) => setPasswordstatus(true));
   };
+  const showPassword = () => {
+    setShowPasswordStatus(!showPasswordStatus);
+  };
+
   useEffect(() => {
     setPasswordstatus(false);
   }, [namevalue, passwordvalue]);
@@ -47,7 +52,7 @@ export default function Home() {
         <div className="flex">
           <input
             placeholder="Password"
-            type="password"
+            type={`${showPasswordStatus ? "text" : "password"}`}
             onChange={(e) => setPasswordvalue(e.target.value)}
             value={passwordvalue}
             className={` bg-white text-black ${
@@ -55,7 +60,8 @@ export default function Home() {
             } border-[3px] px-3 text-2xl  rounded-3xl w-full h-10 `}
           />
           <Image
-            className="ml-[-20px]"
+            onClick={() => showPassword()}
+            className="ml-[-25px]"
             src="eye-slash.svg"
             width={16}
             height={16}
@@ -66,13 +72,13 @@ export default function Home() {
           onClick={() => login()}
           className="bg-gradient-to-r from-blue-500 to-green-500 rounded-3xl px-5 text-xl "
         >
-          Нэвтрэх
+          log in
         </button>
         <button
           onClick={() => createNewAccound()}
           className="bg-gradient-to-r from-green-500 to-blue-500 rounded-3xl px-5 text-xl "
         >
-          Шинэ акк үүсгэх{" "}
+          Create new accound
         </button>
       </div>
     </div>

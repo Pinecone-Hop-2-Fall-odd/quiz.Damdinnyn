@@ -4,8 +4,12 @@ export const verifyToken = (request, response, next) => {
     if (!token) {
         return response.status(401).json({ message: "errror" })
     } else {
-        const decoded = jwt.verify(token, "SomeSecretKey");
-        request.user = decoded
+        try {
+            const decoded = jwt.verify(token, "SomeSecretKey");
+            request.user = decoded
+        } catch (err) {
+            return response.status(401).json({})
+        }
     }
     next()
 }

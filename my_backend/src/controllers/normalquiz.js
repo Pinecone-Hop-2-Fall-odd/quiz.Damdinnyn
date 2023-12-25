@@ -21,8 +21,28 @@ export async function quizplay(req, res) {
 }
 export async function MyquizIntoData(req, res) {
   const user = req.user;
-  console.log("hi", user.id);
+  //console.log("hi", user.id);
   const quizdata = await QuizModel.find({ whoIsDone: user.id });
-  console.log("hello", quizdata);
+  //console.log("hello", quizdata);
   res.status(200).json({ quizdata });
+}
+export async function deleteOneQuiz(req, res) {
+  console.log(body.id)
+  const oneQuizData = await QuizModel.findOneAndDelete({ _id: body.id })
+}
+export async function editQuiz(req, res) {
+  const user = req.user
+  const body = req.body
+  console.log(body.id)
+  const oneQuizData = await QuizModel.findByIdAndUpdate(body.id, {
+    question: body.question,
+    a_answer: body.a_answer,
+    b_answer: body.b_answer,
+    c_answer: body.c_answer,
+    d_answer: body.d_answer,
+    correctAnswer: body.correctAnswer,
+    whoIsDone: user.id,
+  });
+
+  console.log(oneQuizData)
 }

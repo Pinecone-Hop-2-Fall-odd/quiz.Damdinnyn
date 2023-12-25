@@ -127,7 +127,7 @@ export default function Home() {
     router.push(`./anotherUsers?id=${id}`);
   };
   return (
-    <div onClick={() => back(currentRef)} className="min-w-[800px]">
+    <div onClick={() => back(currentRef)} className="min-w-[800px] bg-pink-400">
       <div className="absolute flex w-full flex-row-reverse px-5 py-4">
         <div>
           <Image
@@ -161,9 +161,8 @@ export default function Home() {
         jumpIntoAnotherUsersAccound={jumpIntoAnotherUsersAccound}
       />
       <div
-        className={`flex gap-20 ${
-          friendsstatus ? "flex-row-reverse" : "justify-center"
-        } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
+        className={`flex gap-20 ${friendsstatus ? "flex-row-reverse" : "justify-center"
+          } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
       >
         <div className="rounded-3xl bg-gradient-to-r from-cyan-500 to-blue-500 h-3/6 w-2/5 min-w-[250px]">
           <div className="absolute flex flex-row-reverse ">

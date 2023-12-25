@@ -14,10 +14,9 @@ import axios from "axios";
 export default function Home() {
   const currentRef = useRef(null);
   const router = useRouter();
-  const params = useSearchParams();
   const [restartdone, setrestartdone] = useState(false);
   const [passedLevels, setPassedLevels] = useState([]);
-  const userId = params.get("id");
+  const [showRankStatus, setShowRankStatus] = useState(false)
   const mytoken = localStorage.getItem("token");
   const fetchUserData = async () => {
     const res = await axios
@@ -95,7 +94,8 @@ export default function Home() {
           </button>
         )}
       </div>
-
+      <div className="text-[60px] text-white">{showRankStatus ? ("Expert") : ("Warrior")}</div>
+      {/* <div className="w-full"> */}
       <div className="w-4/6 h-5/6 flex gap-20 justify-center items-center flex-wrap bg-black rounded-xl overflow-y-scroll">
         {levelArray.map((e) => (
           <div
@@ -111,6 +111,7 @@ export default function Home() {
           </div>
         ))}
       </div>
+      {/* </div> */}
     </div>
   );
 }

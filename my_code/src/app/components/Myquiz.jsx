@@ -1,7 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { UserDataContext } from "../layout";
 import Image from "next/image";
 import axios from "axios";
+
 export function Myquiz(props) {
   const {
     question,
@@ -14,6 +16,7 @@ export function Myquiz(props) {
     index,
     correctAnswer,
   } = props;
+  const { token } = useContext(UserDataContext);
   const [showAnswersStatus, setShowAnswersStatus] = useState(false);
   const [editStatus, setEditStatus] = useState(false);
   const [inputA_answer, setInputA_answer] = useState(a_answer);
@@ -42,7 +45,7 @@ export function Myquiz(props) {
           d_answer: inputD_answer,
         },
         {
-          headers: { token: "myToken" },
+          headers: { token: token },
         }
       );
     } catch (err) {
@@ -50,7 +53,7 @@ export function Myquiz(props) {
     }
   };
   return (
-    <div className="w-full flex justify-center">
+    <div className="w-full flex justify-center text-black">
       {showAnswersStatus ? (
         <div className="w-full flex flex-col items-center gap-2">
           {editStatus ? (
@@ -70,12 +73,12 @@ export function Myquiz(props) {
                   />
                 </div>
               </div>
-              <div className="w-full flex flex-col items-center gap-2">
+              <div className="w-full flex flex-col items-center gap-2 text-black">
                 <div className="flex gap-4 w-full justify-center">
                   <input
                     onChange={(e) => setInputA_answer(e.target.value)}
                     value={inputA_answer}
-                    className="w-2/6 border-black border-4  rounded-xl px-2"
+                    className="w-2/6 border-black border-4 text-black  rounded-xl px-2"
                   />
                   <input
                     onChange={(e) => setInputB_answer(e.target.value)}

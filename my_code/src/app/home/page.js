@@ -1,10 +1,12 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { UserDataContext } from "@/app/layout";
 import Image from "next/image";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import axios from "axios";
 import { SearchPart } from "../components/SearchPart";
 export default function Home() {
+  const { token } = useContext(UserDataContext);
   const currentRef = useRef(null);
   const router = useRouter();
   const [playstatus, setPlaystatus] = useState(false);
@@ -14,7 +16,7 @@ export default function Home() {
   const [reqAllow, setReqAllow] = useState(true);
   const [searchPerson, setSearchPerson] = useState(false);
   const [myalldata, setmyAllData] = useState([]);
-  const mytoken = localStorage.getItem("token");
+  //const token = localStorage.getItem("token");
   const [usersInfo, setUsersInfo] = useState([]);
   const [friendsData, setFriendsData] = useState([]);
   const [myClosefrienddone, setMyclosefrienddone] = useState(true);
@@ -25,10 +27,11 @@ export default function Home() {
   //     await axios.get(url, { headers: { "token": mytoken } }).then((res) => console.log("sss", res?.data))
   // }
   // console.log(userId.id)
+  console.log(token);
   const fetchAllData = async () => {
     await axios
       .post("http://localhost:3002/userdata", {
-        token: mytoken,
+        token: token,
       })
       .then(
         (res) => setmyAllData(res?.data?.userData)
@@ -64,7 +67,7 @@ export default function Home() {
     //request data
     await axios
       .post("http://localhost:3002/reqFriendInfo", {
-        token: mytoken,
+        token: token,
         id: myallreq,
       })
       .then((res) => setUsersInfo(res?.data?.users));
@@ -90,7 +93,7 @@ export default function Home() {
     console.log(id);
     const url = `http://localhost:3002/reqfriend`;
     await axios.post(url, {
-      token: mytoken,
+      token: token,
       toId: id,
     });
   };
@@ -109,20 +112,22 @@ export default function Home() {
     alert(id);
     const url = `http://localhost:3002/allowReq`;
     await axios.post(url, {
-      token: mytoken,
+      token: token,
       reqId: id,
     });
   };
   const refuse = async (id) => {
     const url = `http://localhost:3002/refuseReq`;
     await axios.post(url, {
-      token: mytoken,
+      token: token,
       reqId: id,
     });
   };
   useEffect(() => {
-    fetchAllData();
-  }, []);
+    if (token) {
+      fetchAllData();
+    }
+  }, [token]);
   const jumpIntoAnotherUsersAccound = (id) => {
     router.push(`./anotherUsers?id=${id}`);
   };
@@ -161,8 +166,9 @@ export default function Home() {
         jumpIntoAnotherUsersAccound={jumpIntoAnotherUsersAccound}
       />
       <div
-        className={`flex gap-20 ${friendsstatus ? "flex-row-reverse" : "justify-center"
-          } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
+        className={`flex gap-20 ${
+          friendsstatus ? "flex-row-reverse" : "justify-center"
+        } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
       >
         <div className="rounded-3xl bg-gradient-to-r from-cyan-500 to-blue-500 h-3/6 w-2/5 min-w-[250px]">
           <div className="absolute flex flex-row-reverse ">

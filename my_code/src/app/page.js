@@ -23,15 +23,14 @@ export default function Home() {
         password: passwordvalue,
       })
       .then((res) => {
-        router.push(`/home`),
-          localStorage.setItem(`token`, `${res?.data?.token}`);
+        router.push(`/home`);
+        localStorage.setItem(`token`, `${res?.data?.token}`);
       })
       .catch((error) => setPasswordstatus(true));
   };
   const showPassword = () => {
     setShowPasswordStatus(!showPasswordStatus);
   };
-
   useEffect(() => {
     setPasswordstatus(false);
   }, [namevalue, passwordvalue]);

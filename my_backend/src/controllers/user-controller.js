@@ -33,11 +33,17 @@ export async function reqFriendId(req, res) {
 export async function Passedlevels(req, res) {
   const user = req.user;
   const body = req.body;
-  console.log(body.levelId);
-  await UserModel.findByIdAndUpdate(user.id, {
-    $push: { passedlevels: body.levelId },
-  });
-  const userData = await UserModel.findById(user._id);
+  //const id = String(body.levelId);
+  console.log("id", body.levelId);
+  const userData = await UserModel.findById(user.id);
+  if (userData?.userRankLevelCount < body.rankId) {
+    // console.log(user, body);
+    await UserModel.findByIdAndUpdate(user.id, {
+      $push: { passedlevels: String(body.levelId) },
+      userRankLevelCount: body.rankId,
+    });
+  }
+
   res.status(200).json({ userData });
 }
 export async function changeProfile(req, res) {
@@ -74,6 +80,8 @@ export async function addUser(req, res) {
     password: hashed,
     userId: Date.now().toString(),
     passedlevels: ["1"],
+    userRankLevelCount: 1,
+    userRank: "Warrior",
   });
   res.status(200).json({ NewUser: newdata, stat: true });
 }
@@ -107,12 +115,18 @@ export async function reqFriendsData(req, res) {
 export async function allowReq(req, res) {
   const user = req.user;
   const body = req.body;
-  const userData = await UserModel.findByIdAndUpdate(user.id, {
+  const reqReceivedUserData = await UserModel.findByIdAndUpdate(user.id, {
     $push: { myFriends: body.reqId },
   });
-  const removeId = userData.requestFriend.filter((e) => body.reqId != e);
+  const removeId = reqReceivedUserData.requestFriend.filter(
+    (e) => body.reqId != e
+  );
   await UserModel.findByIdAndUpdate(user.id, {
     requestFriend: removeId,
+  });
+  //
+  const reqSentUser = await UserModel.findByIdAndUpdate(body.reqId, {
+    $push: { myFriends: user.id },
   });
   res.status(200).json({ reqData: "connected" });
 }

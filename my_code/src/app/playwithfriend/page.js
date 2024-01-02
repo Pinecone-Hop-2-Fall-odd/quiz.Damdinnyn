@@ -1,91 +1,50 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
-import Image from "next/image";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
-import axios from "axios";
+import Image from "next/image";
 export default function Home() {
-  const params = useSearchParams();
-  const userId = params.get("id");
+  const router = useRouter();
   const [questionvalue, setQuestionvalue] = useState("");
   const [a_answer, setA_answer] = useState("");
   const [b_answer, setB_answer] = useState("");
   const [c_answer, setC_answer] = useState("");
   const [d_answer, setD_answer] = useState("");
-  const router = useRouter();
-  const [restartdone, setrestartdone] = useState(false);
   const [bordercolor, setBordercolor] = useState("");
   const [correctAnswer, setCorrectAnswer] = useState(null);
-
-  //console.log(bordercolor)
-  const myToken = localStorage.getItem("token");
+  const [restartdone, setrestartdone] = useState(false);
   const currentRef = useRef(null);
-  const finished = async () => {
-    if (
-      questionvalue !== "" &&
-      correctAnswer !== null &&
-      a_answer !== "" &&
-      b_answer !== "" &&
-      c_answer !== "" &&
-      d_answer !== ""
-    ) {
-      await axios.post("http://localhost:3002/quiz", {
-        question: questionvalue,
-        a_answer: a_answer,
-        b_answer: b_answer,
-        c_answer: c_answer,
-        d_answer: d_answer,
-        correctAnswer: correctAnswer,
-        token: myToken,
-      });
-      setQuestionvalue("");
-      setA_answer("");
-      setB_answer("");
-      setC_answer("");
-      setD_answer("");
-    } else {
-      alert("es");
-    }
-  };
-  const restart = () => {
-    setrestartdone(!restartdone);
-  };
-  const backtohome = () => {
-    router.push(`/home`);
-  };
-  const startAgain = () => {
-    router.push("/add");
+
+  const clickme = (index) => {
+    setBordercolor(bordercolor === index ? null : index);
+    console.log("sss", index);
+    setCorrectAnswer(index);
   };
   function back(ref) {
     if (ref.current && !ref.current.contains(event.target)) {
       setrestartdone(false);
     }
   }
-  const clickme = (index) => {
-    setBordercolor(bordercolor === index ? null : index);
-    console.log("sss", index);
-    setCorrectAnswer(index);
-    console.log(userId);
+  const restart = () => {
+    setrestartdone(!restartdone);
   };
-  useEffect(() => {
-    //fetchalldata()
-  }, []);
+  const backtohome = () => {
+    router.push(`/home`);
+  };
   return (
     <div
       onClick={() => back(currentRef)}
       className="bg-gradient-to-r from-blue-500 to-blue-500 w-screen h-screen"
     >
-      <div className="text-[90px] flex justify-center h-1/6"> Problem +</div>
       {restartdone ? (
         <div
           ref={currentRef}
-          className="absolute bg-gradient-to-r from-green-500 text-2xl rounded-xl px-5 py-5 mt-[-90px] ml-3"
+          className="absolute bg-gradient-to-r from-green-500 text-2xl rounded-xl px-5 py-5 mt-[2px] ml-3"
         >
           <h1 onClick={() => backtohome()}> -Буцах</h1>
           <h1 onClick={() => startAgain()}>-Дахин эхлэх</h1>
         </div>
       ) : (
-        <button className="absolute px-3 py-1 rounded-2xl bg-gradient-to-r from-green-500 to-yellow-500 mt-[-90px] ml-3">
+        <button className="absolute px-3 py-1 rounded-2xl bg-gradient-to-r from-green-500 to-yellow-500 mt-[2px] ml-3">
           <Image
             src="bars.svg"
             height={16}
@@ -94,10 +53,10 @@ export default function Home() {
           />
         </button>
       )}
-      <div className="h-3/6 w-full flex justify-center items-center">
-        <div className="h-5/6 w-4/6 rounded-3xl bg-gradient-to-r from-green-500 to-blue-500 flex flex-col ">
+      <div className="h-4/6 w-full flex justify-center items-center">
+        <div className="h-5/6 w-4/6 rounded-3xl  px-8 py-4 flex flex-col  bg-gradient-to-r from-blue-400 to-blue-400 ">
           <div className="text-[40px] w-full flex justify-center">
-            Таны оруулах бодлого?
+            Your input problem?
           </div>
           <input
             onChange={(e) => setQuestionvalue(e.target.value)}
@@ -157,7 +116,7 @@ export default function Home() {
         <div className="h-2/6 flex justify-center ">
           <button
             onClick={() => finished()}
-            className="flex py-4 items-center  bg-gradient-to-r from-green-500 to-yellow-500 px-5 text-2xl rounded-3xl h-2/6"
+            className="flex items-center  bg-gradient-to-r from-green-500 to-yellow-500 px-5 py-4 text-2xl rounded-3xl h-2/6"
           >
             Done
           </button>

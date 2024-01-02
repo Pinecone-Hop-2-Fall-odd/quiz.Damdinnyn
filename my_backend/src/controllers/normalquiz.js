@@ -27,6 +27,7 @@ export async function MyquizIntoData(req, res) {
   res.status(200).json({ quizdata });
 }
 export async function deleteOneQuiz(req, res) {
+  const body = req.body
   console.log(body.id)
   const oneQuizData = await QuizModel.findOneAndDelete({ _id: body.id })
 }

@@ -16,7 +16,7 @@ export default function Home() {
   const router = useRouter();
   const [restartdone, setrestartdone] = useState(false);
   const [passedLevels, setPassedLevels] = useState([]);
-  const [showRankStatus, setShowRankStatus] = useState(false)
+  const [showRankStatus, setShowRankStatus] = useState(false);
   const mytoken = localStorage.getItem("token");
   const fetchUserData = async () => {
     const res = await axios
@@ -25,16 +25,15 @@ export default function Home() {
   };
   console.log(passedLevels);
 
-  const playRank = (id) => {
+  const playRank = (id, passed) => {
+    // alert(id);
     if (passedLevels.includes(id)) {
-      console.log(id);
+      //alert("aaa");
       router.push(`hardproblem?quizId=${id}`);
-      console.log("sss");
     }
   };
   const restart = () => {
     setrestartdone(!restartdone);
-    console.log("sss");
   };
   const backtohome = () => {
     router.push(`/home`);
@@ -45,25 +44,28 @@ export default function Home() {
     }
   };
   const levelArray = [
-    { level: "1", id: "1" },
-    { level: "2", id: "2" },
-    { level: "3", id: "3" },
-    { level: "4", id: "4" },
-    { level: "5", id: "5" },
-    { level: "6", id: "6" },
-    { level: "7", id: "7" },
-    { level: "8", id: "8" },
-    { level: "9", id: "9" },
-    { level: "10", id: "10" },
-    { level: "11", id: "11" },
-    { level: "12", id: "12" },
-    { level: "13", id: "13" },
-    { level: "14", id: "14" },
-    { level: "15", id: "15" },
+    { level: "1", id: "1", passedId: "2" },
+    { level: "2", id: "2", passedId: "3" },
+    { level: "3", id: "3", passedId: "4" },
+    { level: "4", id: "4", passedId: "5" },
+    { level: "5", id: "5", passedId: "6" },
+    { level: "6", id: "6", passedId: "7" },
+    { level: "7", id: "7", passedId: "8" },
+    { level: "8", id: "8", passedId: "9" },
+    { level: "9", id: "9", passedId: "10" },
+    { level: "10", id: "10", passedId: "11" },
+    { level: "11", id: "11", passedId: "12" },
+    { level: "12", id: "12", passedId: "13" },
+    { level: "13", id: "13", passedId: "14" },
+    { level: "14", id: "14", passedId: "15" },
+    { level: "15", id: "15", passedId: "16" },
   ];
 
   const checkIsPassed = (checkingLevel) => {
     return passedLevels.includes(checkingLevel);
+  };
+  const expertPart = () => {
+    setShowRankStatus(!showRankStatus);
   };
   useEffect(() => {
     fetchUserData();
@@ -94,24 +96,68 @@ export default function Home() {
           </button>
         )}
       </div>
-      <div className="text-[60px] text-white">{showRankStatus ? ("Expert") : ("Warrior")}</div>
-      {/* <div className="w-full"> */}
-      <div className="w-4/6 h-5/6 flex gap-20 justify-center items-center flex-wrap bg-black rounded-xl overflow-y-scroll">
-        {levelArray.map((e) => (
-          <div
-            onClick={() => playRank(e.id)}
-            className="border-8 border-[#0953F7] bg-white h-[10%] w-1/5 flex justify-center items-center text-[60px] rounded-2xl text-[#D9a9a4]"
-          >
-            {!checkIsPassed(e.level) && (
-              <div className="absolute">
-                <Image src="lock.svg" height={64} width={16} />
-              </div>
-            )}
-            {e.level}
-          </div>
-        ))}
+      <div className="text-[60px] text-white">
+        {showRankStatus ? "Expert" : "Warrior"}
       </div>
-      {/* </div> */}
+      {showRankStatus ? (
+        <div className="w-4/6 h-5/6 flex  bg-black rounded-xl overflow-y-scroll">
+          <div className="h-full w-12 flex justify-center items-center">
+            <Image src="leftarrow.svg" height={16} width={16} />
+          </div>
+          <div className="w-full h-full flex gap-20 justify-center items-center flex-wrap bg-black rounded-xl overflow-y-scroll">
+            {levelArray.map((e) => (
+              <div
+                onClick={() => playRank(e.id, e.passedId)}
+                className="border-8 border-[#0953F7] bg-white h-20 w-40 flex justify-center items-center text-[60px] rounded-2xl text-[#D9a9a4]"
+              >
+                {!checkIsPassed(e.level) && (
+                  <div className="">
+                    <Image src="lock.svg" height={64} width={16} />
+                  </div>
+                )}
+                {e.level}
+              </div>
+            ))}
+          </div>
+          <div className="h-full w-12 flex justify-center items-center">
+            <Image
+              onClick={() => expertPart()}
+              src="rightarrow.svg"
+              height={16}
+              width={16}
+            />
+          </div>
+        </div>
+      ) : (
+        <div className="w-4/6 h-5/6 flex  bg-black rounded-xl overflow-y-scroll">
+          <div className="h-full w-12 flex justify-center items-center">
+            <Image src="leftarrow.svg" height={16} width={16} />
+          </div>
+          <div className="w-full h-full flex gap-20 justify-center items-center flex-wrap bg-black rounded-xl overflow-y-scroll">
+            {levelArray.map((e) => (
+              <div
+                onClick={() => playRank(e.id)}
+                className="border-8 border-[#0953F7] bg-white h-20 w-40 flex justify-center items-center text-[60px] rounded-2xl text-[#D9a9a4]"
+              >
+                {!checkIsPassed(e.level) && (
+                  <div className="">
+                    <Image src="lock.svg" height={64} width={16} />
+                  </div>
+                )}
+                {e.level}
+              </div>
+            ))}
+          </div>
+          <div className="h-full w-12 flex justify-center items-center">
+            <Image
+              onClick={() => expertPart()}
+              src="rightarrow.svg"
+              height={16}
+              width={16}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

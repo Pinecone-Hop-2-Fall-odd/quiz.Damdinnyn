@@ -3,7 +3,6 @@ import { useState, useContext } from "react";
 import { UserDataContext } from "../layout";
 import Image from "next/image";
 import axios from "axios";
-
 export function Myquiz(props) {
   const {
     question,
@@ -15,6 +14,7 @@ export function Myquiz(props) {
     _id,
     index,
     correctAnswer,
+    fetchMyquizIntoData,
   } = props;
   const { token } = useContext(UserDataContext);
   const [showAnswersStatus, setShowAnswersStatus] = useState(false);
@@ -30,7 +30,11 @@ export function Myquiz(props) {
   const editQuiz = () => {
     setEditStatus(!editStatus);
   };
-  const doneEditQuiz = async (id) => {
+  const doneEditQuiz = async (id, fetchMyquizIntoData) => {
+    setTimeout(() => {
+      fetchMyquizIntoData();
+      setEditStatus(false);
+    }, 2000);
     try {
       const url = "http://localhost:3002/editQuiz";
       await axios.post(
@@ -51,6 +55,8 @@ export function Myquiz(props) {
     } catch (err) {
       console.log(err);
     }
+
+    setShowAnswersStatus(!showAnswersStatus);
   };
   return (
     <div className="w-full flex justify-center text-black">
@@ -66,7 +72,9 @@ export function Myquiz(props) {
                 />
                 <div className="flex gap-4 ">
                   <Image
-                    onClick={() => doneEditQuiz(_id)}
+                    onClick={() =>
+                      doneEditQuiz(_id, fetchMyquizIntoData, setEditStatus)
+                    }
                     src="edit.svg"
                     height={20}
                     width={20}
@@ -111,7 +119,7 @@ export function Myquiz(props) {
                 </div>
                 <div className="flex gap-4 ">
                   <Image
-                    onClick={() => DeleteQuiz(_id)}
+                    onClick={() => DeleteQuiz(_id, fetchMyquizIntoData)}
                     src="trash.svg"
                     height={20}
                     width={20}

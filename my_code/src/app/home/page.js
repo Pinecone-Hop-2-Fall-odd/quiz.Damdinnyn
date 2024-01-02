@@ -8,6 +8,7 @@ import { SearchPart } from "../components/SearchPart";
 export default function Home() {
   const { token } = useContext(UserDataContext);
   const currentRef = useRef(null);
+  const handleRefRankClassicChallenge = useRef(null);
   const router = useRouter();
   const [playstatus, setPlaystatus] = useState(false);
   const [friendsstatus, setFriendsstatus] = useState(false);
@@ -16,7 +17,6 @@ export default function Home() {
   const [reqAllow, setReqAllow] = useState(true);
   const [searchPerson, setSearchPerson] = useState(false);
   const [myalldata, setmyAllData] = useState([]);
-  //const token = localStorage.getItem("token");
   const [usersInfo, setUsersInfo] = useState([]);
   const [friendsData, setFriendsData] = useState([]);
   const [myClosefrienddone, setMyclosefrienddone] = useState(true);
@@ -26,17 +26,17 @@ export default function Home() {
   //     const url = "http://localhost:3002/token"
   //     await axios.get(url, { headers: { "token": mytoken } }).then((res) => console.log("sss", res?.data))
   // }
-  // console.log(userId.id)
-  console.log(token);
+  console.log("token", token);
   const fetchAllData = async () => {
-    await axios
-      .post("http://localhost:3002/userdata", {
-        token: token,
-      })
-      .then(
-        (res) => setmyAllData(res?.data?.userData)
-        // await axios.post("http://localhost:3002/userdata", {})
-      );
+    try {
+      await axios
+        .post("http://localhost:3002/userdata", {
+          token: token,
+        })
+        .then((res) => setmyAllData(res?.data?.userData));
+    } catch (err) {
+      console.log(err);
+    }
   };
   console.log("gggg", myalldata);
   const myallreq = myalldata?.requestFriend;
@@ -60,11 +60,9 @@ export default function Home() {
   };
   const friendsstatusdone = async () => {
     setFriendsstatus(!friendsstatus);
-    //
     if (myallreq.length > 0) {
       setReqAllow(false);
     }
-    //request data
     await axios
       .post("http://localhost:3002/reqFriendInfo", {
         token: token,
@@ -77,6 +75,7 @@ export default function Home() {
       setFriendsstatus(false);
       setSearchPerson(false);
       setListStatus(true);
+      setPlaystatus(false);
     }
   }
   const searchUser = async () => {
@@ -88,7 +87,19 @@ export default function Home() {
     setMyclosefrienddone(!myClosefrienddone);
     setSearch("");
   };
-  console.log("aaaa", searchUserData);
+  const searchId = async () => {
+    try {
+      setListStatus(false);
+      setSearchPerson(false);
+      const url = `http://localhost:3002/searchId/${search}`;
+      await axios.get(url).then((data) => setSearchUserData(data?.data?.data));
+      setSearch(searchUserData?._id);
+      setMyclosefrienddone(!myClosefrienddone);
+      setSearch("");
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const reqFriend = async (id) => {
     console.log(id);
     const url = `http://localhost:3002/reqfriend`;
@@ -107,7 +118,6 @@ export default function Home() {
       setListStatus(true);
     }
   };
-  console.log(liststatus);
   const allowReq = async (id) => {
     alert(id);
     const url = `http://localhost:3002/allowReq`;
@@ -123,6 +133,10 @@ export default function Home() {
       reqId: id,
     });
   };
+  const ConnectFriends = () => {
+    setFriendsstatus(true);
+  };
+
   useEffect(() => {
     if (token) {
       fetchAllData();
@@ -132,7 +146,7 @@ export default function Home() {
     router.push(`./anotherUsers?id=${id}`);
   };
   return (
-    <div onClick={() => back(currentRef)} className="min-w-[800px] bg-pink-400">
+    <div onClick={() => back(currentRef)} className="min-w-[800px] ">
       <div className="absolute flex w-full flex-row-reverse px-5 py-4">
         <div>
           <Image
@@ -164,13 +178,14 @@ export default function Home() {
         liststatus={liststatus}
         refuse={refuse}
         jumpIntoAnotherUsersAccound={jumpIntoAnotherUsersAccound}
+        searchId={searchId}
       />
       <div
         className={`flex gap-20 ${
           friendsstatus ? "flex-row-reverse" : "justify-center"
         } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
       >
-        <div className="rounded-3xl bg-gradient-to-r from-cyan-500 to-blue-500 h-3/6 w-2/5 min-w-[250px]">
+        <div className="rounded-3xl bg-gradient-to-r  from-cyan-500 to-blue-500 h-3/6 w-2/5 min-w-[250px]">
           <div className="absolute flex flex-row-reverse ">
             <button
               onClick={() => addFile()}
@@ -193,18 +208,28 @@ export default function Home() {
           </div>
         </div>
         {playstatus ? (
-          <div className="absolute w-4/6 h-96 bg-gradient-to-r from-green-500 flex  items-center gap-20  justify-center rounded-3xl">
+          <div className="absolute w-4/6 h-96  flex  items-center gap-20  justify-center rounded-3xl">
             <button
+              ref={currentRef}
               onClick={() => easyProblem()}
-              className="bg-gradient-to-r from-blue-600 to-blue-600 h-12 text-3xl px-5 rounded-2xl"
+              className="bg-gradient-to-r text-white py-2 border-black border-4 from-blue-600 to-blue-600  text-3xl px-5 rounded-2xl"
             >
               Classic
             </button>
             <button
+              ref={currentRef}
               onClick={() => hardProblem()}
-              className="bg-gradient-to-r from-blue-600 to-blue-600 h-12 text-3xl px-5 rounded-2xl"
+              className="bg-gradient-to-r text-white py-2 border-black border-4 from-blue-600 to-blue-600  text-3xl px-5 rounded-2xl"
             >
               Rank
+            </button>
+            <button
+              ref={currentRef}
+              onClick={() => ConnectFriends()}
+              className="flex text-white  gap-2 items-baseline py-2 bg-gradient-to-r border-black border-4 from-blue-600 to-blue-600  text-3xl px-5 rounded-2xl"
+            >
+              <Image src="users.svg" height={24} width={24} />
+              <h1>Challenge</h1>
             </button>
           </div>
         ) : (

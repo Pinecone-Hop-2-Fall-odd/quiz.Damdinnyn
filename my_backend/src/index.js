@@ -79,6 +79,18 @@ app.get("/searchUser/:name", async (req, res) => {
   res.status(200).json({ data });
   console.log("search", data);
 });
+app.get("/searchId/:id", async (req, res) => {
+  const { id } = req.params;
+  const findedUser = await UserModel.find({ userId: id });
+  const data = findedUser.map((cur) => ({
+    username: cur.username,
+    profile: cur.profile,
+    _id: cur._id,
+    requestFriend: cur.requestFriend,
+  }));
+  res.status(200).json({ data });
+  console.log("search", data);
+});
 //requestFriend
 app.post("/reqfriend", async (req, res) => {
   try {

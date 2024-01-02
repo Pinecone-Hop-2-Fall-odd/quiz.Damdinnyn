@@ -105,21 +105,21 @@ export default function Knonledge() {
           }
         </div>
       </div>
-      <div className="h-2/6 w-full">
+      <div className=" w-full flex flex-col gap-4">
         <div className="h-2/6 flex justify-around text-2xl">
           <div
             onClick={() => clickme(0)}
-            className={`w-2/5 h-2/6 ${
+            className={`h-2/6  ${
               bordercolor === 0 ? "border-[red]" : "border-black"
-            }  border-[3px] bg-white rounded-3xl px-4 flex items-center`}
+            }  border-[3px] bg-white rounded-3xl px-6 py- flex items-center`}
           >
             A.{quizData[knowledgeId]?.a_answer}
           </div>
           <div
             onClick={() => clickme(1)}
-            className={`w-2/5 h-2/6 ${
+            className={`h-2/6 ${
               bordercolor === 1 ? "border-[red]" : "border-black"
-            }  border-[3px] bg-white rounded-3xl px-4 flex items-center`}
+            }  border-[3px] bg-white rounded-3xl px-6 py- flex items-center`}
           >
             B.{quizData[knowledgeId]?.b_answer}
           </div>
@@ -127,22 +127,22 @@ export default function Knonledge() {
         <div className="h-2/6 flex justify-around text-2xl">
           <div
             onClick={() => clickme(2)}
-            className={`w-2/5 h-2/6 ${
+            className={`h-2/6 ${
               bordercolor === 2 ? "border-[red]" : "border-black"
-            }  border-[3px] bg-white rounded-3xl px-4 flex items-center`}
+            }  border-[3px] bg-white rounded-3xl px-6 py- flex items-center`}
           >
             C.{quizData[knowledgeId]?.c_answer}
           </div>
           <div
             onClick={() => clickme(3)}
-            className={`w-2/5 h-2/6 ${
+            className={`h-2/6 ${
               bordercolor === 3 ? "border-[red]" : "border-black"
-            }  border-[3px] bg-white rounded-3xl px-4 flex items-center`}
+            }  border-[3px] bg-white rounded-3xl px-6 py- flex items-center`}
           >
             D.{quizData[knowledgeId]?.d_answer}
           </div>
         </div>
-        <div className="h-2/6 flex justify-center ">
+        <div className=" flex justify-center ">
           <button
             onClick={() => nextproblem()}
             className="flex items-center  bg-gradient-to-r from-green-500 to-yellow-500 px-5 text-2xl rounded-3xl h-2/6"

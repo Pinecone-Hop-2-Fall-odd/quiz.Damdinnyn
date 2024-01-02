@@ -2,11 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Agbalumo&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Agbalumo&display=swap");
 
 * {
   font-family: "Agbalumo";
-}
+} */
 @media only screen and (max-width: 900px) {
   .card_container {
     width: 100%;

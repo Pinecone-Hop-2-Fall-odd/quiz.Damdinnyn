@@ -82,6 +82,7 @@ export async function addUser(req, res) {
     passedlevels: ["1"],
     userRankLevelCount: 1,
     userRank: "Warrior",
+    classicPoint: 0
   });
   res.status(200).json({ NewUser: newdata, stat: true });
 }

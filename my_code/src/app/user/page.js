@@ -4,9 +4,10 @@ import { Myquiz } from "../components/Myquiz";
 import { Profile } from "../components/Profile";
 import { Posts } from "../components/Posts";
 import { Photos } from "../components/Photos";
-import { UserDataContext } from "@/app/layout";
+import { UserDataContext } from "@/app/layout"
 import Image from "next/image";
 import axios from "axios";
+import { CreateNewFile } from "../components/CreateNewFile";
 export default function Home() {
   const { token } = useContext(UserDataContext);
   const imageInput = useRef(null);
@@ -47,6 +48,8 @@ export default function Home() {
   const profilePhoto = useralldata?.profile;
   const mycollection1 = useralldata?.mycollection1;
   const mycollection2 = useralldata?.mycollection2;
+  const classicPoint = useralldata?.classicPoint
+  //alert(classicPoint)
   const filechosen = async (file) => {
     const FR = new FileReader();
     FR.addEventListener("load", async function (evt) {
@@ -93,7 +96,7 @@ export default function Home() {
         token: token,
         id: id,
       });
-    } catch {}
+    } catch { }
   };
   const settingsStatusDone = () => {
     setSettingsStatus(!settingsStatus);
@@ -138,6 +141,11 @@ export default function Home() {
             filechosen={filechosen}
             name={name}
             id={id}
+            mycollection1={mycollection1}
+            mycollection2={mycollection2}
+            myCollection={myCollection}
+            myCollection2={myCollection2}
+            classicPoint={classicPoint}
           />
         ) : (
           ""
@@ -154,162 +162,41 @@ export default function Home() {
         )}
         {postsclick ? <Posts /> : ""}
         {entriesclick ? (
-          <div className="flex flex-col gap-4">
-            {myquizData?.map((e, index) => (
-              <div className="w-full ">
-                <Myquiz
-                  question={e.question}
-                  a_answer={e.a_answer}
-                  b_answer={e.b_answer}
-                  c_answer={e.c_answer}
-                  d_answer={e.d_answer}
-                  DeleteQuiz={DeleteQuiz}
-                  _id={e._id}
-                  index={index}
-                  correctAnswer={e.correctAnswer}
-                  fetchMyquizIntoData={fetchMyquizIntoData}
-                />
-              </div>
-            ))}
+          <div className="h-full h-full">
+            <div className="h-3/6 w-full border-b-4 border-black">
+              <CreateNewFile />
+            </div>
+            <div className="flex flex-col gap-4 ">
+              <div className="h-full w-full flex justify-center text-3xl">Your all quiz</div>
+              {myquizData?.map((e, index) => (
+                <div className="w-full ">
+                  <Myquiz
+                    question={e.question}
+                    a_answer={e.a_answer}
+                    b_answer={e.b_answer}
+                    c_answer={e.c_answer}
+                    d_answer={e.d_answer}
+                    DeleteQuiz={DeleteQuiz}
+                    _id={e._id}
+                    index={index}
+                    correctAnswer={e.correctAnswer}
+                    fetchMyquizIntoData={fetchMyquizIntoData}
+                  />
+                </div>
+
+              ))}
+            </div>
           </div>
         ) : (
           ""
         )}
       </div>
-      <div className="h-full min-w-[100px] text-black border-l-2	border-solid">
+      <div className="h-full min-w-[100px] text-black border-l-4	border-black">
         <div onClick={() => HandleProfile()}>Profile</div>
         <div onClick={() => HandlePosts()}>Posts</div>
         <div onClick={() => HandlePhotos()}>Photo</div>
         <div onClick={() => HandleEntries()}>Your created</div>
       </div>
-
-      {/* <div className="flex w-full h-2/5">
-        <div className="w-2/5 flex flex-col items-center py-2">
-          <div className="w-full flex flex-row-reverse px-2">
-            <Image
-              onClick={() => settingsStatusDone()}
-              src="gear.svg"
-              height={24}
-              width={24}
-            />
-          </div>
-          {settingsStatus ? (
-            <div className=" flex flex-col items-center justify-center">
-              <div></div>
-              <div></div>
-            </div>
-          ) : (
-            <div className="flex flex-col items-center">
-              <div
-                style={{ backgroundImage: `url(${profilePhoto})` }}
-                className="rounded-full w-40 h-40 border-[8px] border-black bg-no-repeat bg-center  bg-cover"
-              >
-                <input
-                  ref={imageInput}
-                  style={{ visibility: "hidden" }}
-                  type="file"
-                  onChange={(e) => {
-                    filechosen(e.target.files[0]);
-                  }}
-                />
-              </div>
-              <Image
-                onClick={() => {
-                  if (imageInput.current) {
-                    imageInput.current.click();
-                  }
-                }}
-                src="camera.svg"
-                height={16}
-                width={16}
-              />
-              <div className="text-3xl">{name}</div>
-            </div>
-          )}
-        </div>
-        <div className="h-full w-12 bg-[#DAD9D9]"></div>
-        <div className="w-3/5 flex flex-col items-center">
-          <div className="text-[60px]"> Таны зэрэглэл </div>
-        </div>
-      </div>
-      <div className="w-full h-12 bg-[#DAD9D9]"></div>
-      <div className="w-full h-3/5 flex">
-        <div className="w-3/6 h-full flex gap-2 flex-col items-center py-4 ">
-          <div className="text-3xl">Таны цуглуулга</div>
-          <div
-            style={{ backgroundImage: `url(${mycollection1})` }}
-            className="g-no-repeat bg-center bg-cover w-5/6 h-3/6 border-4 border-[#DAD9D9] rounded-xl max-w-[400px]"
-          >
-            <div className="flex w-full flex-row-reverse px-2 py-1 ">
-              <Image
-                onClick={() => {
-                  if (myCollection.current) {
-                    myCollection.current.click();
-                  }
-                }}
-                src="bars.svg"
-                width={12}
-                height={12}
-              />
-              <input
-                ref={myCollection}
-                style={{ visibility: "hidden" }}
-                type="file"
-                onChange={(e) => {
-                  Collectionchosen(e.target.files[0]);
-                }}
-              />
-            </div>
-          </div>
-          <div
-            style={{ backgroundImage: `url(${mycollection2})` }}
-            className="g-no-repeat bg-center bg-cover w-5/6 h-3/6 border-4 border-[#DAD9D9] rounded-xl max-w-[400px]"
-          >
-            <div className="flex w-full flex-row-reverse px-2 py-1">
-              <Image
-                onClick={() => {
-                  if (myCollection2.current) {
-                    myCollection2.current.click();
-                  }
-                }}
-                src="bars.svg"
-                width={12}
-                height={12}
-              />
-              <input
-                ref={myCollection2}
-                style={{ visibility: "hidden" }}
-                type="file"
-                onChange={(e) => {
-                  Collectionchosen2(e.target.files[0]);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="h-full w-12 bg-[#DAD9D9]"></div>
-        <div className="w-3/6 flex flex-col items-center py-4 px-4 gap-2">
-          <h1 className="text-black text-3xl flex justify-center">
-            Таны оруулсан зүйлс
-          </h1>
-          {myquizData?.map((e, index) => (
-            <div className="w-full ">
-              <Myquiz
-                question={e.question}
-                a_answer={e.a_answer}
-                b_answer={e.b_answer}
-                c_answer={e.c_answer}
-                d_answer={e.d_answer}
-                DeleteQuiz={DeleteQuiz}
-                _id={e._id}
-                index={index}
-                correctAnswer={e.correctAnswer}
-                fetchMyquizIntoData={fetchMyquizIntoData}
-              />
-            </div>
-          ))}
-        </div>
-      </div> */}
     </div>
   );
 }

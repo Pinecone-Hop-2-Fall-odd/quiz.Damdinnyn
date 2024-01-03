@@ -30,7 +30,6 @@ export default function Home() {
             style={{ backgroundImage: `url(${profilePhoto})` }}
             className="rounded-full w-40 h-40 border-[8px] border-black bg-no-repeat bg-center  bg-cover"
           ></div>
-          <Image src="camera.svg" height={16} width={16} />
           <div className="text-3xl">{username}</div>
         </div>
         <div className="w-3/5 flex flex-col items-center">
@@ -45,17 +44,11 @@ export default function Home() {
             style={{ backgroundImage: `url(${mycollection1})` }}
             className="g-no-repeat bg-center bg-cover w-5/6 h-3/6 border-4 border-[#DAD9D9] rounded-xl max-w-[400px]"
           >
-            <div className="flex w-full flex-row-reverse px-2 py-1 ">
-              <Image src="bars.svg" width={12} height={12} />
-            </div>
           </div>
           <div
             style={{ backgroundImage: `url(${mycollection2})` }}
             className="g-no-repeat bg-center bg-cover w-5/6 h-3/6 border-4 border-[#DAD9D9] rounded-xl max-w-[400px]"
           >
-            <div className="flex w-full flex-row-reverse px-2 py-1">
-              <Image src="bars.svg" width={12} height={12} />
-            </div>
           </div>
         </div>
         <div className="h-full w-12 bg-[#DAD9D9]"></div>

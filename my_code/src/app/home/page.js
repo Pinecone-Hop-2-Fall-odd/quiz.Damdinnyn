@@ -147,7 +147,7 @@ export default function Home() {
   };
   return (
     <div onClick={() => back(currentRef)} className="min-w-[800px] ">
-      <div className="absolute flex w-full flex-row-reverse px-5 py-4">
+      <div className="absolute flex w-full flex-row-reverse cursor-pointer px-5 py-4">
         <div>
           <Image
             onClick={() => jumptoPersonAccound()}
@@ -181,9 +181,8 @@ export default function Home() {
         searchId={searchId}
       />
       <div
-        className={`flex gap-20 ${
-          friendsstatus ? "flex-row-reverse" : "justify-center"
-        } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
+        className={`flex gap-20 ${friendsstatus ? "flex-row-reverse" : "justify-center"
+          } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
       >
         <div className="rounded-3xl bg-gradient-to-r  from-cyan-500 to-blue-500 h-3/6 w-2/5 min-w-[250px]">
           <div className="absolute flex flex-row-reverse ">
@@ -201,9 +200,8 @@ export default function Home() {
           </div>
           <div
             onClick={() => playStatus()}
-            className="h-1/6 text-white bg-gradient-to-r from-blue-500 to-blue-400 rounded-b-3xl text-[50px] flex justify-center items-center"
+            className="h-1/6 text-white cursor-pointer bg-gradient-to-r from-blue-500 to-blue-400 rounded-b-3xl text-[50px] flex justify-center items-center"
           >
-            {" "}
             Тоглох
           </div>
         </div>
@@ -212,21 +210,21 @@ export default function Home() {
             <button
               ref={currentRef}
               onClick={() => easyProblem()}
-              className="bg-gradient-to-r text-white py-2 border-black border-4 from-blue-600 to-blue-600  text-3xl px-5 rounded-2xl"
+              className="bg-gradient-to-r cursor-pointer text-white py-2 border-black border-4 from-blue-600 to-blue-600  text-3xl px-5 rounded-2xl"
             >
               Classic
             </button>
             <button
               ref={currentRef}
               onClick={() => hardProblem()}
-              className="bg-gradient-to-r text-white py-2 border-black border-4 from-blue-600 to-blue-600  text-3xl px-5 rounded-2xl"
+              className="bg-gradient-to-r cursor-pointer text-white py-2 border-black border-4 from-blue-600 to-blue-600  text-3xl px-5 rounded-2xl"
             >
               Rank
             </button>
             <button
               ref={currentRef}
               onClick={() => ConnectFriends()}
-              className="flex text-white  gap-2 items-baseline py-2 bg-gradient-to-r border-black border-4 from-blue-600 to-blue-600  text-3xl px-5 rounded-2xl"
+              className="flex text-white cursor-pointer gap-2 items-baseline py-2 bg-gradient-to-r border-black border-4 from-blue-600 to-blue-600  text-3xl px-5 rounded-2xl"
             >
               <Image src="users.svg" height={24} width={24} />
               <h1>Challenge</h1>

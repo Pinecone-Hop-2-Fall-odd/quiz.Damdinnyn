@@ -37,7 +37,7 @@ export function SearchPart(props) {
       >
         <div
           onClick={() => friendsstatusdone()}
-          className="h-2/5 w-4/6 bg-white rounded-xl text-black py-2 px-4 flex gap-2 flex-col overflow-y-scroll"
+          className="h-2/5 w-96 bg-white rounded-xl text-black py-2 px-4 flex gap-2 flex-col overflow-hidden overflow-y-scroll"
         >
           {myFriendsData?.map((e) => (
             <div className="flex gap-6 ">

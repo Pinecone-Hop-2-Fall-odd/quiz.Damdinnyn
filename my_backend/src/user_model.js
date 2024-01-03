@@ -1,5 +1,9 @@
 import { model, Schema } from "mongoose";
 
+// const TestSchema = new Schema({
+//   testName: String
+// })
+
 const UserSchema = new Schema({
   username: String,
   age: Number,
@@ -15,6 +19,8 @@ const UserSchema = new Schema({
   myFriends: [{ type: Schema.Types.ObjectId, ref: "user" }],
   userRank: String,
   userRankLevelCount: Number,
+  classicPoint: Number,
+  // test: [TestSchema]
 });
 export const UserModel = model("user", UserSchema);
 // module.exports = UserModel

@@ -17,6 +17,7 @@ export default function Home() {
     router.push("/newacc");
   };
   const login = async () => {
+    console.log(namevalue, passwordvalue)
     await axios
       .post("http://localhost:3002/login", {
         phoneNumber: namevalue,
@@ -44,9 +45,8 @@ export default function Home() {
           placeholder="PhoneNumber"
           onChange={(e) => setNamevalue(e.target.value)}
           value={namevalue}
-          className={`bg-white text-black ${
-            passwordstatus ? "border-[#F7095E]" : "border-black"
-          }   border-[3px] rounded-3xl w-full  h-10 px-3 text-2xl`}
+          className={`bg-white text-black ${passwordstatus ? "border-[#F7095E]" : "border-black"
+            }   border-[3px] rounded-3xl w-full  h-10 px-3 text-2xl`}
         />
         <div className="flex">
           <input
@@ -54,9 +54,8 @@ export default function Home() {
             type={`${showPasswordStatus ? "text" : "password"}`}
             onChange={(e) => setPasswordvalue(e.target.value)}
             value={passwordvalue}
-            className={` bg-white text-black ${
-              passwordstatus ? "border-[#F7095E]" : "border-black"
-            } border-[3px] px-3 text-2xl  rounded-3xl w-full h-10 `}
+            className={` bg-white text-black ${passwordstatus ? "border-[#F7095E]" : "border-black"
+              } border-[3px] px-3 text-2xl  rounded-3xl w-full h-10 `}
           />
           <Image
             onClick={() => showPassword()}

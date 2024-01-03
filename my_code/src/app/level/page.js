@@ -100,7 +100,8 @@ export default function Home() {
         {showRankStatus ? "Expert" : "Warrior"}
       </div>
       {showRankStatus ? (
-        <div className="w-4/6 h-5/6 flex  bg-black rounded-xl overflow-y-scroll">
+        <div style={{ overflowY: "hidden" }} className="w-4/6 h-5/6 flex  bg-black rounded-xl overflow-y-scroll text-white">
+          idygdgfgdfgfy
           <div className="h-full w-12 flex justify-center items-center">
             <Image src="leftarrow.svg" height={16} width={16} />
           </div>
@@ -119,7 +120,7 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <div className="h-full w-12 flex justify-center items-center">
+          <div style={{ overflowY: "hidden" }} className="h-full w-12 flex justify-center items-center">
             <Image
               onClick={() => expertPart()}
               src="rightarrow.svg"

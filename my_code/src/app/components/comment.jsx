@@ -127,3 +127,9 @@
         </div>
       </div> */
 }
+
+//const [myFriends, setMyFriends] = useState([]);
+// const MyUserId = async () => {
+//     const url = "http://localhost:3002/token"
+//     await axios.get(url, { headers: { "token": mytoken } }).then((res) => console.log("sss", res?.data))
+// }

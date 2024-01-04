@@ -1,10 +1,11 @@
 "use client";
 import Image from "next/image";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-
+import { UserDataContext } from "@/app/layout";
 import axios from "axios";
 export default function Knonledge() {
+  const { token } = useContext(UserDataContext);
   const params = useSearchParams();
   const currentRef = useRef(null);
   const router = useRouter();
@@ -48,26 +49,40 @@ export default function Knonledge() {
     setBordercolor(bordercolor === index ? null : index);
     setCorrectAnswer(index);
   };
-  const nextproblem = () => {
-    if (quizData[knowledgeId]?.correctAnswer == correctAnswer) {
-      setYourpoint(yourpoint + 1);
-      setKnowledgeId(knowledgeId + 1);
-      try {
-        const url = "http://localhost:3002/addClassicScore";
-      } catch (err) {
-        console.log(err)
-      }
-    } else {
-      setKnowledgeId(knowledgeId + 1);
-      try {
-        const url = "http://localhost:3002/quiz";
-      } catch (err) {
-        console.log(err)
-      }
-    }
-    setAllpoint(allpoint + 1);
+  const nextproblem = async () => {
+    setKnowledgeId(knowledgeId + 1);
     index == 1;
     setBordercolor(11);
+    //alert(token);
+    if (quizData[knowledgeId]?.correctAnswer == correctAnswer) {
+      setYourpoint(yourpoint + 1);
+
+      setAllpoint(allpoint + 1);
+      index == 1;
+      setBordercolor(11);
+      try {
+        const url = "http://localhost:3002/addClassicScore";
+        await axios.post(url, {
+          token: token,
+          //headers: { token: token },
+        });
+        // alert("aaa");
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      setAllpoint(allpoint + 1);
+      //setKnowledgeId(knowledgeId + 1);
+      try {
+        const url = "http://localhost:3002/minusClassicScore";
+        await axios.post(url, {
+          token: token,
+          // headers: { token: token },
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    }
   };
   useEffect(() => {
     fetchalldata();
@@ -119,15 +134,17 @@ export default function Knonledge() {
         <div className="h-2/6 flex justify-around text-2xl">
           <div
             onClick={() => clickme(0)}
-            className={`h-2/6  ${bordercolor === 0 ? "border-[red]" : "border-black"
-              }  border-[3px] bg-white rounded-3xl px-6 py- flex items-center`}
+            className={`h-2/6  ${
+              bordercolor === 0 ? "border-[red]" : "border-black"
+            }  border-[3px] bg-white rounded-3xl px-6 py- flex items-center`}
           >
             A.{quizData[knowledgeId]?.a_answer}
           </div>
           <div
             onClick={() => clickme(1)}
-            className={`h-2/6 ${bordercolor === 1 ? "border-[red]" : "border-black"
-              }  border-[3px] bg-white rounded-3xl px-6 py- flex items-center`}
+            className={`h-2/6 ${
+              bordercolor === 1 ? "border-[red]" : "border-black"
+            }  border-[3px] bg-white rounded-3xl px-6 py- flex items-center`}
           >
             B.{quizData[knowledgeId]?.b_answer}
           </div>
@@ -135,15 +152,17 @@ export default function Knonledge() {
         <div className="h-2/6 flex justify-around text-2xl">
           <div
             onClick={() => clickme(2)}
-            className={`h-2/6 ${bordercolor === 2 ? "border-[red]" : "border-black"
-              }  border-[3px] bg-white rounded-3xl px-6 py- flex items-center`}
+            className={`h-2/6 ${
+              bordercolor === 2 ? "border-[red]" : "border-black"
+            }  border-[3px] bg-white rounded-3xl px-6 py- flex items-center`}
           >
             C.{quizData[knowledgeId]?.c_answer}
           </div>
           <div
             onClick={() => clickme(3)}
-            className={`h-2/6 ${bordercolor === 3 ? "border-[red]" : "border-black"
-              }  border-[3px] bg-white rounded-3xl px-6 py- flex items-center`}
+            className={`h-2/6 ${
+              bordercolor === 3 ? "border-[red]" : "border-black"
+            }  border-[3px] bg-white rounded-3xl px-6 py- flex items-center`}
           >
             D.{quizData[knowledgeId]?.d_answer}
           </div>

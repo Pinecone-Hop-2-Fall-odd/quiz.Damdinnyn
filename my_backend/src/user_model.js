@@ -20,6 +20,8 @@ const UserSchema = new Schema({
   userRank: String,
   userRankLevelCount: Number,
   classicPoint: Number,
+  classicHigh: Number,
+  invitationGame: Array,
   // test: [TestSchema]
 });
 export const UserModel = model("user", UserSchema);

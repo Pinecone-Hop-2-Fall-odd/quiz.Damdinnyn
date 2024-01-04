@@ -21,11 +21,6 @@ export default function Home() {
   const [friendsData, setFriendsData] = useState([]);
   const [myClosefrienddone, setMyclosefrienddone] = useState(true);
   const [liststatus, setListStatus] = useState(true);
-  //const [myFriends, setMyFriends] = useState([]);
-  // const MyUserId = async () => {
-  //     const url = "http://localhost:3002/token"
-  //     await axios.get(url, { headers: { "token": mytoken } }).then((res) => console.log("sss", res?.data))
-  // }
   console.log("token", token);
   const fetchAllData = async () => {
     try {
@@ -136,6 +131,7 @@ export default function Home() {
   const ConnectFriends = () => {
     setFriendsstatus(true);
   };
+  const withPlayFriends = () => {};
 
   useEffect(() => {
     if (token) {
@@ -179,10 +175,12 @@ export default function Home() {
         refuse={refuse}
         jumpIntoAnotherUsersAccound={jumpIntoAnotherUsersAccound}
         searchId={searchId}
+        withPlayFriends={withPlayFriends}
       />
       <div
-        className={`flex gap-20 ${friendsstatus ? "flex-row-reverse" : "justify-center"
-          } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
+        className={`flex gap-20 ${
+          friendsstatus ? "flex-row-reverse" : "justify-center"
+        } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
       >
         <div className="rounded-3xl bg-gradient-to-r  from-cyan-500 to-blue-500 h-3/6 w-2/5 min-w-[250px]">
           <div className="absolute flex flex-row-reverse ">

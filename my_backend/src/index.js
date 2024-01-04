@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 const port = 3002;
 // UserModel.create({ username: "dorj", email: "dorj@gmail.com" });
-app.use(fileRouter)
+app.use(fileRouter);
 app.use(quizRouter);
 app.use(rankRouter);
 //toke
@@ -37,7 +37,7 @@ app.use(rankRouter);
 //`
 app.post("/login", async (req, res) => {
   const body = req.body;
-  console.log(body)
+  console.log(body);
   const userData = await UserModel.findOne({ phoneNumber: body.phoneNumber });
   if (bcrypt.compare(body.password, userData.password)) {
     //res.status(200).json({ userData });
@@ -95,7 +95,9 @@ app.post("/reqfriend", async (req, res) => {
     res.json(error);
   }
 });
-
 app.listen(port, () => {
   console.log("power on" + port);
 });
+// app.post("/addClassicScore", async (req, res) => {
+//   console.log("sss");
+// });

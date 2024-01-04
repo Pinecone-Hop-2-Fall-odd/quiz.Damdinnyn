@@ -11,6 +11,9 @@ export function Profile(props) {
     myCollection,
     myCollection2,
     classicPoint,
+    classicHigh,
+    Collectionchosen,
+    Collectionchosen2,
   } = props;
 
   return (
@@ -59,7 +62,7 @@ export function Profile(props) {
               <div className="flex gap-4">
                 <h1 className="w-40 flex  flex-row-reverse">High Score: </h1>
                 <div className="flex gap-2">
-                  <h1>{classicPoint}</h1>
+                  <h1>{classicHigh}</h1>
                   <Image src="star.svg" height={24} width={24} />
                 </div>
               </div>

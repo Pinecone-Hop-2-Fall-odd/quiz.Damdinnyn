@@ -4,7 +4,7 @@ import { Myquiz } from "../components/Myquiz";
 import { Profile } from "../components/Profile";
 import { Posts } from "../components/Posts";
 import { Photos } from "../components/Photos";
-import { UserDataContext } from "@/app/layout"
+import { UserDataContext } from "@/app/layout";
 import Image from "next/image";
 import axios from "axios";
 import { CreateNewFile } from "../components/CreateNewFile";
@@ -48,8 +48,8 @@ export default function Home() {
   const profilePhoto = useralldata?.profile;
   const mycollection1 = useralldata?.mycollection1;
   const mycollection2 = useralldata?.mycollection2;
-  const classicPoint = useralldata?.classicPoint
-  //alert(classicPoint)
+  const classicPoint = useralldata?.classicPoint;
+  const classicHigh = useralldata?.classicHigh;
   const filechosen = async (file) => {
     const FR = new FileReader();
     FR.addEventListener("load", async function (evt) {
@@ -96,7 +96,7 @@ export default function Home() {
         token: token,
         id: id,
       });
-    } catch { }
+    } catch {}
   };
   const settingsStatusDone = () => {
     setSettingsStatus(!settingsStatus);
@@ -146,6 +146,8 @@ export default function Home() {
             myCollection={myCollection}
             myCollection2={myCollection2}
             classicPoint={classicPoint}
+            Collectionchosen={Collectionchosen}
+            classicHigh={classicHigh}
           />
         ) : (
           ""
@@ -167,7 +169,9 @@ export default function Home() {
               <CreateNewFile />
             </div>
             <div className="flex flex-col gap-4 ">
-              <div className="h-full w-full flex justify-center text-3xl">Your all quiz</div>
+              <div className="h-full w-full flex justify-center text-3xl">
+                Your all quiz
+              </div>
               {myquizData?.map((e, index) => (
                 <div className="w-full ">
                   <Myquiz
@@ -183,7 +187,6 @@ export default function Home() {
                     fetchMyquizIntoData={fetchMyquizIntoData}
                   />
                 </div>
-
               ))}
             </div>
           </div>

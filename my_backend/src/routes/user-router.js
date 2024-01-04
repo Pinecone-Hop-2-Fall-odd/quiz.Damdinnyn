@@ -15,6 +15,8 @@ import {
   refuseReq,
   myFriendsdata,
   anotherUserData,
+  addClassicScore,
+  minusClassicScore,
 } from "../controllers/user-controller.js";
 import { verifyToken } from "../middleware/auth.js";
 export const userRouter = express.Router();
@@ -35,4 +37,6 @@ userRouter.post("/allowReq", verifyToken, allowReq);
 userRouter.post("/refuseReq", verifyToken, refuseReq);
 userRouter.post("/myFriendsdata", verifyToken, myFriendsdata);
 userRouter.get("/anotherUserData/:id", anotherUserData);
+userRouter.post("/addClassicScore", verifyToken, addClassicScore);
+userRouter.post("/minusClassicScore", verifyToken, minusClassicScore);
 //fetchmyFriendsdata

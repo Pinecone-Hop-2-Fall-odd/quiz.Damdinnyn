@@ -82,7 +82,8 @@ export async function addUser(req, res) {
     passedlevels: ["1"],
     userRankLevelCount: 1,
     userRank: "Warrior",
-    classicPoint: 0
+    classicPoint: 0,
+    classicHigh: 0,
   });
   res.status(200).json({ NewUser: newdata, stat: true });
 }
@@ -155,5 +156,31 @@ export async function anotherUserData(req, res) {
   const userData = await UserModel.findOne({ _id: id });
   console.log(userData);
   res.status(200).json({ userData });
+}
+export async function addClassicScore(req, res) {
+  const user = req.user;
+  //console.log("sssssss", body.token);
+  const userdata = await UserModel.findById(user.id);
+  const classicHigh = userdata.classicHigh;
+  const classicPoint = userdata.classicPoint;
+  const score = userdata.classicPoint + 1;
+  // console.log(score);
+  await UserModel.findByIdAndUpdate(user.id, {
+    classicPoint: score,
+  });
+  if (classicHigh == classicPoint) {
+    const score = classicHigh + 1;
+    await UserModel.findByIdAndUpdate(user.id, {
+      classicHigh: score,
+    });
+  }
+}
+export async function minusClassicScore(req, res) {
+  const user = req.user;
+  const userdata = await UserModel.findById(user.id);
+  const score = userdata.classicPoint - 1;
+  await UserModel.findByIdAndUpdate(user.id, {
+    classicPoint: score,
+  });
 }
 ///

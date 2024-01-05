@@ -17,6 +17,7 @@ import {
   anotherUserData,
   addClassicScore,
   minusClassicScore,
+  invitationGame
 } from "../controllers/user-controller.js";
 import { verifyToken } from "../middleware/auth.js";
 export const userRouter = express.Router();
@@ -39,4 +40,5 @@ userRouter.post("/myFriendsdata", verifyToken, myFriendsdata);
 userRouter.get("/anotherUserData/:id", anotherUserData);
 userRouter.post("/addClassicScore", verifyToken, addClassicScore);
 userRouter.post("/minusClassicScore", verifyToken, minusClassicScore);
+userRouter.post("/invitationGame", verifyToken, invitationGame)
 //fetchmyFriendsdata

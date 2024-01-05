@@ -108,7 +108,7 @@ export function SearchPart(props) {
                       <h1 className="w-32 h-12 flex flex-wrap">{e.username}</h1>
                       <button className="h-8 w-8 border-black bg-[green]  border-2 flex justify-center items-center">
                         <Image
-                          onClick={() => withPlayFriends()}
+                          onClick={() => withPlayFriends(e._id)}
                           src="plus.svg"
                           height={24}
                           width={24}

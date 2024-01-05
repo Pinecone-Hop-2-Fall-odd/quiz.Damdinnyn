@@ -122,11 +122,11 @@ export default function Knonledge() {
         <div className="h-5/6 w-4/6 bg-white rounded-3xl bg-gradient-to-r from-blue-500 to-blue-400">
           <div className="text-[40px] w-full flex justify-center">Бодлого?</div>
           {
-            // quizData.map((e) => (
+            //quizData.map((e) => (
             <div className="text-3xl flex justify-center px-3">
               {quizData[knowledgeId]?.question}
             </div>
-            // ))
+            //))
           }
         </div>
       </div>
@@ -134,17 +134,15 @@ export default function Knonledge() {
         <div className="h-2/6 flex justify-around text-2xl">
           <div
             onClick={() => clickme(0)}
-            className={`h-2/6  ${
-              bordercolor === 0 ? "border-[red]" : "border-black"
-            }  border-[3px] bg-white rounded-3xl px-6 py- flex items-center`}
+            className={`h-2/6  ${bordercolor === 0 ? "border-[red]" : "border-black"
+              }  border-[3px] bg-white rounded-3xl px-6 py- flex items-center`}
           >
             A.{quizData[knowledgeId]?.a_answer}
           </div>
           <div
             onClick={() => clickme(1)}
-            className={`h-2/6 ${
-              bordercolor === 1 ? "border-[red]" : "border-black"
-            }  border-[3px] bg-white rounded-3xl px-6 py- flex items-center`}
+            className={`h-2/6 ${bordercolor === 1 ? "border-[red]" : "border-black"
+              }  border-[3px] bg-white rounded-3xl px-6 py- flex items-center`}
           >
             B.{quizData[knowledgeId]?.b_answer}
           </div>
@@ -152,17 +150,15 @@ export default function Knonledge() {
         <div className="h-2/6 flex justify-around text-2xl">
           <div
             onClick={() => clickme(2)}
-            className={`h-2/6 ${
-              bordercolor === 2 ? "border-[red]" : "border-black"
-            }  border-[3px] bg-white rounded-3xl px-6 py- flex items-center`}
+            className={`h-2/6 ${bordercolor === 2 ? "border-[red]" : "border-black"
+              }  border-[3px] bg-white rounded-3xl px-6 py- flex items-center`}
           >
             C.{quizData[knowledgeId]?.c_answer}
           </div>
           <div
             onClick={() => clickme(3)}
-            className={`h-2/6 ${
-              bordercolor === 3 ? "border-[red]" : "border-black"
-            }  border-[3px] bg-white rounded-3xl px-6 py- flex items-center`}
+            className={`h-2/6 ${bordercolor === 3 ? "border-[red]" : "border-black"
+              }  border-[3px] bg-white rounded-3xl px-6 py- flex items-center`}
           >
             D.{quizData[knowledgeId]?.d_answer}
           </div>

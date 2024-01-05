@@ -183,4 +183,19 @@ export async function minusClassicScore(req, res) {
     classicPoint: score,
   });
 }
+export async function invitationGame(req, res) {
+  //console.log("hi bro")
+  const user = req.user;
+  try {
+    const body = req.body;
+    const reqData = await UserModel.findById(body.toId);
+    await UserModel.findByIdAndUpdate(body.toId, {
+      $push: { invitationGame: user.id },
+    });
+    res.json({ reqData });
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+}
 ///

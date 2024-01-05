@@ -100,8 +100,7 @@ export default function Home() {
         {showRankStatus ? "Expert" : "Warrior"}
       </div>
       {showRankStatus ? (
-        <div style={{ overflowY: "hidden" }} className="w-4/6 h-5/6 flex  bg-black rounded-xl overflow-y-scroll text-white">
-          idygdgfgdfgfy
+        <div style={{ scrollbarWidth: "none", msOverflowStyle: "none" }} className="keke w-4/6 h-5/6 flex  bg-black rounded-xl overflow-y-scroll text-white">
           <div className="h-full w-12 flex justify-center items-center">
             <Image src="leftarrow.svg" height={16} width={16} />
           </div>

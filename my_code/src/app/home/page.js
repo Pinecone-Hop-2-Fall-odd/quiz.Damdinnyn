@@ -131,7 +131,18 @@ export default function Home() {
   const ConnectFriends = () => {
     setFriendsstatus(true);
   };
-  const withPlayFriends = () => {};
+  const withPlayFriends = async (id) => {
+    try {
+      const url = `http://localhost:3002/invitationGame`
+      await axios.post(url, {
+        token: token,
+        toId: id
+      })
+
+    } catch (err) {
+      console.log(err)
+    }
+  };
 
   useEffect(() => {
     if (token) {
@@ -178,9 +189,8 @@ export default function Home() {
         withPlayFriends={withPlayFriends}
       />
       <div
-        className={`flex gap-20 ${
-          friendsstatus ? "flex-row-reverse" : "justify-center"
-        } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
+        className={`flex gap-20 ${friendsstatus ? "flex-row-reverse" : "justify-center"
+          } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
       >
         <div className="rounded-3xl bg-gradient-to-r  from-cyan-500 to-blue-500 h-3/6 w-2/5 min-w-[250px]">
           <div className="absolute flex flex-row-reverse ">

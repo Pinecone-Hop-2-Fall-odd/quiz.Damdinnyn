@@ -51,7 +51,7 @@ export function Profile(props) {
         </div>
         <div className="h-[500px] w-full flex flex-col justify-center items-center">
           <div className="w-full h-2/6 text-2xl min-w-[500px]">
-            <div className="flex ">
+            <div className="flex w-full justify-center ">
               <div className="flex gap-4">
                 <h1 className="w-40 flex  flex-row-reverse">Classic Score: </h1>
                 <div className="flex gap-2">

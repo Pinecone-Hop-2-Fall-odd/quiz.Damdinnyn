@@ -7,27 +7,25 @@ import { Photos } from "../components/Photos";
 import { UserDataContext } from "@/app/layout";
 import Image from "next/image";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { CreateNewFile } from "../components/CreateNewFile";
 export default function Home() {
+  const currentRef = useRef(null);
+  const router = useRouter();
   const { token } = useContext(UserDataContext);
+  const [restartdone, setrestartdone] = useState(false);
   const imageInput = useRef(null);
   const myCollection = useRef(null);
   const myCollection2 = useRef(null);
   const [useralldata, setUseralldata] = useState();
   const [collectionFile, setCollectionFile] = useState("");
   const [myquizData, setMyquizData] = useState([]);
-  const [quizNumber, setQuizNumber] = useState(1);
   const [settingsStatus, setSettingsStatus] = useState(false);
-  const [profileStatus, setProfileStatus] = useState(true);
-  const [photoStatus, setPhotoStatus] = useState(false);
-  const [podtStatus, setPostStatus] = useState(false);
-  const [entriesStatus, setEntriesStatus] = useState(false);
-  ///
   const [profileclick, setProfileClick] = useState(true);
   const [postsclick, setPostsClick] = useState(false);
   const [photosclick, setPhotosClick] = useState(false);
   const [entriesclick, setEntriesClick] = useState(false);
-  //
+  const [greenbutton, setGreenbutton] = useState(true)
   const fetchUserdata = async () => {
     await axios
       .post("http://localhost:3002/userdata", {
@@ -96,10 +94,22 @@ export default function Home() {
         token: token,
         id: id,
       });
-    } catch {}
+    } catch { }
   };
   const settingsStatusDone = () => {
     setSettingsStatus(!settingsStatus);
+  };
+
+  const restart = () => {
+    setrestartdone(!restartdone);
+  };
+  const backtohome = () => {
+    router.push(`/home`);
+  };
+  const back = (ref) => {
+    if (ref.current && !ref.current.contains(event.target)) {
+      setrestartdone(false);
+    }
   };
   useEffect(() => {
     if (token) {
@@ -112,27 +122,40 @@ export default function Home() {
     setPhotosClick(false);
     setPostsClick(false);
     setEntriesClick(false);
-  };
-  const HandlePosts = () => {
-    setEntriesClick(false);
-    setPhotosClick(false);
-    setPostsClick(true);
-    setProfileClick(false);
-  };
-  const HandlePhotos = () => {
-    setEntriesClick(false);
-    setPhotosClick(true);
-    setPostsClick(false);
-    setProfileClick(false);
+    setGreenbutton(true)
   };
   const HandleEntries = () => {
     setEntriesClick(true);
     setPhotosClick(false);
     setProfileClick(false);
     setPostsClick(false);
+    setGreenbutton(false)
+
+
   };
   return (
-    <div className="w-screen h-screen flex ">
+    <div onClick={() => back(currentRef)} className="w-screen h-screen flex bg-blue-500">
+      {
+        greenbutton ? (restartdone ? (
+          <div
+            ref={currentRef}
+            className="absolute bg-gradient-to-r from-green-500 text-2xl rounded-xl px-5 py-5 mt-4 ml-3"
+          >
+            <button onClick={() => backtohome()}> -Буцах</button>
+
+          </div>
+        ) : (
+          <button className="absolute px-3 py-1 rounded-2xl bg-gradient-to-r from-green-500 to-yellow-500 mt-2 ml-3">
+            <Image
+              src="bars.svg"
+              height={16}
+              width={16}
+              onClick={() => restart()}
+            />
+          </button>
+        )) : ('')
+      }
+
       <div className="h-full w-full text-black ">
         {profileclick ? (
           <Profile

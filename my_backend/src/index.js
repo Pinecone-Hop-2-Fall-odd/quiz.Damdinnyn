@@ -8,15 +8,16 @@ import { connect } from "./mongodb.js";
 import { userRouter } from "./routes/user-router.js";
 import { quizRouter } from "./routes/quiz-router.js";
 import { fileRouter } from "./routes/file-router.js";
+import { expertRouter } from "./routes/expert-router.js";
 const app = express();
 connect();
 app.use(cors());
 app.use(express.json());
 const port = 3002;
-// UserModel.create({ username: "dorj", email: "dorj@gmail.com" });
 app.use(fileRouter);
 app.use(quizRouter);
 app.use(rankRouter);
+app.use(expertRouter)
 //toke
 // app.get("/token", async (req, res) => {
 //     //console.log(req.headers)

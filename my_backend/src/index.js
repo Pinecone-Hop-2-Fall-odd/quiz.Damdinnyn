@@ -17,7 +17,7 @@ const port = 3002;
 app.use(fileRouter);
 app.use(quizRouter);
 app.use(rankRouter);
-app.use(expertRouter)
+app.use(expertRouter);
 //toke
 // app.get("/token", async (req, res) => {
 //     //console.log(req.headers)

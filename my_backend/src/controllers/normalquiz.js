@@ -27,14 +27,14 @@ export async function MyquizIntoData(req, res) {
   res.status(200).json({ quizdata });
 }
 export async function deleteOneQuiz(req, res) {
-  const body = req.body
-  console.log(body.id)
-  const oneQuizData = await QuizModel.findOneAndDelete({ _id: body.id })
+  const body = req.body;
+  console.log(body.id);
+  const oneQuizData = await QuizModel.findOneAndDelete({ _id: body.id });
 }
 export async function editQuiz(req, res) {
-  const user = req.user
-  const body = req.body
-  console.log(body.id)
+  const user = req.user;
+  const body = req.body;
+  console.log(body.id);
   const oneQuizData = await QuizModel.findByIdAndUpdate(body.id, {
     question: body.question,
     a_answer: body.a_answer,
@@ -45,5 +45,8 @@ export async function editQuiz(req, res) {
     whoIsDone: user.id,
   });
 
-  console.log(oneQuizData)
+  console.log(oneQuizData);
+}
+export async function getYourQuizData(req, res) {
+  console.log("hi");
 }

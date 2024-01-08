@@ -25,7 +25,7 @@ export default function Home() {
   const [postsclick, setPostsClick] = useState(false);
   const [photosclick, setPhotosClick] = useState(false);
   const [entriesclick, setEntriesClick] = useState(false);
-  const [greenbutton, setGreenbutton] = useState(true)
+  const [greenbutton, setGreenbutton] = useState(true);
   const fetchUserdata = async () => {
     await axios
       .post("http://localhost:3002/userdata", {
@@ -94,7 +94,7 @@ export default function Home() {
         token: token,
         id: id,
       });
-    } catch { }
+    } catch {}
   };
   const settingsStatusDone = () => {
     setSettingsStatus(!settingsStatus);
@@ -122,27 +122,27 @@ export default function Home() {
     setPhotosClick(false);
     setPostsClick(false);
     setEntriesClick(false);
-    setGreenbutton(true)
+    setGreenbutton(true);
   };
   const HandleEntries = () => {
     setEntriesClick(true);
     setPhotosClick(false);
     setProfileClick(false);
     setPostsClick(false);
-    setGreenbutton(false)
-
-
+    setGreenbutton(false);
   };
   return (
-    <div onClick={() => back(currentRef)} className="w-screen h-screen flex bg-blue-500">
-      {
-        greenbutton ? (restartdone ? (
+    <div
+      onClick={() => back(currentRef)}
+      className="w-screen h-screen flex bg-blue-500"
+    >
+      {greenbutton ? (
+        restartdone ? (
           <div
             ref={currentRef}
             className="absolute bg-gradient-to-r from-green-500 text-2xl rounded-xl px-5 py-5 mt-4 ml-3"
           >
             <button onClick={() => backtohome()}> -Буцах</button>
-
           </div>
         ) : (
           <button className="absolute px-3 py-1 rounded-2xl bg-gradient-to-r from-green-500 to-yellow-500 mt-2 ml-3">
@@ -153,8 +153,10 @@ export default function Home() {
               onClick={() => restart()}
             />
           </button>
-        )) : ('')
-      }
+        )
+      ) : (
+        ""
+      )}
 
       <div className="h-full w-full text-black ">
         {profileclick ? (
@@ -219,8 +221,6 @@ export default function Home() {
       </div>
       <div className="h-full min-w-[100px] text-black border-l-4	border-black">
         <div onClick={() => HandleProfile()}>Profile</div>
-        <div onClick={() => HandlePosts()}>Posts</div>
-        <div onClick={() => HandlePhotos()}>Photo</div>
         <div onClick={() => HandleEntries()}>Your created</div>
       </div>
     </div>

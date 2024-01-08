@@ -26,6 +26,8 @@ export function SearchPart(props) {
     jumpIntoAnotherUsersAccound,
     searchId,
     withPlayFriends,
+    reqstatus,
+    setReqstatus,
   } = props;
   //console.log("hiii", friensData);
   if (!friendsstatus)
@@ -129,6 +131,8 @@ export function SearchPart(props) {
               refuseReq={refuseReq}
               myClosefrienddone={myClosefrienddone}
               refuse={refuse}
+              reqstatus={reqstatus}
+              setReqstatus={setReqstatus}
             />
           )}
         </div>

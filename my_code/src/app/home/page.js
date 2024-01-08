@@ -21,6 +21,7 @@ export default function Home() {
   const [friendsData, setFriendsData] = useState([]);
   const [myClosefrienddone, setMyclosefrienddone] = useState(true);
   const [liststatus, setListStatus] = useState(true);
+  const [reqstatus, setReqstatus] = useState(false);
   console.log("token", token);
   const fetchAllData = async () => {
     try {
@@ -96,12 +97,12 @@ export default function Home() {
     }
   };
   const reqFriend = async (id) => {
-    console.log(id);
     const url = `http://localhost:3002/reqfriend`;
     await axios.post(url, {
       token: token,
       toId: id,
     });
+    setReqstatus(!reqstatus);
   };
   const seeFriendsReq = async () => {
     if (searchPerson == false) {
@@ -133,14 +134,13 @@ export default function Home() {
   };
   const withPlayFriends = async (id) => {
     try {
-      const url = `http://localhost:3002/invitationGame`
+      const url = `http://localhost:3002/invitationGame`;
       await axios.post(url, {
         token: token,
-        toId: id
-      })
-
+        toId: id,
+      });
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   };
 
@@ -187,10 +187,13 @@ export default function Home() {
         jumpIntoAnotherUsersAccound={jumpIntoAnotherUsersAccound}
         searchId={searchId}
         withPlayFriends={withPlayFriends}
+        reqstatus={reqstatus}
+        setReqstatus={setReqstatus}
       />
       <div
-        className={`flex gap-20 ${friendsstatus ? "flex-row-reverse" : "justify-center"
-          } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
+        className={`flex gap-20 ${
+          friendsstatus ? "flex-row-reverse" : "justify-center"
+        } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
       >
         <div className="rounded-3xl bg-gradient-to-r  from-cyan-500 to-blue-500 h-3/6 w-2/5 min-w-[250px]">
           <div className="absolute flex flex-row-reverse ">

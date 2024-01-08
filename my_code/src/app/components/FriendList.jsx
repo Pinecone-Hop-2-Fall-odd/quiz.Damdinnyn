@@ -6,6 +6,8 @@ export function FriendsList({
   usersInfo,
   allowReq,
   refuse,
+  reqstatus,
+  setReqstatus,
 }) {
   if (searchPerson) {
     return (
@@ -40,6 +42,10 @@ export function FriendsList({
       </div>
     );
   }
+  const backstatus = () => {
+    //alert(reqstatus);
+    setReqstatus(false);
+  };
   return (
     <div className="w-full h-full text-black ">
       <div>
@@ -51,14 +57,23 @@ export function FriendsList({
             ></div>
             <div className="text-2xl px-3 flex items-center h-3/6 gap-4 text-black">
               {e.username}
-              <button className="border-black border-2 px-1 py-1">
-                <Image
-                  onClick={() => reqFriend(e._id)}
-                  src="user-plus.svg"
-                  height={24}
-                  width={24}
-                />
-              </button>
+              {reqstatus ? (
+                <button
+                  onClick={() => backstatus()}
+                  className="border-black border-2 px-1 py-1"
+                >
+                  requested
+                </button>
+              ) : (
+                <button className="border-black border-2 px-1 py-1">
+                  <Image
+                    onClick={() => reqFriend(e._id)}
+                    src="user-plus.svg"
+                    height={24}
+                    width={24}
+                  />
+                </button>
+              )}
             </div>
           </div>
         ))}

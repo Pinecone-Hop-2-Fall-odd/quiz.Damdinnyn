@@ -1,6 +1,6 @@
 import fs from "fs";
 import express from "express";
-import { RankModel } from "./rank_model.js";
+import { RankModel } from "./Model/rank_model.js";
 //const fs = require('fs');
 //const express = require("express");
 export const rankRouter = express.Router();

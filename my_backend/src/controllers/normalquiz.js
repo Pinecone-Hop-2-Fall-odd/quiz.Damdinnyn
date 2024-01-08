@@ -1,4 +1,5 @@
-import { QuizModel } from "../quiz_model.js";
+//import { QuizModel } from "../Model/quiz_model.js";
+import { QuizModel } from "../Model/quiz_model.js";
 export async function quizadd(req, res) {
   const user = req.user;
   const body = req.body;

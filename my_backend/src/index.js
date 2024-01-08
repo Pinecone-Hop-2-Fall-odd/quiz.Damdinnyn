@@ -2,13 +2,15 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import express from "express";
 import cors from "cors";
-import { UserModel } from "./user_model.js";
+//import { UserModel } from "./user_model.js";
+import { UserModel } from "./Model/user_model.js";
 import { rankRouter } from "./rank.js";
 import { connect } from "./mongodb.js";
 import { userRouter } from "./routes/user-router.js";
 import { quizRouter } from "./routes/quiz-router.js";
 import { fileRouter } from "./routes/file-router.js";
 import { expertRouter } from "./routes/expert-router.js";
+import { playRoomRouter } from "./routes/play-room-router.js";
 const app = express();
 connect();
 app.use(cors());
@@ -18,6 +20,7 @@ app.use(fileRouter);
 app.use(quizRouter);
 app.use(rankRouter);
 app.use(expertRouter);
+app.use(playRoomRouter)
 //toke
 // app.get("/token", async (req, res) => {
 //     //console.log(req.headers)

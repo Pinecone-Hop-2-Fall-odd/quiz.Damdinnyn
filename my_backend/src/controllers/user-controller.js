@@ -1,4 +1,5 @@
-import { UserModel } from "../user_model.js";
+//import { UserModel } from "../user_model.js";
+import { UserModel } from "../Model/user_model.js";
 import bcrypt from "bcrypt";
 import { ObjectId } from "mongodb";
 
@@ -13,11 +14,14 @@ export async function getUser(req, res) {
 export async function getOneUser(req, res) {
   const user = req.user;
   const userData = await UserModel.findOne({ _id: user.id }).populate(
-    "myFriends"
-  );
-  // console.log(userData);
-  //const reqFriend = userData.requestFriend
-  res.status(200).json({ userData });
+    ["myFriends"]
+  )
+  const rawInvitationGame = userData.invitationGame
+  const invitationGame = await Promise.all(rawInvitationGame.map(async (e) => {
+    const reqUser = await UserModel.findOne({ _id: e })
+    return { username: reqUser.username, profile: reqUser.profile, _id: reqUser._id }
+  }))
+  res.status(200).json({ userData, invitationGame });
 }
 export async function reqFriendId(req, res) {
   const user = req.user;

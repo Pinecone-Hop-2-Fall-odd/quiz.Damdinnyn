@@ -3,7 +3,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import Image from "next/image";
-import { loadStaticPaths } from "next/dist/server/dev/static-paths-worker";
+
 export default function Home() {
   const currentRef = useRef(null);
   const [useralldata, setUseralldata] = useState([]);
@@ -32,7 +32,7 @@ export default function Home() {
       console.log(err);
     }
   };
-  loadStaticPaths;
+  // loadStaticPaths;
   const profilePhoto = useralldata?.profile;
   const username = useralldata?.username;
   const mycollection1 = useralldata?.mycollection1;

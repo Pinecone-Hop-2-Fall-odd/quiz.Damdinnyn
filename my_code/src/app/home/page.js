@@ -5,10 +5,10 @@ import Image from "next/image";
 import { useState, useRef, useEffect, useContext } from "react";
 import axios from "axios";
 import { SearchPart } from "../components/SearchPart";
+import { InviteFriend, Playroom } from "../components/InviteFriend";
 export default function Home() {
   const { token } = useContext(UserDataContext);
   const currentRef = useRef(null);
-  const handleRefRankClassicChallenge = useRef(null);
   const router = useRouter();
   const [playstatus, setPlaystatus] = useState(false);
   const [friendsstatus, setFriendsstatus] = useState(false);
@@ -17,11 +17,12 @@ export default function Home() {
   const [reqAllow, setReqAllow] = useState(true);
   const [searchPerson, setSearchPerson] = useState(false);
   const [myalldata, setmyAllData] = useState([]);
-  const [usersInfo, setUsersInfo] = useState([]);
-  const [friendsData, setFriendsData] = useState([]);
+  //const [invitedFriend, setInvitedFriend] = useState([])
+  const [usersInfo, setUsersInfo] = useState([])
   const [myClosefrienddone, setMyclosefrienddone] = useState(true);
   const [liststatus, setListStatus] = useState(true);
   const [reqstatus, setReqstatus] = useState(false);
+  const [playRoomStatus, setPlayRoomStatus] = useState(false)
   console.log("token", token);
   const fetchAllData = async () => {
     try {
@@ -29,15 +30,16 @@ export default function Home() {
         .post("http://localhost:3002/userdata", {
           token: token,
         })
-        .then((res) => setmyAllData(res?.data?.userData));
+        .then((res) => setmyAllData(res?.data));
     } catch (err) {
       console.log(err);
     }
   };
-  console.log("gggg", myalldata);
-  const myallreq = myalldata?.requestFriend;
-  const myFriendsData = myalldata?.myFriends;
-  console.log("i am friends data", myFriendsData);
+  const myallreq = myalldata?.userData?.requestFriend;
+  const invitationGame = myalldata?.userData?.invitationGame
+  const myFriendsData = myalldata?.userData?.myFriends;
+  const invitedFriends = myalldata?.invitationGame
+  console.log("i am invitedFriends", invitedFriends);
   console.log(myallreq);
   const easyProblem = () => {
     router.push(`/easyproblem`);
@@ -72,6 +74,7 @@ export default function Home() {
       setSearchPerson(false);
       setListStatus(true);
       setPlaystatus(false);
+      setPlayRoomStatus(false)
     }
   }
   const searchUser = async () => {
@@ -142,16 +145,41 @@ export default function Home() {
     } catch (err) {
       console.log(err);
     }
-  };
+    try {
+      const url = `http://localhost:3002/Addroom`;
+      await axios.post(url, {
+        token: token,
+        toId: id,
+      })
+    } catch (err) {
+      console.log(err)
+    }
 
+    const interval = setInterval(() => {
+
+    }, 2000)
+  };
+  const jumpIntoAnotherUsersAccound = (id) => {
+    router.push(`./anotherUsers?id=${id}`);
+  };
+  const consoler = async () => {
+    console.log(invitationGame)
+    if (invitationGame.length > 0) {
+      setPlayRoomStatus(true)
+    }
+
+  }
+  const refreshPlayRoomButton = async () => {
+    fetchAllData()
+    setTimeout(() => {
+      consoler()
+    }, 100);
+  }
   useEffect(() => {
     if (token) {
       fetchAllData();
     }
   }, [token]);
-  const jumpIntoAnotherUsersAccound = (id) => {
-    router.push(`./anotherUsers?id=${id}`);
-  };
   return (
     <div onClick={() => back(currentRef)} className="min-w-[800px] ">
       <div className="absolute flex w-full flex-row-reverse cursor-pointer px-5 py-4">
@@ -191,17 +219,22 @@ export default function Home() {
         setReqstatus={setReqstatus}
       />
       <div
-        className={`flex gap-20 ${
-          friendsstatus ? "flex-row-reverse" : "justify-center"
-        } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
+        className={`flex gap-20 ${friendsstatus ? "flex-row-reverse" : "justify-center"
+          } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
       >
-        <div className="rounded-3xl bg-gradient-to-r  from-cyan-500 to-blue-500 h-3/6 w-2/5 min-w-[250px]">
-          <div className="absolute flex flex-row-reverse ">
+        <div className="absolute rounded-3xl bg-gradient-to-r  from-cyan-500 to-blue-500 h-3/6 w-2/5 min-w-[250px]">
+          <div className="flex justify-between gap-4">
             <button
               onClick={() => addFile()}
-              className="py-1 px-3 rounded-xl bg-gradient-to-r from-green-500 toblue-500 text-2xl"
+              className="py-1  px-3 rounded-xl bg-gradient-to-r from-green-500 toblue-500 text-2xl"
             >
               + Add Problem
+            </button>
+            <button
+              className="  py-1 px-3  rounded-3xl bg-gradient-to-r from-green-500  text-2xl"
+              onClick={() => refreshPlayRoomButton()}
+            >
+              <Image src='refresh.svg' height={16} width={16} className="rounded-xl" />
             </button>
           </div>
           <div className="h-5/6 flex items-center justify-center">
@@ -244,7 +277,21 @@ export default function Home() {
         ) : (
           <div></div>
         )}
+        {/* <div ref={currentRef} className="absolute w-60 flex gap-4 justify-center rounded-3xl"> */}
+        {
+          playRoomStatus ? (<div ref={currentRef} className=" w-60 rounded-3xl py-2  absolute bg-white flex flex-col gap-4 justify-center items-center over overflow-y-auto">
+            {invitedFriends.map((e) => (
+              <InviteFriend
+                profile={e.profile}
+                username={e.username}
+              />
+            )
+            )}
+          </div>) : ('')
+        }
+        {/* </div> */}
       </div>
+
     </div>
   );
 }

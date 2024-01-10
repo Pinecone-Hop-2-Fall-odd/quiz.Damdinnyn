@@ -27,13 +27,17 @@ export async function Addroom(req, res) {
 }
 export async function loginToRoom(req, res) {
   const user = req.user;
+  const body = req.body
   console.log(user.id);
-  const room = await playRoom_Model.findOneAndUpdate(
-    { roomId: user.id },
-    {
-      requestPlay: true,
-    }
-  );
+  const room = await playRoom_Model.findByIdAndUpdate(body.roomId, {
+    requestPlay: true
+  })
+  // const room = await playRoom_Model.findByIdAndUpdate(
+  //   { roomId: user.id },
+  //   {
+  //     requestPlay: true,
+  //   }
+  // );
   console.log("hi", room);
 }
 export async function handleToRequestStatus(req, res) {

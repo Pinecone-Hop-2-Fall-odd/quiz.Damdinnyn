@@ -153,14 +153,14 @@ export default function Home() {
     } catch (err) {
       console.log(err);
     }
-    // const interval = setInterval(async () => {
-    //   try {
-    //     const url = `http://localhost:3002/handleToRequestStatus`;
-    //     await axios.get(url).then((res) => router.push("/playwithfriend"));
-    //   } catch (err) {
-    //     console.log("error", err);
-    //   }
-    // }, 2000);
+    const interval = setInterval(async () => {
+      try {
+        const url = `http://localhost:3002/handleToRequestStatus`;
+        await axios.get(url).then((res) => router.push("/playwithfriend"));
+      } catch (err) {
+        console.log("error", err);
+      }
+    }, 2000);
   };
   const jumpIntoAnotherUsersAccound = (id) => {
     router.push(`./anotherUsers?id=${id}`);
@@ -177,12 +177,14 @@ export default function Home() {
       consoler();
     }, 100);
   };
-  const HandlePlayWithFriend = async () => {
+  const HandlePlayWithFriend = async (roomId) => {
+    //alert(roomId)
     router.push("./playwithfriend");
     try {
       const url = `http://localhost:3002/loginToRoom`;
       await axios.post(url, {
         token: token,
+        roomId: roomId
       });
     } catch (err) {
       console.log(err);
@@ -304,6 +306,7 @@ export default function Home() {
               <InviteFriend
                 profile={e.profile}
                 username={e.username}
+                roomId={e._id}
                 HandlePlayWithFriend={HandlePlayWithFriend}
               />
             ))}

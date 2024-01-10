@@ -1,13 +1,19 @@
 import { playRoom_Model } from "../Model/play_friend.js";
+import { UserModel } from "../Model/user_model.js";
 export async function Addroom(req, res) {
   const user = req.user;
   const body = req.body;
   //console.log(body.toId);
+  const Auser = await UserModel.findOne({ _id: user.id })
+  const A_username = Auser.username
+  const A_profile = Auser.profile
   const newRoom = await playRoom_Model.create({
     Aplayer: user.id,
     Bplayer: body.toId,
     requestPlay: false,
     roomId: body.toId,
+    Aname: A_username,
+    Aprofile: A_profile
     // A_playerProblem: {
     //   question: "sssss",
     // },

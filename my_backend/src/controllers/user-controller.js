@@ -1,28 +1,27 @@
+//import { UserModel } from "../user_model.js";
 import { UserModel } from "../Model/user_model.js";
+import { playRoom_Model } from "../Model/play_friend.js";
 import bcrypt from "bcrypt";
 import { ObjectId } from "mongodb";
+
 export async function getUser(req, res) {
   const user = req.user;
   const userData = await UserModel.findOne({ _id: user.id });
   const data = userData?.passedlevels;
   res.status(200).json({ data });
+  //console.log(data);
 }
 export async function getOneUser(req, res) {
   const user = req.user;
-  const userData = await UserModel.findOne({ _id: user.id }).populate([
-    "myFriends",
-  ]);
-  const rawInvitationGame = userData.invitationGame;
-  const invitationGame = await Promise.all(
-    rawInvitationGame.map(async (e) => {
-      const reqUser = await UserModel.findOne({ _id: e });
-      return {
-        username: reqUser.username,
-        profile: reqUser.profile,
-        _id: reqUser._id,
-      };
-    })
-  );
+  const userData = await UserModel.findOne({ _id: user.id }).populate(
+    ["myFriends"]
+  )
+  const rawInvitationGame = userData.invitationGame
+  const invitationGame = await Promise.all(rawInvitationGame.map(async (e) => {
+    //const room = await playRoom_Model.findOne({ _id: e })
+    const reqRoom = await playRoom_Model.findOne({ _id: e })
+    return { username: reqRoom.Aname, profile: reqRoom.Aprofile, _id: reqRoom._id }
+  }))
   res.status(200).json({ userData, invitationGame });
 }
 export async function reqFriendId(req, res) {
@@ -132,6 +131,7 @@ export async function allowReq(req, res) {
   await UserModel.findByIdAndUpdate(user.id, {
     requestFriend: removeId,
   });
+  //
   const reqSentUser = await UserModel.findByIdAndUpdate(body.reqId, {
     $push: { myFriends: user.id },
   });
@@ -193,9 +193,8 @@ export async function invitationGame(req, res) {
   const user = req.user;
   try {
     const body = req.body;
-    const reqData = await UserModel.findById(body.toId);
-    await UserModel.findByIdAndUpdate(body.toId, {
-      $push: { invitationGame: user.id },
+    const reqData = await UserModel.findByIdAndUpdate(body.toId, {
+      $push: { invitationGame: body.roomId },
     });
     res.json({ reqData });
   } catch (error) {
@@ -203,3 +202,4 @@ export async function invitationGame(req, res) {
     res.json(error);
   }
 }
+///

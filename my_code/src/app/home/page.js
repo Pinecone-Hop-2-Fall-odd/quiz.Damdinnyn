@@ -137,31 +137,30 @@ export default function Home() {
   };
   const withPlayFriends = async (id) => {
     try {
+      const addRoomUrl = `http://localhost:3002/Addroom`;
+      const { data } = await axios.post(addRoomUrl, {
+        token: token,
+        toId: id,
+      });
+      const roomId = data;
+      console.log(roomId);
       const url = `http://localhost:3002/invitationGame`;
       await axios.post(url, {
         token: token,
         toId: id,
+        roomId: roomId,
       });
     } catch (err) {
       console.log(err);
     }
-    try {
-      const url = `http://localhost:3002/Addroom`;
-      await axios.post(url, {
-        token: token,
-        toId: id,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-    // const interval = setInterval(async () => {
-    //   try {
-    //     const url = `http://localhost:3002/handleToRequestStatus`;
-    //     await axios.get(url).then((res) => router.push("/playwithfriend"));
-    //   } catch (err) {
-    //     console.log("error", err);
-    //   }
-    // }, 2000);
+    const interval = setInterval(async () => {
+      try {
+        const url = `http://localhost:3002/handleToRequestStatus`;
+        await axios.get(url).then((res) => router.push("/playwithfriend"));
+      } catch (err) {
+        console.log("error", err);
+      }
+    }, 2000);
   };
   const jumpIntoAnotherUsersAccound = (id) => {
     router.push(`./anotherUsers?id=${id}`);

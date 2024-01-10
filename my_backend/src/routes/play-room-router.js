@@ -8,4 +8,8 @@ import {
 export const playRoomRouter = express.Router();
 playRoomRouter.post("/Addroom", verifyToken, Addroom);
 playRoomRouter.post("/loginToRoom", verifyToken, loginToRoom);
-playRoomRouter.get("handleToRequestStatus", verifyToken, handleToRequestStatus);
+playRoomRouter.get(
+  "/handleToRequestStatus",
+  verifyToken,
+  handleToRequestStatus
+);

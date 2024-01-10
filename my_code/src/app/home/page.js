@@ -150,6 +150,10 @@ export default function Home() {
         toId: id,
         roomId: roomId
       });
+      const interval = setInterval(async () => {
+        const url = `http://localhost:3002/handleToRequestStatus${roomId}`;
+        await axios.get(url).then((res) => router.push("/playwithfriend"));
+      }, 2000);
     } catch (err) {
       console.log(err);
     }

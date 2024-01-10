@@ -1,5 +1,5 @@
 export function InviteFriend(props) {
-  const { username, profile, HandlePlayWithFriend } = props;
+  const { username, profile, HandlePlayWithFriend, roomId } = props;
   return (
     <div className=" w-4/6 flex flex-col items-center">
       <div className="flex gap-4">
@@ -10,7 +10,7 @@ export function InviteFriend(props) {
         <div>
           <div>{username}</div>
           <button
-            onClick={() => HandlePlayWithFriend()}
+            onClick={() => HandlePlayWithFriend(roomId)}
             className="bg-green-500 px-2 rounded-xl"
           >
             Play

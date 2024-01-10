@@ -177,12 +177,14 @@ export default function Home() {
       consoler();
     }, 100);
   };
-  const HandlePlayWithFriend = async () => {
+  const HandlePlayWithFriend = async (roomId) => {
+    //alert(roomId)
     router.push("./playwithfriend");
     try {
       const url = `http://localhost:3002/loginToRoom`;
       await axios.post(url, {
         token: token,
+        roomId: roomId,
       });
     } catch (err) {
       console.log(err);
@@ -305,6 +307,7 @@ export default function Home() {
               <InviteFriend
                 profile={e.profile}
                 username={e.username}
+                roomId={e._id}
                 HandlePlayWithFriend={HandlePlayWithFriend}
               />
             ))}

@@ -33,7 +33,7 @@ export default function Home() {
   return (
     <div
       onClick={() => back(currentRef)}
-      className="bg-gradient-to-r from-blue-500 to-blue-500 w-screen h-screen"
+      className="bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen"
     >
       {restartdone ? (
         <div
@@ -54,7 +54,7 @@ export default function Home() {
         </button>
       )}
       <div className="h-4/6 w-full flex justify-center items-center">
-        <div className="h-5/6 w-4/6 rounded-3xl  px-8 py-4 flex flex-col  bg-gradient-to-r from-blue-400 to-blue-400 ">
+        <div className="h-5/6 w-4/6 rounded-3xl  px-8 py-4 flex flex-col  bg-gradient-to-r from-blue-500 to-blue-500 ">
           <div className="text-[40px] w-full flex justify-center">
             Your input problem?
           </div>

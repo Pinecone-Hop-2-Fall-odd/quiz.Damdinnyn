@@ -73,7 +73,7 @@ export default function Home() {
   return (
     <div
       onClick={() => back(currentRef)}
-      className="bg-gradient-to-r from-blue-500 to-blue-500 w-screen h-screen"
+      className="bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen"
     >
       <div className="text-[90px] flex justify-center h-1/6"> Problem +</div>
       {restartdone ? (
@@ -95,7 +95,7 @@ export default function Home() {
         </button>
       )}
       <div className="h-3/6 w-full flex justify-center items-center">
-        <div className="h-5/6 w-4/6 rounded-3xl bg-gradient-to-r from-green-500 to-blue-500 flex flex-col ">
+        <div className="h-5/6 w-4/6 rounded-3xl bg-gradient-to-r from-blue-500 to-blue-500 flex flex-col ">
           <div className="text-[40px] w-full flex justify-center">
             Таны оруулах бодлого?
           </div>

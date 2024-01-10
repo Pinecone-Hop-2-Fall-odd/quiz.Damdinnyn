@@ -18,11 +18,11 @@ export default function Home() {
   const [searchPerson, setSearchPerson] = useState(false);
   const [myalldata, setmyAllData] = useState([]);
   //const [invitedFriend, setInvitedFriend] = useState([])
-  const [usersInfo, setUsersInfo] = useState([])
+  const [usersInfo, setUsersInfo] = useState([]);
   const [myClosefrienddone, setMyclosefrienddone] = useState(true);
   const [liststatus, setListStatus] = useState(true);
   const [reqstatus, setReqstatus] = useState(false);
-  const [playRoomStatus, setPlayRoomStatus] = useState(false)
+  const [playRoomStatus, setPlayRoomStatus] = useState(false);
   console.log("token", token);
   const fetchAllData = async () => {
     try {
@@ -36,9 +36,9 @@ export default function Home() {
     }
   };
   const myallreq = myalldata?.userData?.requestFriend;
-  const invitationGame = myalldata?.userData?.invitationGame
+  const invitationGame = myalldata?.userData?.invitationGame;
   const myFriendsData = myalldata?.userData?.myFriends;
-  const invitedFriends = myalldata?.invitationGame
+  const invitedFriends = myalldata?.invitationGame;
   console.log("i am invitedFriends", invitedFriends);
   console.log(myallreq);
   const easyProblem = () => {
@@ -74,7 +74,7 @@ export default function Home() {
       setSearchPerson(false);
       setListStatus(true);
       setPlaystatus(false);
-      setPlayRoomStatus(false)
+      setPlayRoomStatus(false);
     }
   }
   const searchUser = async () => {
@@ -150,31 +150,45 @@ export default function Home() {
       await axios.post(url, {
         token: token,
         toId: id,
-      })
+      });
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-
-    const interval = setInterval(() => {
-
-    }, 2000)
+    // const interval = setInterval(async () => {
+    //   try {
+    //     const url = `http://localhost:3002/handleToRequestStatus`;
+    //     await axios.get(url).then((res) => router.push("/playwithfriend"));
+    //   } catch (err) {
+    //     console.log("error", err);
+    //   }
+    // }, 2000);
   };
   const jumpIntoAnotherUsersAccound = (id) => {
     router.push(`./anotherUsers?id=${id}`);
   };
   const consoler = async () => {
-    console.log(invitationGame)
+    console.log(invitationGame);
     if (invitationGame.length > 0) {
-      setPlayRoomStatus(true)
+      setPlayRoomStatus(true);
     }
-
-  }
+  };
   const refreshPlayRoomButton = async () => {
-    fetchAllData()
+    fetchAllData();
     setTimeout(() => {
-      consoler()
+      consoler();
     }, 100);
-  }
+  };
+  const HandlePlayWithFriend = async () => {
+    router.push("./playwithfriend");
+    try {
+      const url = `http://localhost:3002/loginToRoom`;
+      await axios.post(url, {
+        token: token,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
     if (token) {
       fetchAllData();
@@ -219,8 +233,9 @@ export default function Home() {
         setReqstatus={setReqstatus}
       />
       <div
-        className={`flex gap-20 ${friendsstatus ? "flex-row-reverse" : "justify-center"
-          } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
+        className={`flex gap-20 ${
+          friendsstatus ? "flex-row-reverse" : "justify-center"
+        } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
       >
         <div className="absolute rounded-3xl bg-gradient-to-r  from-cyan-500 to-blue-500 h-3/6 w-2/5 min-w-[250px]">
           <div className="flex justify-between gap-4">
@@ -234,7 +249,12 @@ export default function Home() {
               className="  py-1 px-3  rounded-3xl bg-gradient-to-r from-green-500  text-2xl"
               onClick={() => refreshPlayRoomButton()}
             >
-              <Image src='refresh.svg' height={16} width={16} className="rounded-xl" />
+              <Image
+                src="refresh.svg"
+                height={16}
+                width={16}
+                className="rounded-xl"
+              />
             </button>
           </div>
           <div className="h-5/6 flex items-center justify-center">
@@ -277,21 +297,23 @@ export default function Home() {
         ) : (
           <div></div>
         )}
-        {/* <div ref={currentRef} className="absolute w-60 flex gap-4 justify-center rounded-3xl"> */}
-        {
-          playRoomStatus ? (<div ref={currentRef} className=" w-60 rounded-3xl py-2  absolute bg-white flex flex-col gap-4 justify-center items-center over overflow-y-auto">
+        {playRoomStatus ? (
+          <div
+            ref={currentRef}
+            className=" w-60 rounded-3xl py-2  absolute bg-white flex flex-col gap-4 justify-center items-center over overflow-y-auto"
+          >
             {invitedFriends.map((e) => (
               <InviteFriend
                 profile={e.profile}
                 username={e.username}
+                HandlePlayWithFriend={HandlePlayWithFriend}
               />
-            )
-            )}
-          </div>) : ('')
-        }
-        {/* </div> */}
+            ))}
+          </div>
+        ) : (
+          ""
+        )}
       </div>
-
     </div>
   );
 }

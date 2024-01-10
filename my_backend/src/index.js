@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import express from "express";
 import cors from "cors";
-//import { UserModel } from "./user_model.js";
 import { UserModel } from "./Model/user_model.js";
 import { rankRouter } from "./rank.js";
 import { connect } from "./mongodb.js";
@@ -20,7 +19,7 @@ app.use(fileRouter);
 app.use(quizRouter);
 app.use(rankRouter);
 app.use(expertRouter);
-app.use(playRoomRouter)
+app.use(playRoomRouter);
 //toke
 // app.get("/token", async (req, res) => {
 //     //console.log(req.headers)
@@ -102,6 +101,3 @@ app.post("/reqfriend", async (req, res) => {
 app.listen(port, () => {
   console.log("power on" + port);
 });
-// app.post("/addClassicScore", async (req, res) => {
-//   console.log("sss");
-// });

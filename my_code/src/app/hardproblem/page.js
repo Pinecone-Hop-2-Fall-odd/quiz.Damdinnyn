@@ -112,7 +112,7 @@ export default function Knonledge() {
         </div>
       </div>
       <div className="h-4/6 w-full flex justify-center items-center">
-        <div className="h-5/6 w-4/6 bg-white rounded-3xl bg-gradient-to-r from-blue-500 to-blue-400">
+        <div className="h-5/6 w-4/6 bg-white rounded-3xl bg-gradient-to-r from-blue-500 to-blue-500">
           <div className="text-[40px] w-full flex justify-center">Бодлого?</div>
           <div className="text-3xl flex justify-center px-3">
             {quizData?.question}

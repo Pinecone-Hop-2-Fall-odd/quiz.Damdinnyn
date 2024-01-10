@@ -67,8 +67,9 @@ export default function Home() {
             onClickœ
             className="absolute bg-gradient-to-r from-green-500 text-2xl rounded-xl px-5 py-5"
           >
-            <h1 onClick={() => backtohome()}> -Буцах</h1>
-            <h1>-Дахин эхлэх</h1>
+            <h1 onClick={() => backtohome()} className="cursor-pointer">
+              -Буцах
+            </h1>
           </div>
         ) : (
           <button className="absolute px-3 py-1 rounded-2xl bg-gradient-to-r from-green-500 to-yellow-500">
@@ -140,8 +141,6 @@ export default function Home() {
         <div className="h-full w-12 bg-[black]"></div>
         <div className="w-3/6 flex flex-col items-center py-4">
           <h1 className="text-black text-3xl">{username}' Problems</h1>
-
-          {/* <Myquiz /> */}
         </div>
       </div>
     </div>

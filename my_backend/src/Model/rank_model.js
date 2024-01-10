@@ -1,6 +1,5 @@
 // const { model, Schema } = require("mongoose");
 import { model, Schema } from "mongoose"
-
 const RankQuiz = new Schema({
     question: String,
     a_answer: String,
@@ -10,7 +9,6 @@ const RankQuiz = new Schema({
     correctAnswer: Number,
     quizId: Number
 })
-
 export const RankModel = model('rankquiz', RankQuiz);
 
 //module.exports = RankModel;

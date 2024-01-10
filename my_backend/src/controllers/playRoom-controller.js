@@ -42,7 +42,8 @@ export async function loginToRoom(req, res) {
 }
 export async function handleToRequestStatus(req, res) {
   const user = req.user;
-  const room = await playRoom_Model.findOne({ Aplayer: user.id });
+  const roomId = req.params
+  const room = await playRoom_Model.findOne({ _id: roomId });
   console.log(room);
   if (room.requestPlay == true) {
     res.status(200).json("allowed request");

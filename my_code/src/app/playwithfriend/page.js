@@ -35,8 +35,17 @@ export default function Home() {
   const restart = () => {
     setrestartdone(!restartdone);
   };
-  const backtohome = () => {
+  const backtohome = async () => {
     router.push(`/home`);
+    try {
+      const url2 = `http://localhost:3002/exitToRoom`;
+      await axios.post(url2, {
+        token: token,
+        roomId: roomId,
+      });
+    } catch (err) {
+      console.log(err)
+    }
   };
   const finishedQuiz = async () => {
     try {
@@ -51,6 +60,7 @@ export default function Home() {
         token: token,
         roomId: roomId,
       });
+
     } catch (err) {
       console.log(err);
     }
@@ -61,6 +71,7 @@ export default function Home() {
     }, 1000);
     if (count == 0) {
       router.push(`./replacedProblem?roomId=${roomId}`);
+      //./levelFinish?quizId=${quizId}
     } else if (count < 10) {
       setTimeborder(true);
     }
@@ -89,7 +100,7 @@ export default function Home() {
           />
         </button>
       )}
-      <div className="w-full flex justify-center py-5 absolute">
+      <div className="w-full flex justify-center py-5 ">
         <div
           className={`bg-white px-10 ${timeborder ? "border-[red]" : "border-black"
             } flex justify-center text-3xl border-4  rounded-xl`}

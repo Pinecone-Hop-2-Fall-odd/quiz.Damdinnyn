@@ -87,7 +87,7 @@ export async function exchangeProblem(req, res) {
   }
 }
 export async function getRoomData(req, res) {
-  const body = req.body
-  const roomData = await playRoom_Model.findById(body.roomId)
+  const { roomId } = req.params
+  const roomData = await playRoom_Model.findById(roomId)
   res.status(200).json({ roomData })
 }

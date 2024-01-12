@@ -53,8 +53,10 @@ export async function handleToRequestStatus(req, res) {
 }
 export async function exchangeProblem(req, res) {
   const user = req.user;
-  const body = req.user;
+  const body = req.body;
+  //console.log("complete")
   const room = await playRoom_Model.findById(body.roomId);
+  console.log(body.a_answer)
   if (room.Aplayer == user.id) {
     await playRoom_Model.findByIdAndUpdate(body.roomId, {
       A_playerProblem: {

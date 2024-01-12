@@ -60,9 +60,10 @@ export async function exchangeProblem(req, res) {
   const body = req.body;
   console.log("completed", user.id);
   const room = await playRoom_Model.findById(body.roomId);
-  console.log(body.a_answer);
+  console.log(room.Aplayer);
 
   if (room.Aplayer == user.id) {
+    console.log("hi a");
     await playRoom_Model.findByIdAndUpdate(body.roomId, {
       A_playerProblem: {
         question: body.question,
@@ -74,6 +75,7 @@ export async function exchangeProblem(req, res) {
       },
     });
   } else if (room.Bplayer == user.Id) {
+    console.log("hi b");
     await playRoom_Model.findByIdAndUpdate(body.roomId, {
       B_playerProblem: {
         question: body.question,

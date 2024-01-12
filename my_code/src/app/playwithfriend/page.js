@@ -20,8 +20,18 @@ export default function Home() {
   const [restartdone, setrestartdone] = useState(false);
   const [timeborder, setTimeborder] = useState(false);
   const [count, setCount] = useState(100)
+  const [roomData, setRoomdata] = useState()
   const currentRef = useRef(null);
-
+  const DateNow = Date.now();
+  const FetchRoomData = async () => {
+    try {
+      const url = `http://localhost:3002/getRoomData/${roomId}`
+      await axios.get(url).then((res) => setRoomdata(res))
+      awa
+    } catch (err) {
+      console.log(err)
+    }
+  }
   const clickme = (index) => {
     setBordercolor(bordercolor === index ? null : index);
     console.log("sss", index);
@@ -48,6 +58,8 @@ export default function Home() {
     }
   };
   const finishedQuiz = async () => {
+    // const curData = new Date();
+    // curData.getTime();
     try {
       const url = "http://localhost:3002/exchangeProblem";
       await axios.post(url, {
@@ -60,7 +72,6 @@ export default function Home() {
         token: token,
         roomId: roomId,
       });
-
     } catch (err) {
       console.log(err);
     }
@@ -77,6 +88,9 @@ export default function Home() {
     }
     return () => clearInterval(interval);
   }, [count]);
+  useEffect(() => {
+    FetchRoomData()
+  }, [])
   return (
     <div
       onClick={() => back(currentRef)}

@@ -138,9 +138,12 @@ export default function Home() {
   const withPlayFriends = async (id) => {
     try {
       const addRoomUrl = `http://localhost:3002/Addroom`;
+      const curData = Date.now();
+      // curData.getTime();
       const { data } = await axios.post(addRoomUrl, {
         token: token,
         toId: id,
+        dateNow: curData
       });
       const roomId = data;
       console.log(roomId);
@@ -232,9 +235,8 @@ export default function Home() {
         setReqstatus={setReqstatus}
       />
       <div
-        className={`flex gap-20 ${
-          friendsstatus ? "flex-row-reverse" : "justify-center"
-        } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
+        className={`flex gap-20 ${friendsstatus ? "flex-row-reverse" : "justify-center"
+          } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
       >
         <div className="absolute rounded-3xl bg-gradient-to-r  from-cyan-500 to-blue-500 h-3/6 w-2/5 min-w-[250px]">
           <div className="flex justify-between gap-4">

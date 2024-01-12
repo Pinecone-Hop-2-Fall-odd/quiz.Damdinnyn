@@ -5,6 +5,7 @@ export async function Addroom(req, res) {
   const user = req.user;
   const body = req.body;
   //console.log(body.toId);
+
   const Auser = await UserModel.findOne({ _id: user.id });
   const A_username = Auser.username;
   const A_profile = Auser.profile;
@@ -15,6 +16,7 @@ export async function Addroom(req, res) {
     roomId: body.toId,
     Aname: A_username,
     Aprofile: A_profile,
+    dateNow: body.dateNow
     // A_playerProblem: {
     //   question: "sssss",
     // },
@@ -22,9 +24,8 @@ export async function Addroom(req, res) {
     //   question: "llllll",
     // },
   });
-
   res.status(200).json(newRoom._id);
-  console.log("id", newRoom._id);
+  console.log("id", body.dateNow);
 }
 export async function loginToRoom(req, res) {
   const user = req.user;
@@ -57,9 +58,10 @@ export async function handleToRequestStatus(req, res) {
 export async function exchangeProblem(req, res) {
   const user = req.user;
   const body = req.body;
-  //console.log("complete")
+  console.log("completed", user.id)
   const room = await playRoom_Model.findById(body.roomId);
   console.log(body.a_answer)
+
   if (room.Aplayer == user.id) {
     await playRoom_Model.findByIdAndUpdate(body.roomId, {
       A_playerProblem: {
@@ -83,4 +85,9 @@ export async function exchangeProblem(req, res) {
       },
     });
   }
+}
+export async function getRoomData(req, res) {
+  const body = req.body
+  const roomData = await playRoom_Model.findById(body.roomId)
+  res.status(200).json({ roomData })
 }

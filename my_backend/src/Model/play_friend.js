@@ -22,6 +22,7 @@ const playRoomWithFriend = new Schema({
   Bplayer: String,
   Bname: String,
   Bprofile: String,
+  dateNow: Number,
   time: Number,
   requestPlay: Boolean,
   roomId: String,

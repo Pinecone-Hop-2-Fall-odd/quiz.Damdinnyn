@@ -83,7 +83,7 @@ export default function Home() {
     const interval = setInterval(() => {
       setCount(count + 1);
     }, 1000);
-    if (count == 0) {
+    if (count == 100) {
       router.push(`./replacedProblem?roomId=${roomId}`);
       //./levelFinish?quizId=${quizId}
     } else if (count < 10) {
@@ -95,7 +95,7 @@ export default function Home() {
     FetchRoomData();
   }, []);
   useEffect(() => {
-    const differenceDate = (Date.now() - RoomcreatedDate) / 1000;
+    const differenceDate = Math.floor((Date.now() - RoomcreatedDate) / 1000);
     console.log(Date.now());
     console.log(RoomcreatedDate);
     setCount(differenceDate);

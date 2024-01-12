@@ -22,16 +22,18 @@ export default function Home() {
   const [count, setCount] = useState(100)
   const [roomData, setRoomdata] = useState()
   const currentRef = useRef(null);
-  const DateNow = Date.now();
+  //const DateNow = Date.now();
   const FetchRoomData = async () => {
     try {
       const url = `http://localhost:3002/getRoomData/${roomId}`
       await axios.get(url).then((res) => setRoomdata(res))
-      awa
     } catch (err) {
       console.log(err)
     }
   }
+  const RoomcreatedDate = roomData?.DateNow
+
+
   const clickme = (index) => {
     setBordercolor(bordercolor === index ? null : index);
     console.log("sss", index);
@@ -91,6 +93,10 @@ export default function Home() {
   useEffect(() => {
     FetchRoomData()
   }, [])
+  useEffect(() => {
+    const differenceDate = (Date.now() - RoomcreatedDate) / 1000
+    setCount(differenceDate)
+  }, [roomData])
   return (
     <div
       onClick={() => back(currentRef)}

@@ -16,7 +16,7 @@ export async function Addroom(req, res) {
     roomId: body.toId,
     Aname: A_username,
     Aprofile: A_profile,
-    dateNow: body.dateNow
+    dateNow: body.dateNow,
     // A_playerProblem: {
     //   question: "sssss",
     // },
@@ -58,9 +58,9 @@ export async function handleToRequestStatus(req, res) {
 export async function exchangeProblem(req, res) {
   const user = req.user;
   const body = req.body;
-  console.log("completed", user.id)
+  console.log("completed", user.id);
   const room = await playRoom_Model.findById(body.roomId);
-  console.log(body.a_answer)
+  console.log(body.a_answer);
 
   if (room.Aplayer == user.id) {
     await playRoom_Model.findByIdAndUpdate(body.roomId, {
@@ -87,7 +87,7 @@ export async function exchangeProblem(req, res) {
   }
 }
 export async function getRoomData(req, res) {
-  const { roomId } = req.params
-  const roomData = await playRoom_Model.findById(roomId)
-  res.status(200).json({ roomData })
+  const { roomId } = req.params;
+  const roomData = await playRoom_Model.findById(roomId);
+  res.status(200).json({ roomData });
 }

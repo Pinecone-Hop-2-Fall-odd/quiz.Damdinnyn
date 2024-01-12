@@ -19,21 +19,19 @@ export default function Home() {
   const [correctAnswer, setCorrectAnswer] = useState(null);
   const [restartdone, setrestartdone] = useState(false);
   const [timeborder, setTimeborder] = useState(false);
-  const [count, setCount] = useState(100)
-  const [roomData, setRoomdata] = useState()
+  const [count, setCount] = useState(100);
+  const [roomData, setRoomdata] = useState();
   const currentRef = useRef(null);
   //const DateNow = Date.now();
   const FetchRoomData = async () => {
     try {
-      const url = `http://localhost:3002/getRoomData/${roomId}`
-      await axios.get(url).then((res) => setRoomdata(res))
+      const url = `http://localhost:3002/getRoomData/${roomId}`;
+      await axios.get(url).then((res) => setRoomdata(res));
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
-  const RoomcreatedDate = roomData?.DateNow
-
-
+  };
+  const RoomcreatedDate = roomData?.DateNow;
   const clickme = (index) => {
     setBordercolor(bordercolor === index ? null : index);
     console.log("sss", index);
@@ -56,7 +54,7 @@ export default function Home() {
         roomId: roomId,
       });
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   };
   const finishedQuiz = async () => {
@@ -91,12 +89,12 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [count]);
   useEffect(() => {
-    FetchRoomData()
-  }, [])
+    FetchRoomData();
+  }, []);
   useEffect(() => {
-    const differenceDate = (Date.now() - RoomcreatedDate) / 1000
-    setCount(differenceDate)
-  }, [roomData])
+    const differenceDate = (Date.now() - RoomcreatedDate) / 1000;
+    setCount(differenceDate);
+  }, [roomData]);
   return (
     <div
       onClick={() => back(currentRef)}
@@ -122,8 +120,9 @@ export default function Home() {
       )}
       <div className="w-full flex justify-center py-5 ">
         <div
-          className={`bg-white px-10 ${timeborder ? "border-[red]" : "border-black"
-            } flex justify-center text-3xl border-4  rounded-xl`}
+          className={`bg-white px-10 ${
+            timeborder ? "border-[red]" : "border-black"
+          } flex justify-center text-3xl border-4  rounded-xl`}
         >
           {count}
         </div>
@@ -149,8 +148,9 @@ export default function Home() {
             <input
               onChange={(e) => setA_answer(e.target.value)}
               value={a_answer}
-              className={`${bordercolor === 0 ? "border-[red]" : "border-black"
-                } rounded-xl border-[4px] w-full px-2`}
+              className={`${
+                bordercolor === 0 ? "border-[red]" : "border-black"
+              } rounded-xl border-[4px] w-full px-2`}
             />
           </div>
           <div className="w-2/5 h-2/6 px-4 flex items-center">
@@ -158,8 +158,9 @@ export default function Home() {
             <input
               onChange={(e) => setB_answer(e.target.value)}
               value={b_answer}
-              className={`${bordercolor === 1 ? "border-[red]" : "border-black"
-                } rounded-xl  border-[4px] w-full px-2`}
+              className={`${
+                bordercolor === 1 ? "border-[red]" : "border-black"
+              } rounded-xl  border-[4px] w-full px-2`}
             />
           </div>
         </div>
@@ -169,8 +170,9 @@ export default function Home() {
             <input
               onChange={(e) => setC_answer(e.target.value)}
               value={c_answer}
-              className={`${bordercolor === 2 ? "border-[red]" : "border-black"
-                } rounded-xl border-[4px] w-full px-2`}
+              className={`${
+                bordercolor === 2 ? "border-[red]" : "border-black"
+              } rounded-xl border-[4px] w-full px-2`}
             />
           </div>
           <div className="w-2/5  h-2/6  px-4 flex items-center">
@@ -178,8 +180,9 @@ export default function Home() {
             <input
               onChange={(e) => setD_answer(e.target.value)}
               value={d_answer}
-              className={`${bordercolor === 3 ? "border-[red]" : "border-black"
-                } rounded-xl  border-[4px] w-full px-2`}
+              className={`${
+                bordercolor === 3 ? "border-[red]" : "border-black"
+              } rounded-xl  border-[4px] w-full px-2`}
             />
           </div>
         </div>

@@ -19,20 +19,21 @@ export default function Home() {
   const [correctAnswer, setCorrectAnswer] = useState(null);
   const [restartdone, setrestartdone] = useState(false);
   const [timeborder, setTimeborder] = useState(false);
-  const [count, setCount] = useState(100)
+  const [count, setCount] = useState()
   const [roomData, setRoomdata] = useState()
   const currentRef = useRef(null);
   //const DateNow = Date.now();
   const FetchRoomData = async () => {
     try {
       const url = `http://localhost:3002/getRoomData/${roomId}`
-      await axios.get(url).then((res) => setRoomdata(res))
+      await axios.get(url).then((res) => setRoomdata(res?.data?.roomData))
     } catch (err) {
       console.log(err)
     }
   }
-  const RoomcreatedDate = roomData?.DateNow
-
+  console.log(roomData)
+  const RoomcreatedDate = roomData?.dateNow
+  console.log(RoomcreatedDate)
 
   const clickme = (index) => {
     setBordercolor(bordercolor === index ? null : index);
@@ -80,7 +81,7 @@ export default function Home() {
   };
   useEffect(() => {
     const interval = setInterval(() => {
-      setCount(count - 1);
+      setCount(count + 1);
     }, 1000);
     if (count == 0) {
       router.push(`./replacedProblem?roomId=${roomId}`);
@@ -95,6 +96,8 @@ export default function Home() {
   }, [])
   useEffect(() => {
     const differenceDate = (Date.now() - RoomcreatedDate) / 1000
+    console.log(Date.now())
+    console.log(RoomcreatedDate)
     setCount(differenceDate)
   }, [roomData])
   return (

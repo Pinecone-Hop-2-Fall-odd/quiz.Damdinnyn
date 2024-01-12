@@ -14,4 +14,4 @@ playRoomRouter.post("/loginToRoom", verifyToken, loginToRoom);
 playRoomRouter.post("/exitToRoom", verifyToken, exitToRoom);
 playRoomRouter.get("/handleToRequestStatus/:roomId", handleToRequestStatus);
 playRoomRouter.post("/exchangeProblem", verifyToken, exchangeProblem);
-playRoomRouter.get("/getRoomData", getRoomData)
+playRoomRouter.get("/getRoomData/:roomId", getRoomData)

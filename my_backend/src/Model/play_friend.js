@@ -15,7 +15,6 @@ const B_playerSchema = new Schema({
   d_answer: String,
   correct_answer: Number,
 });
-
 const playRoomWithFriend = new Schema({
   Aplayer: String,
   Aname: String,

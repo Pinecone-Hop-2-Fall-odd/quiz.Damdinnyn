@@ -14,6 +14,8 @@ export function Profile(props) {
     classicHigh,
     Collectionchosen,
     Collectionchosen2,
+    rankLevel,
+    rankLevelCount,
   } = props;
 
   return (
@@ -69,7 +71,17 @@ export function Profile(props) {
             </div>
           </div>
           <div className="w-full h-2/6 text-2xl min-w-[500px]">
-            <h1 className="w-36 flex flex-row-reverse">Rank</h1>
+            <div className="flex w-full justify-center ">
+              <div className="flex gap-4">
+                <h1 className="w-40 flex  flex-row-reverse">Rank Score: </h1>
+                <div className="flex gap-2">
+                  <h1>{rankLevel}</h1>
+                  <h1>{rankLevelCount}</h1>
+                  <Image src="star.svg" height={24} width={24} />
+                </div>
+              </div>
+              <div className="flex gap-4"></div>
+            </div>
           </div>
         </div>
       </div>

@@ -88,8 +88,7 @@ export default function Knonledge() {
             onClickœ
             className="absolute bg-gradient-to-r from-green-500 text-2xl rounded-xl px-5 py-5"
           >
-            <h1 onClick={() => backtohome()}> -Буцах</h1>
-            <h1>-Дахин эхлэх</h1>
+            <button onClick={() => backtohome()}> -Буцах</button>
           </div>
         ) : (
           <button className="absolute px-3 py-1 rounded-2xl bg-gradient-to-r from-green-500 to-yellow-500">

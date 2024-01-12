@@ -48,6 +48,8 @@ export default function Home() {
   const mycollection2 = useralldata?.mycollection2;
   const classicPoint = useralldata?.classicPoint;
   const classicHigh = useralldata?.classicHigh;
+  const rankLevel = useralldata?.userRank;
+  const rankLevelCount = useralldata?.userRankLevelCount;
   const filechosen = async (file) => {
     const FR = new FileReader();
     FR.addEventListener("load", async function (evt) {
@@ -173,6 +175,8 @@ export default function Home() {
             classicPoint={classicPoint}
             Collectionchosen={Collectionchosen}
             classicHigh={classicHigh}
+            rankLevel={rankLevel}
+            rankLevelCount={rankLevelCount}
           />
         ) : (
           ""

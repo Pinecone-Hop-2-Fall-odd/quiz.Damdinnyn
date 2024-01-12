@@ -29,7 +29,7 @@ export default function Home() {
     // alert(id);
     if (passedLevels.includes(id)) {
       //alert("aaa");
-      router.push(`hardproblem?quizId=${id}`);
+      router.push(`/hardproblem?quizId=${id}`);
     }
   };
   const restart = () => {
@@ -82,8 +82,7 @@ export default function Home() {
             onClickœ
             className="absolute bg-gradient-to-r from-green-500 text-2xl rounded-xl px-5 py-5"
           >
-            <h1 onClick={() => backtohome()}> -Буцах</h1>
-            <h1>-Дахин эхлэх</h1>
+            <button onClick={() => backtohome()}> -Буцах</button>
           </div>
         ) : (
           <button className="absolute px-3 py-1 rounded-2xl bg-gradient-to-r from-green-500 to-yellow-500">
@@ -119,7 +118,10 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <div style={{ overflowY: "hidden" }} className="h-full w-12 flex justify-center items-center">
+          <div
+            style={{ overflowY: "hidden" }}
+            className="h-full w-12 flex justify-center items-center"
+          >
             <Image
               onClick={() => expertPart()}
               src="rightarrow.svg"

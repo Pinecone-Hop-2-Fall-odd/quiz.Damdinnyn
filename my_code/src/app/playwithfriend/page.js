@@ -1,8 +1,13 @@
 "use client";
 import { useState, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useContext } from "react";
+import { UserDataContext } from "@/app/layout";
 import Image from "next/image";
 export default function Home() {
+  const params = useSearchParams();
+  const roomId = params.get("roomId");
+  const { token } = useContext(UserDataContext);
   const router = useRouter();
   const [questionvalue, setQuestionvalue] = useState("");
   const [a_answer, setA_answer] = useState("");
@@ -29,6 +34,23 @@ export default function Home() {
   };
   const backtohome = () => {
     router.push(`/home`);
+  };
+  const finishedQuiz = async () => {
+    try {
+      const url = "http://localhost:3002/exchangeProblem";
+      await axios.post(url, {
+        question: questionvalue,
+        a_answer: a_answer,
+        b_answer: b_answer,
+        c_answer: c_answer,
+        d_answer: d_answer,
+        correctAnswer: correctAnswer,
+        token: token,
+        roomId: roomId,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <div
@@ -115,7 +137,7 @@ export default function Home() {
 
         <div className="h-2/6 flex justify-center ">
           <button
-            onClick={() => finished()}
+            onClick={() => finishedQuiz()}
             className="flex items-center  bg-gradient-to-r from-green-500 to-yellow-500 px-5 py-4 text-2xl rounded-3xl h-2/6"
           >
             Done

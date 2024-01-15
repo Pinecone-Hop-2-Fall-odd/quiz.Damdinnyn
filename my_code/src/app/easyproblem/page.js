@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useRef, useState, useEffect, useContext } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { UserDataContext } from "@/app/layout";
+import { BACK_END_URL } from "@/back-url";
 import axios from "axios";
 export default function Knonledge() {
   const { token } = useContext(UserDataContext);
@@ -18,7 +19,7 @@ export default function Knonledge() {
   const [yourpoint, setYourpoint] = useState(0);
   const [index, setIndex] = useState();
   const fetchalldata = async () => {
-    const url = "http://localhost:3002/quiz";
+    const url = `${BACK_END_URL}/quiz`;
     const fetchdata = await fetch(url).then((data) => data.json());
     //shuffle
     let currentIndex = fetchdata.quizData.length,
@@ -61,7 +62,7 @@ export default function Knonledge() {
       index == 1;
       setBordercolor(11);
       try {
-        const url = "http://localhost:3002/addClassicScore";
+        const url = `${BACK_END_URL}/addClassicScore`;
         await axios.post(url, {
           token: token,
           //headers: { token: token },
@@ -74,7 +75,7 @@ export default function Knonledge() {
       setAllpoint(allpoint + 1);
       //setKnowledgeId(knowledgeId + 1);
       try {
-        const url = "http://localhost:3002/minusClassicScore";
+        const url = `${BACK_END_URL}/minusClassicScore`;
         await axios.post(url, {
           token: token,
           // headers: { token: token },

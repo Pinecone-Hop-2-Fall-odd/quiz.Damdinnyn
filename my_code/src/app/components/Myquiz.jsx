@@ -36,7 +36,7 @@ export function Myquiz(props) {
       setEditStatus(false);
     }, 2000);
     try {
-      const url = "http://localhost:3002/editQuiz";
+      const url = "${BACK_END_URL}/editQuiz";
       await axios.post(
         url,
         {

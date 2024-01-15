@@ -1,6 +1,7 @@
 "use client";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
+import { BACK_END_URL } from "@/back-url";
 import axios from "axios";
 import Image from "next/image";
 
@@ -10,19 +11,20 @@ export default function Home() {
   const [quizdata, setQuizdata] = useState([]);
   const [restartdone, setrestartdone] = useState(false);
   const router = useRouter();
-  const myToken = localStorage.getItem("token");
   const params = useSearchParams();
   const id = params.get("id");
   const fetchUserdata = async () => {
+    const myToken = localStorage.getItem("token");
     await axios
-      .get(`http://localhost:3002/anotherUserData/${id}`, {
+      .get(`${BACK_END_URL}/anotherUserData/${id}`, {
         headers: { token: myToken },
       })
       .then((res) => setUseralldata(res?.data?.userData));
   };
   const getYourQuizData = async () => {
+    const myToken = localStorage.getItem("token");
     try {
-      const url = `http://localhost:3002/getYourQuizData/${id}`;
+      const url = `${BACK_END_URL}/getYourQuizData/${id}`;
       await axios
         .get(url, {
           headers: { token: myToken },

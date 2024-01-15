@@ -46,7 +46,7 @@ app.post("/login", async (req, res) => {
     //res.status(200).json({ userData });
     // sha256
     const token = jwt.sign({ id: userData._id }, "SomeSecretKey", {
-      expiresIn: "2h",
+      expiresIn: "4h",
     });
     res.status(200).json({ token });
   } else {

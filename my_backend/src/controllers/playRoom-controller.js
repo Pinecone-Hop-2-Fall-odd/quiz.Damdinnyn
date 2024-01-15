@@ -30,9 +30,14 @@ export async function Addroom(req, res) {
 export async function loginToRoom(req, res) {
   const user = req.user;
   const body = req.body;
-  console.log(user.id);
+  const Buser = await UserModel.findOne({ _id: user.id });
+  const B_username = Buser.username;
+  const B_profile = Buser.profile;
+
   const room = await playRoom_Model.findByIdAndUpdate(body.roomId, {
     requestPlay: true,
+    Bname: B_username,
+    Bprofile: B_profile
   });
   console.log("hi", room);
 }
@@ -65,16 +70,18 @@ export async function exchangeProblem(req, res) {
 
   if (room.Aplayer == user.id) {
     console.log("hi a", user.id);
-    await playRoom_Model.findByIdAndUpdate(body.roomId, {
-      A_playerProblem: {
-        question: body.question,
-        a_answer: body.a_answer,
-        b_answer: body.b_answer,
-        c_answer: body.c_answer,
-        d_answer: body.d_answer,
-        correct_answer: body.correctAnswer,
-      },
-    });
+    setTimeout(async () => {
+      await playRoom_Model.findByIdAndUpdate(body.roomId, {
+        A_playerProblem: {
+          question: body.question,
+          a_answer: body.a_answer,
+          b_answer: body.b_answer,
+          c_answer: body.c_answer,
+          d_answer: body.d_answer,
+          correct_answer: body.correctAnswer,
+        },
+      });
+    }, 4000);
   } else {
     console.log("hi b", user.id);
     await playRoom_Model.findByIdAndUpdate(body.roomId, {
@@ -98,13 +105,12 @@ export async function getRoomData(req, res) {
 }
 export async function getProblemOfRoom(req, res) {
   const user = req.user
-  const { roomId } = req.params
-  const roomData = await playRoom_Model.findById(roomId)
-  const B_problem = roomData.B_playerProblem
-  const A_problem = roomData.A_playerProblem
-  if (roomData.Aplayer == user.id) {
-    res.status(200).json({ B_problem })
-  } else {
-    res.status(200).json({ A_problem })
-  }
+  const id = user.id
+  console.log("id", id)
+  const body = req.body
+  const roomData = await playRoom_Model.findById(body.roomId)
+  res.status(200).json({ roomData, id })
+}
+export async function WhoIsTheWinner(req, res) {
+  console.log("hi")
 }

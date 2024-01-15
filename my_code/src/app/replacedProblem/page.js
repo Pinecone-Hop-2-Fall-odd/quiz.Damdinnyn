@@ -5,35 +5,41 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useContext } from "react";
 import { UserDataContext } from "@/app/layout";
 import axios from "axios";
+import { BACK_END_URL } from "@/back-url";
 export default function Knonledge() {
     const { token } = useContext(UserDataContext);
+    //console.log("token", token)
     const params = useSearchParams();
     const roomId = params.get("roomId");
     const currentRef = useRef(null);
     const router = useRouter();
     const [restartdone, setrestartdone] = useState(false);
-    const [roomData, setRoomdata] = useState([]);
+    const [roomData, setRoomdata] = useState(null);
     const [bordercolor, setBordercolor] = useState(null);
-    const [correctAnswer, setCorrectAnswer] = useState();
+    const [correctAnswer, setCorrectAnswer] = useState(10);
     const [count, setCount] = useState(60);
-    const mytoken = localStorage.getItem("token");
-    const [index, setIndex] = useState();
     const [timeborder, setTimeborder] = useState(false);
+    const [question, setQuestion] = useState("")
+    const [a_answer, setA_answer] = useState("")
+    const [b_answer, setB_answer] = useState("")
+    const [c_answer, setC_answer] = useState("")
+    const [d_answer, setD_answer] = useState("")
+    const [id, setId] = useState("")
     const replacedProblem = async () => {
-        const url = `http://localhost:3002/getProblemOfRoom`;
-        await axios.get(url, {
-            roomId: roomId,
-            token: token
-        }).then((res) => {
-            setRoomdata(res?.data?.roomData);
-        });
+        const url = `${BACK_END_URL}/getProblemOfRoom`;
+        if (token)
+            await axios.post(url, {
+                roomId: roomId,
+            }, { headers: { token } }).then((res) => {
+                setId(res?.data.id)
+                setRoomdata(res?.data.roomData);
+            });
     };
-    //console.log(quizData);
     const restart = () => {
         setrestartdone(!restartdone);
     };
     const backtohome = () => {
-        router.push(`/home`);
+        router.push(`/ home`);
     };
     function back(ref) {
         if (ref.current && !ref.current.contains(event.target)) {
@@ -45,12 +51,39 @@ export default function Knonledge() {
         setCorrectAnswer(index);
     };
     const finished = async () => {
-        if (roomData?.correct_answer == correctAnswer) {
-            alert("you win")
-            router.push(`./home`);
-        } else {
-            alert("you lose")
-            router.push(`./home`);
+        if (roomData.Aplayer == id) {
+            if (roomData?.B_playerProblem.correct_answer == correctAnswer) {
+                alert("you win")
+                router.push(`./ compareTwoPlayers ? roomId = ${roomId}`);
+                try {
+                    const url = `${BACK_END_URL}/WhoIsTheWinner`
+                    await axios.post(url, {
+                        winner: "A"
+                    })
+                } catch (err) {
+                    console.log(err)
+                }
+            } else {
+                alert("you lose")
+                router.push(`./compareTwoPlayers?roomId=${roomId}`);
+            }
+
+        } else if (roomData.Bplayer == id) {
+            if (roomData?.A_playerProblem.correct_answer == correctAnswer) {
+                alert("you win")
+                router.push(`./home`);
+                try {
+                    const url = `${BACK_END_URL}/WhoIsTheWinner`
+                    await axios.post(url, {
+                        winner: "B"
+                    })
+                } catch (err) {
+                    console.log(err)
+                }
+            } else {
+                alert("you lose")
+                router.push(`./home`);
+            }
         }
     };
     ///setInterval
@@ -67,7 +100,28 @@ export default function Knonledge() {
     }, [count]);
     useEffect(() => {
         replacedProblem();
-    }, []);
+    }, [token]);
+
+    useEffect(() => {
+        if (roomData) {
+            if (roomData.Aplayer == id) {
+                setQuestion(roomData.B_playerProblem?.question)
+                setA_answer(roomData.B_playerProblem.a_answer)
+                setB_answer(roomData.B_playerProblem.b_answer)
+                setC_answer(roomData.B_playerProblem.c_answer)
+                setD_answer(roomData.B_playerProblem.d_answer)
+
+            } else if (roomData.Bplayer == id) {
+                setQuestion(roomData.A_playerProblem?.question)
+                setA_answer(roomData.A_playerProblem.a_answer)
+                setB_answer(roomData.A_playerProblem.b_answer)
+                setC_answer(roomData.A_playerProblem.c_answer)
+                setD_answer(roomData.A_playerProblem.d_answer)
+            }
+        }
+    }, [roomData]);
+
+    //console.log("roomData", roomData)
 
     return (
         <div
@@ -78,8 +132,7 @@ export default function Knonledge() {
                 {restartdone ? (
                     <div
                         ref={currentRef}
-                        onClickœ
-                        className="absolute bg-gradient-to-r from-green-500 text-2xl rounded-xl px-5 py-5"
+                        className="bg-gradient-to-r from-green-500 text-2xl rounded-xl px-5 py-5"
                     >
                         <button onClick={() => backtohome()}> -Буцах</button>
                     </div>
@@ -106,7 +159,7 @@ export default function Knonledge() {
                 <div className="h-5/6 w-4/6 bg-white rounded-3xl bg-gradient-to-r from-blue-500 to-blue-500">
                     <div className="text-[40px] w-full flex justify-center">Бодлого?</div>
                     <div className="text-3xl flex justify-center px-3">
-                        {/* {quizData?.question} */}
+                        {question}
                     </div>
                 </div>
             </div>
@@ -117,14 +170,14 @@ export default function Knonledge() {
                         className={` h-2/6 ${bordercolor === 0 ? "border-[red]" : "border-black"
                             }  border-[3px] bg-white rounded-3xl px-6 py-4 flex items-center`}
                     >
-                        {/* A.{quizData?.a_answer} */}
+                        A.{a_answer}
                     </div>
                     <div
                         onClick={() => clickme(1)}
                         className={` h-2/6 ${bordercolor === 1 ? "border-[red]" : "border-black"
                             }  border-[3px] bg-white rounded-3xl px-6 py-4 flex items-center`}
                     >
-                        {/* B.{quizData?.b_answer} */}
+                        B.{b_answer}
                     </div>
                 </div>
                 <div className="h-2/6 flex justify-around text-2xl">
@@ -133,14 +186,14 @@ export default function Knonledge() {
                         className={` h-2/6 ${bordercolor === 2 ? "border-[red]" : "border-black"
                             }  border-[3px] bg-white rounded-3xl px-6 py-4 flex items-center`}
                     >
-                        {/* C.{quizData?.c_answer} */}
+                        C.{c_answer}
                     </div>
                     <div
                         onClick={() => clickme(3)}
                         className={` h-2/6 ${bordercolor === 3 ? "border-[red]" : "border-black"
                             }  border-[3px] bg-white rounded-3xl px-6 py-4 flex items-center`}
                     >
-                        {/* D.{quizData?.d_answer} */}
+                        D.{d_answer}
                     </div>
                 </div>
                 <div className=" flex justify-center ">
@@ -148,7 +201,7 @@ export default function Knonledge() {
                         onClick={() => overProblem()}
                         className="flex items-center  bg-gradient-to-r from-green-500 to-yellow-500 px-5  text-2xl rounded-3xl "
                     >
-                        Дууссан
+                        Confirm
                         <Image
                             className="mt-1 ml-2"
                             src="arrow.svg"

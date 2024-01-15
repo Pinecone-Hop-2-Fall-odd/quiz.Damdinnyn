@@ -1,6 +1,7 @@
 "use client"
 import { useState, useEffect } from "react"
 import axios, { isCancel, AxiosError } from 'axios';
+import { BACK_END_URL } from "@/back-url";
 export default function Home() {
     const [namevalue, setNamevalue] = useState("")
     const [agevalue, setAgevalue] = useState("")
@@ -8,13 +9,13 @@ export default function Home() {
     const [passwordvalue, setPasswordvalue] = useState("")
     const [users, setUsers] = useState([])
     // async function fetchalldata() {
-    //     const url = "http://localhost:3002/users"
+    //     const url = "${BACK_END_URL}/users"
     //     const fetchdata = await fetch(url).then((fetch) => fetch.json());
     //     setUsers(fetchdata.data)
     //     console.log("users", users)
     // }
     const login = async () => {
-        await axios.post("http://localhost:3002/addUser", {
+        await axios.post(`${BACK_END_URL}/addUser`, {
             username: namevalue,
             age: agevalue,
             phoneNumber: phonenumbervalue,

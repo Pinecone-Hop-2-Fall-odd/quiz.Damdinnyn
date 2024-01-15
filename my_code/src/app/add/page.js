@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
+import { BACK_END_URL } from "@/back-url";
 export default function Home() {
   const params = useSearchParams();
   const userId = params.get("id");
@@ -29,7 +30,7 @@ export default function Home() {
       c_answer !== "" &&
       d_answer !== ""
     ) {
-      await axios.post("http://localhost:3002/quiz", {
+      await axios.post(`${BACK_END_URL}/quiz`, {
         question: questionvalue,
         a_answer: a_answer,
         b_answer: b_answer,
@@ -115,9 +116,8 @@ export default function Home() {
             <input
               onChange={(e) => setA_answer(e.target.value)}
               value={a_answer}
-              className={`${
-                bordercolor === 0 ? "border-[red]" : "border-black"
-              } rounded-xl border-[4px] w-full px-2`}
+              className={`${bordercolor === 0 ? "border-[red]" : "border-black"
+                } rounded-xl border-[4px] w-full px-2`}
             />
           </div>
           <div className="w-2/5 h-2/6 px-4 flex items-center">
@@ -125,9 +125,8 @@ export default function Home() {
             <input
               onChange={(e) => setB_answer(e.target.value)}
               value={b_answer}
-              className={`${
-                bordercolor === 1 ? "border-[red]" : "border-black"
-              } rounded-xl  border-[4px] w-full px-2`}
+              className={`${bordercolor === 1 ? "border-[red]" : "border-black"
+                } rounded-xl  border-[4px] w-full px-2`}
             />
           </div>
         </div>
@@ -137,9 +136,8 @@ export default function Home() {
             <input
               onChange={(e) => setC_answer(e.target.value)}
               value={c_answer}
-              className={`${
-                bordercolor === 2 ? "border-[red]" : "border-black"
-              } rounded-xl border-[4px] w-full px-2`}
+              className={`${bordercolor === 2 ? "border-[red]" : "border-black"
+                } rounded-xl border-[4px] w-full px-2`}
             />
           </div>
           <div className="w-2/5  h-2/6  px-4 flex items-center">
@@ -147,9 +145,8 @@ export default function Home() {
             <input
               onChange={(e) => setD_answer(e.target.value)}
               value={d_answer}
-              className={`${
-                bordercolor === 3 ? "border-[red]" : "border-black"
-              } rounded-xl  border-[4px] w-full px-2`}
+              className={`${bordercolor === 3 ? "border-[red]" : "border-black"
+                } rounded-xl  border-[4px] w-full px-2`}
             />
           </div>
         </div>

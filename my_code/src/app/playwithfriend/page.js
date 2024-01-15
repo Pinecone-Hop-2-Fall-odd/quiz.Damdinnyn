@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { UserDataContext } from "@/app/layout";
 import axios from "axios";
 import Image from "next/image";
+import { BACK_END_URL } from "@/back-url";
 export default function Home() {
   const params = useSearchParams();
   const roomId = params.get("roomId");
@@ -22,10 +23,11 @@ export default function Home() {
   const [count, setCount] = useState();
   const [roomData, setRoomdata] = useState();
   const currentRef = useRef(null);
+
   //const DateNow = Date.now();
   const FetchRoomData = async () => {
     try {
-      const url = `http://localhost:3002/getRoomData/${roomId}`;
+      const url = `${BACK_END_URL}/getRoomData/${roomId}`;
       await axios.get(url).then((res) => setRoomdata(res?.data?.roomData));
     } catch (err) {
       console.log(err);
@@ -51,7 +53,7 @@ export default function Home() {
   const backtohome = async () => {
     router.push(`/home`);
     try {
-      const url2 = `http://localhost:3002/exitToRoom`;
+      const url2 = `${BACK_END_URL}/exitToRoom`;
       await axios.post(url2, {
         token: token,
         roomId: roomId,
@@ -64,7 +66,7 @@ export default function Home() {
     // const curData = new Date();
     // curData.getTime();
     try {
-      const url = "http://localhost:3002/exchangeProblem";
+      const url = `${BACK_END_URL}/exchangeProblem`;
       await axios.post(url, {
         question: questionvalue,
         a_answer: a_answer,
@@ -81,7 +83,7 @@ export default function Home() {
   };
   const exitRoom = async () => {
     try {
-      const url = `http://localhost:3002/exitToRoom`;
+      const url = `${BACK_END_URL}/exitToRoom`;
       await axios.post(url, {
         token: token,
         roomId: roomId,
@@ -94,7 +96,7 @@ export default function Home() {
     const interval = setInterval(() => {
       setCount(count + 1);
     }, 1000);
-    if (count == 100) {
+    if (count > 99) {
       router.push(`./replacedProblem?roomId=${roomId}`);
       exitRoom();
     } else if (count > 90) {
@@ -136,9 +138,8 @@ export default function Home() {
       )}
       <div className="w-full flex justify-center py-5 ">
         <div
-          className={`bg-white px-10 ${
-            timeborder ? "border-[red]" : "border-black"
-          } flex justify-center text-3xl border-4  rounded-xl`}
+          className={`bg-white px-10 ${timeborder ? "border-[red]" : "border-black"
+            } flex justify-center text-3xl border-4  rounded-xl`}
         >
           {count}
         </div>
@@ -164,9 +165,8 @@ export default function Home() {
             <input
               onChange={(e) => setA_answer(e.target.value)}
               value={a_answer}
-              className={`${
-                bordercolor === 0 ? "border-[red]" : "border-black"
-              } rounded-xl border-[4px] w-full px-2`}
+              className={`${bordercolor === 0 ? "border-[red]" : "border-black"
+                } rounded-xl border-[4px] w-full px-2`}
             />
           </div>
           <div className="w-2/5 h-2/6 px-4 flex items-center">
@@ -174,9 +174,8 @@ export default function Home() {
             <input
               onChange={(e) => setB_answer(e.target.value)}
               value={b_answer}
-              className={`${
-                bordercolor === 1 ? "border-[red]" : "border-black"
-              } rounded-xl  border-[4px] w-full px-2`}
+              className={`${bordercolor === 1 ? "border-[red]" : "border-black"
+                } rounded-xl  border-[4px] w-full px-2`}
             />
           </div>
         </div>
@@ -186,9 +185,8 @@ export default function Home() {
             <input
               onChange={(e) => setC_answer(e.target.value)}
               value={c_answer}
-              className={`${
-                bordercolor === 2 ? "border-[red]" : "border-black"
-              } rounded-xl border-[4px] w-full px-2`}
+              className={`${bordercolor === 2 ? "border-[red]" : "border-black"
+                } rounded-xl border-[4px] w-full px-2`}
             />
           </div>
           <div className="w-2/5  h-2/6  px-4 flex items-center">
@@ -196,9 +194,8 @@ export default function Home() {
             <input
               onChange={(e) => setD_answer(e.target.value)}
               value={d_answer}
-              className={`${
-                bordercolor === 3 ? "border-[red]" : "border-black"
-              } rounded-xl  border-[4px] w-full px-2`}
+              className={`${bordercolor === 3 ? "border-[red]" : "border-black"
+                } rounded-xl  border-[4px] w-full px-2`}
             />
           </div>
         </div>

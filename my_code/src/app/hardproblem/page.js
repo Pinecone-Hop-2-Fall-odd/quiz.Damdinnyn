@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useRef, useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { BACK_END_URL } from "@/back-url";
 import axios from "axios";
 export default function Knonledge() {
   const params = useSearchParams();
@@ -19,7 +20,7 @@ export default function Knonledge() {
   const [index, setIndex] = useState();
   const [timeborder, setTimeborder] = useState(false);
   const fetchalldata = async () => {
-    const url = `http://localhost:3002/rankquiz/${id}`;
+    const url = `${BACK_END_URL}/rankquiz/${id}`;
     await axios.get(url).then((res) => {
       setQuizdata(res?.data?.quizData);
     });
@@ -45,7 +46,7 @@ export default function Knonledge() {
     console.log(id);
     console.log("pass", passedlevel);
     if (quizData?.correctAnswer == correctAnswer) {
-      await axios.post("http://localhost:3002/passedlevels", {
+      await axios.post(`${BACK_END_URL}/passedlevels`, {
         token: mytoken,
         levelId: passedlevel,
         rankId: Number(passedlevel),

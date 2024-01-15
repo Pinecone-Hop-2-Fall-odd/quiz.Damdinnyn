@@ -26,6 +26,8 @@ const playRoomWithFriend = new Schema({
   time: Number,
   requestPlay: Boolean,
   roomId: String,
+  Awin: Boolean,
+  Bwin: Boolean,
   A_playerProblem: A_playerSchema,
   B_playerProblem: B_playerSchema,
 });

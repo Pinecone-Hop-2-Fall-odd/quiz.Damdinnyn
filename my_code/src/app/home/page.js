@@ -6,6 +6,7 @@ import { useState, useRef, useEffect, useContext } from "react";
 import axios from "axios";
 import { SearchPart } from "../components/SearchPart";
 import { InviteFriend, Playroom } from "../components/InviteFriend";
+import { BACK_END_URL } from "@/back-url";
 export default function Home() {
   const { token } = useContext(UserDataContext);
   const currentRef = useRef(null);
@@ -27,7 +28,7 @@ export default function Home() {
   const fetchAllData = async () => {
     try {
       await axios
-        .post("http://localhost:3002/userdata", {
+        .post(`${BACK_END_URL}/userdata`, {
           token: token,
         })
         .then((res) => setmyAllData(res?.data));
@@ -62,7 +63,7 @@ export default function Home() {
       setReqAllow(false);
     }
     await axios
-      .post("http://localhost:3002/reqFriendInfo", {
+      .post(`${BACK_END_URL}/reqFriendInfo`, {
         token: token,
         id: myallreq,
       })
@@ -76,7 +77,7 @@ export default function Home() {
       setPlaystatus(false);
       setPlayRoomStatus(false);
       try {
-        const url = `http://localhost:3002/RemoveInvitation`;
+        const url = `${BACK_END_URL}/RemoveInvitation`;
         await axios.post(url, {
           token: token,
         });
@@ -88,7 +89,7 @@ export default function Home() {
   const searchUser = async () => {
     setListStatus(false);
     setSearchPerson(false);
-    const url = `http://localhost:3002/searchUser/${search}`;
+    const url = `${BACK_END_URL}/searchUser/${search}`;
     await axios.get(url).then((data) => setSearchUserData(data?.data?.data));
     setSearch(searchUserData?._id);
     setMyclosefrienddone(!myClosefrienddone);
@@ -98,7 +99,7 @@ export default function Home() {
     try {
       setListStatus(false);
       setSearchPerson(false);
-      const url = `http://localhost:3002/searchId/${search}`;
+      const url = `${BACK_END_URL}/searchId/${search}`;
       await axios.get(url).then((data) => setSearchUserData(data?.data?.data));
       setSearch(searchUserData?._id);
       setMyclosefrienddone(!myClosefrienddone);
@@ -108,7 +109,7 @@ export default function Home() {
     }
   };
   const reqFriend = async (id) => {
-    const url = `http://localhost:3002/reqfriend`;
+    const url = `${BACK_END_URL}/reqfriend`;
     await axios.post(url, {
       token: token,
       toId: id,
@@ -127,14 +128,14 @@ export default function Home() {
   };
   const allowReq = async (id) => {
     alert(id);
-    const url = `http://localhost:3002/allowReq`;
+    const url = `${BACK_END_URL}/allowReq`;
     await axios.post(url, {
       token: token,
       reqId: id,
     });
   };
   const refuse = async (id) => {
-    const url = `http://localhost:3002/refuseReq`;
+    const url = `${BACK_END_URL}/refuseReq`;
     await axios.post(url, {
       token: token,
       reqId: id,
@@ -142,10 +143,11 @@ export default function Home() {
   };
   const ConnectFriends = () => {
     setFriendsstatus(true);
+    setPlaystatus(false)
   };
   const withPlayFriends = async (id) => {
     try {
-      const addRoomUrl = `http://localhost:3002/Addroom`;
+      const addRoomUrl = `${BACK_END_URL}/Addroom`;
       const curData = Date.now();
       // curData.getTime();
       const { data } = await axios.post(addRoomUrl, {
@@ -155,14 +157,14 @@ export default function Home() {
       });
       const roomId = data;
       console.log(roomId);
-      const url = `http://localhost:3002/invitationGame`;
+      const url = `${BACK_END_URL}/invitationGame`;
       await axios.post(url, {
         token: token,
         toId: id,
         roomId: roomId,
       });
       const interval = setInterval(async () => {
-        const url = `http://localhost:3002/handleToRequestStatus/${roomId}`;
+        const url = `${BACK_END_URL}/handleToRequestStatus/${roomId}`;
         await axios
           .get(url)
           .then((res) => router.push(`/playwithfriend?roomId=${roomId}`));
@@ -190,7 +192,7 @@ export default function Home() {
     //alert(roomId)
     router.push(`./playwithfriend?roomId=${roomId}`);
     try {
-      const url = `http://localhost:3002/loginToRoom`;
+      const url = `${BACK_END_URL}/loginToRoom`;
       await axios.post(url, {
         token: token,
         roomId: roomId,
@@ -243,9 +245,8 @@ export default function Home() {
         setReqstatus={setReqstatus}
       />
       <div
-        className={`flex gap-20 ${
-          friendsstatus ? "flex-row-reverse" : "justify-center"
-        } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
+        className={`flex gap-20 ${friendsstatus ? "flex-row-reverse" : "justify-center"
+          } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
       >
         <div className="absolute rounded-3xl bg-gradient-to-r  from-cyan-500 to-blue-500 h-3/6 w-2/5 min-w-[250px]">
           <div className="flex justify-between gap-4">

@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useRef } from "react";
 import Image from "next/image";
 import axios from "axios";
+import { BACK_END_URL } from "@/back-url";
 // color codes
 // red green blue
 // hex, rgb
@@ -17,10 +18,11 @@ export default function Home() {
   const [restartdone, setrestartdone] = useState(false);
   const [passedLevels, setPassedLevels] = useState([]);
   const [showRankStatus, setShowRankStatus] = useState(false);
-  const mytoken = localStorage.getItem("token");
+
   const fetchUserData = async () => {
+    const mytoken = localStorage.getItem("token");
     const res = await axios
-      .get(`http://localhost:3002/userdata`, { headers: { token: mytoken } })
+      .get(`${BACK_END_URL}/userdata`, { headers: { token: mytoken } })
       .then((res) => setPassedLevels(res.data.data));
   };
   console.log(passedLevels);

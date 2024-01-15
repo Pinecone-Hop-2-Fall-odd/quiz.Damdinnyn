@@ -9,6 +9,7 @@ import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { CreateNewFile } from "../components/CreateNewFile";
+import { BACK_END_URL } from "@/back-url";
 export default function Home() {
   const currentRef = useRef(null);
   const router = useRouter();
@@ -28,14 +29,14 @@ export default function Home() {
   const [greenbutton, setGreenbutton] = useState(true);
   const fetchUserdata = async () => {
     await axios
-      .post("http://localhost:3002/userdata", {
+      .post(`${BACK_END_URL}/userdata`, {
         token: token,
       })
       .then((res) => setUseralldata(res?.data?.userData));
   };
   const fetchMyquizIntoData = async () => {
     await axios
-      .get(`http://localhost:3002/MyquizIntoData`, {
+      .get(`${BACK_END_URL}/MyquizIntoData`, {
         headers: { token: token },
       })
       .then((res) => setMyquizData(res?.data?.quizdata));
@@ -54,7 +55,7 @@ export default function Home() {
     const FR = new FileReader();
     FR.addEventListener("load", async function (evt) {
       // setImage(evt.target.result)
-      await axios.post("http://localhost:3002/profile", {
+      await axios.post(`${BACK_END_URL}/profile`, {
         token: token,
         profile: evt.target.result,
       });
@@ -65,7 +66,7 @@ export default function Home() {
     const FR = new FileReader();
     FR.addEventListener("load", async function (evt) {
       setCollectionFile(evt.target.result);
-      await axios.post("http://localhost:3002/collection1", {
+      await axios.post(`${BACK_END_URL}/collection1`, {
         token: token,
         mycollection1: evt.target.result,
       });
@@ -77,7 +78,7 @@ export default function Home() {
     const FR = new FileReader();
     FR.addEventListener("load", async function (evt) {
       setCollectionFile(evt.target.result);
-      await axios.post("http://localhost:3002/collection2", {
+      await axios.post(`${BACK_END_URL}/collection2`, {
         token: token,
         mycollection2: evt.target.result,
       });
@@ -91,12 +92,12 @@ export default function Home() {
       fetchMyquizIntoData();
     }, 500);
     try {
-      const url = "http://localhost:3002/deleteOneQuiz";
+      const url = `${BACK_END_URL}/deleteOneQuiz`;
       await axios.post(url, {
         token: token,
         id: id,
       });
-    } catch {}
+    } catch { }
   };
   const settingsStatusDone = () => {
     setSettingsStatus(!settingsStatus);

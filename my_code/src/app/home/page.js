@@ -68,13 +68,21 @@ export default function Home() {
       })
       .then((res) => setUsersInfo(res?.data?.users));
   };
-  function back(ref) {
+  async function back(ref) {
     if (ref.current && !ref.current.contains(event.target)) {
       setFriendsstatus(false);
       setSearchPerson(false);
       setListStatus(true);
       setPlaystatus(false);
       setPlayRoomStatus(false);
+      try {
+        const url = `http://localhost:3002/RemoveInvitation`;
+        await axios.post(url, {
+          token: token,
+        });
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
   const searchUser = async () => {
@@ -143,7 +151,7 @@ export default function Home() {
       const { data } = await axios.post(addRoomUrl, {
         token: token,
         toId: id,
-        dateNow: curData
+        dateNow: curData,
       });
       const roomId = data;
       console.log(roomId);
@@ -235,8 +243,9 @@ export default function Home() {
         setReqstatus={setReqstatus}
       />
       <div
-        className={`flex gap-20 ${friendsstatus ? "flex-row-reverse" : "justify-center"
-          } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
+        className={`flex gap-20 ${
+          friendsstatus ? "flex-row-reverse" : "justify-center"
+        } px-10 items-center  bg-gradient-to-r from-blue-600 to-blue-600 w-screen h-screen min-w-[200px]`}
       >
         <div className="absolute rounded-3xl bg-gradient-to-r  from-cyan-500 to-blue-500 h-3/6 w-2/5 min-w-[250px]">
           <div className="flex justify-between gap-4">

@@ -60,10 +60,11 @@ export async function exchangeProblem(req, res) {
   const body = req.body;
   console.log("completed", user.id);
   const room = await playRoom_Model.findById(body.roomId);
-  console.log(room.Aplayer);
+  console.log("a", room.Aplayer);
+  console.log("b", room.Bplayer);
 
   if (room.Aplayer == user.id) {
-    console.log("hi a");
+    console.log("hi a", user.id);
     await playRoom_Model.findByIdAndUpdate(body.roomId, {
       A_playerProblem: {
         question: body.question,
@@ -74,8 +75,8 @@ export async function exchangeProblem(req, res) {
         correct_answer: body.correctAnswer,
       },
     });
-  } else if (room.Bplayer == user.Id) {
-    console.log("hi b");
+  } else {
+    console.log("hi b", user.id);
     await playRoom_Model.findByIdAndUpdate(body.roomId, {
       B_playerProblem: {
         question: body.question,
@@ -88,9 +89,22 @@ export async function exchangeProblem(req, res) {
     });
   }
 }
+//////
 export async function getRoomData(req, res) {
   console.log("hi");
   const { roomId } = req.params;
   const roomData = await playRoom_Model.findById(roomId);
   res.status(200).json({ roomData });
+}
+export async function getProblemOfRoom(req, res) {
+  const user = req.user
+  const { roomId } = req.params
+  const roomData = await playRoom_Model.findById(roomId)
+  const B_problem = roomData.B_playerProblem
+  const A_problem = roomData.A_playerProblem
+  if (roomData.Aplayer == user.id) {
+    res.status(200).json({ B_problem })
+  } else {
+    res.status(200).json({ A_problem })
+  }
 }

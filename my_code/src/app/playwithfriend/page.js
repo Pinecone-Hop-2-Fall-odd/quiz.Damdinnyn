@@ -79,14 +79,25 @@ export default function Home() {
       console.log(err);
     }
   };
+  const exitRoom = async () => {
+    try {
+      const url = `http://localhost:3002/exitToRoom`;
+      await axios.post(url, {
+        token: token,
+        roomId: roomId,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
     const interval = setInterval(() => {
       setCount(count + 1);
     }, 1000);
     if (count == 100) {
       router.push(`./replacedProblem?roomId=${roomId}`);
-      //./levelFinish?quizId=${quizId}
-    } else if (count < 10) {
+      exitRoom();
+    } else if (count > 90) {
       setTimeborder(true);
     }
     return () => clearInterval(interval);

@@ -13,15 +13,21 @@ export async function getUser(req, res) {
 }
 export async function getOneUser(req, res) {
   const user = req.user;
-  const userData = await UserModel.findOne({ _id: user.id }).populate(
-    ["myFriends"]
-  )
-  const rawInvitationGame = userData.invitationGame
-  const invitationGame = await Promise.all(rawInvitationGame.map(async (e) => {
-    //const room = await playRoom_Model.findOne({ _id: e })
-    const reqRoom = await playRoom_Model.findOne({ _id: e })
-    return { username: reqRoom.Aname, profile: reqRoom.Aprofile, _id: reqRoom._id }
-  }))
+  const userData = await UserModel.findOne({ _id: user.id }).populate([
+    "myFriends",
+  ]);
+  const rawInvitationGame = userData.invitationGame;
+  const invitationGame = await Promise.all(
+    rawInvitationGame.map(async (e) => {
+      //const room = await playRoom_Model.findOne({ _id: e })
+      const reqRoom = await playRoom_Model.findOne({ _id: e });
+      return {
+        username: reqRoom.Aname,
+        profile: reqRoom.Aprofile,
+        _id: reqRoom._id,
+      };
+    })
+  );
   res.status(200).json({ userData, invitationGame });
 }
 export async function reqFriendId(req, res) {
@@ -203,3 +209,10 @@ export async function invitationGame(req, res) {
   }
 }
 ///
+export async function RemoveInvitation(req, res) {
+  const user = req.user;
+  console.log("hi", user.id);
+  await UserModel.findByIdAndUpdate(user.id, {
+    // invitationGame: [],
+  });
+}

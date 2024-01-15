@@ -2,8 +2,11 @@
 import Image from "next/image";
 import { useRef, useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useContext } from "react";
+import { UserDataContext } from "@/app/layout";
 import axios from "axios";
 export default function Knonledge() {
+    const { token } = useContext(UserDataContext);
     const params = useSearchParams();
     const roomId = params.get("roomId");
     const currentRef = useRef(null);
@@ -16,9 +19,12 @@ export default function Knonledge() {
     const mytoken = localStorage.getItem("token");
     const [index, setIndex] = useState();
     const [timeborder, setTimeborder] = useState(false);
-    const fetchalldata = async () => {
-        const url = `http://localhost:3002/getProblemOfRoom/${roomId}`;
-        await axios.get(url).then((res) => {
+    const replacedProblem = async () => {
+        const url = `http://localhost:3002/getProblemOfRoom`;
+        await axios.get(url, {
+            roomId: roomId,
+            token: token
+        }).then((res) => {
             setRoomdata(res?.data?.roomData);
         });
     };
@@ -38,19 +44,13 @@ export default function Knonledge() {
         setBordercolor(bordercolor === index ? null : index);
         setCorrectAnswer(index);
     };
-    const overProblem = async () => {
-        const passedlevel = Number(id) + 1;
-        console.log(id);
-        console.log("pass", passedlevel);
-        if (quizData?.correctAnswer == correctAnswer) {
-            await axios.post("http://localhost:3002/passedlevels", {
-                token: mytoken,
-                levelId: passedlevel,
-                rankId: Number(passedlevel),
-            });
-            router.push(`./levelFinish?quizId=${quizId}`);
+    const finished = async () => {
+        if (roomData?.correct_answer == correctAnswer) {
+            alert("you win")
+            router.push(`./home`);
         } else {
-            router.push(`./loseThenlevelFinished?quizId=${quizId}`);
+            alert("you lose")
+            router.push(`./home`);
         }
     };
     ///setInterval
@@ -59,14 +59,14 @@ export default function Knonledge() {
             setCount(count - 1);
         }, 1000);
         if (count == 0) {
-            //router.push(`./loseThenlevelFinished?id=${userId}&quizId=${quizId}`);
+            finished()
         } else if (count < 10) {
             setTimeborder(true);
         }
         return () => clearInterval(interval);
     }, [count]);
     useEffect(() => {
-        fetchalldata();
+        replacedProblem();
     }, []);
 
     return (

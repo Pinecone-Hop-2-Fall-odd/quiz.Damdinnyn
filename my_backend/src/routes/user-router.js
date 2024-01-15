@@ -17,7 +17,8 @@ import {
   anotherUserData,
   addClassicScore,
   minusClassicScore,
-  invitationGame
+  invitationGame,
+  RemoveInvitation,
 } from "../controllers/user-controller.js";
 import { verifyToken } from "../middleware/auth.js";
 export const userRouter = express.Router();
@@ -40,5 +41,6 @@ userRouter.post("/myFriendsdata", verifyToken, myFriendsdata);
 userRouter.get("/anotherUserData/:id", anotherUserData);
 userRouter.post("/addClassicScore", verifyToken, addClassicScore);
 userRouter.post("/minusClassicScore", verifyToken, minusClassicScore);
-userRouter.post("/invitationGame", verifyToken, invitationGame)
+userRouter.post("/invitationGame", verifyToken, invitationGame);
+userRouter.post("/RemoveInvitation", verifyToken, RemoveInvitation);
 //fetchmyFriendsdata

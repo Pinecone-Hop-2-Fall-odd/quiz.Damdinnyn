@@ -13,7 +13,6 @@ export default function Knonledge() {
   const [restartdone, setrestartdone] = useState(false);
   const [quizData, setQuizdata] = useState([]);
   const [bordercolor, setBordercolor] = useState(null);
-  const [knowledgeId, setKnowledgeId] = useState(0);
   const [correctAnswer, setCorrectAnswer] = useState();
   const [count, setCount] = useState(30);
   const mytoken = localStorage.getItem("token");
@@ -103,9 +102,8 @@ export default function Knonledge() {
       </div>
       <div className="w-full flex justify-center py-5 absolute">
         <div
-          className={`bg-white px-10 ${
-            timeborder ? "border-[red]" : "border-black"
-          } flex justify-center text-3xl border-4  rounded-xl`}
+          className={`bg-white px-10 ${timeborder ? "border-[red]" : "border-black"
+            } flex justify-center text-3xl border-4  rounded-xl`}
         >
           {count}
         </div>
@@ -122,17 +120,15 @@ export default function Knonledge() {
         <div className="h-2/6 flex justify-around text-2xl">
           <div
             onClick={() => clickme(0)}
-            className={` h-2/6 ${
-              bordercolor === 0 ? "border-[red]" : "border-black"
-            }  border-[3px] bg-white rounded-3xl px-6 py-4 flex items-center`}
+            className={` h-2/6 ${bordercolor === 0 ? "border-[red]" : "border-black"
+              }  border-[3px] bg-white rounded-3xl px-6 py-4 flex items-center`}
           >
             A.{quizData?.a_answer}
           </div>
           <div
             onClick={() => clickme(1)}
-            className={` h-2/6 ${
-              bordercolor === 1 ? "border-[red]" : "border-black"
-            }  border-[3px] bg-white rounded-3xl px-6 py-4 flex items-center`}
+            className={` h-2/6 ${bordercolor === 1 ? "border-[red]" : "border-black"
+              }  border-[3px] bg-white rounded-3xl px-6 py-4 flex items-center`}
           >
             B.{quizData?.b_answer}
           </div>
@@ -140,17 +136,15 @@ export default function Knonledge() {
         <div className="h-2/6 flex justify-around text-2xl">
           <div
             onClick={() => clickme(2)}
-            className={` h-2/6 ${
-              bordercolor === 2 ? "border-[red]" : "border-black"
-            }  border-[3px] bg-white rounded-3xl px-6 py-4 flex items-center`}
+            className={` h-2/6 ${bordercolor === 2 ? "border-[red]" : "border-black"
+              }  border-[3px] bg-white rounded-3xl px-6 py-4 flex items-center`}
           >
             C.{quizData?.c_answer}
           </div>
           <div
             onClick={() => clickme(3)}
-            className={` h-2/6 ${
-              bordercolor === 3 ? "border-[red]" : "border-black"
-            }  border-[3px] bg-white rounded-3xl px-6 py-4 flex items-center`}
+            className={` h-2/6 ${bordercolor === 3 ? "border-[red]" : "border-black"
+              }  border-[3px] bg-white rounded-3xl px-6 py-4 flex items-center`}
           >
             D.{quizData?.d_answer}
           </div>

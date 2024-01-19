@@ -15,7 +15,7 @@ export default function Home() {
   const [d_answer, setD_answer] = useState("");
   const router = useRouter();
   const [restartdone, setrestartdone] = useState(false);
-  const [bordercolor, setBordercolor] = useState("");
+  const [bordercolor, setBordercolor] = useState();
   const [correctAnswer, setCorrectAnswer] = useState(null);
 
   //console.log(bordercolor)
